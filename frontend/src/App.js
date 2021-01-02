@@ -1,28 +1,25 @@
+import DroppableList from 'components/List'
 import React from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
-import { useDispatch, useSelector } from 'react-redux'
-import DroppableList from 'components/List'
+import { useDispatch } from 'react-redux'
 import { itemsActions as ia } from 'store/items/itemsReducer'
 import { addItemThunk } from 'store/items/itemsThunks'
 
 export default function App() {
-  const { available, selected } = useSelector(({ items }) => ({
-    available: items.available,
-    selected: items.selected,
-  }))
-
   const dispatch = useDispatch()
 
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return
-    const payload = { start: source.index, end: destination.index, sourceName: source.droppableId }
+    const payload = {
+      start: source.index,
+      end: destination.index,
+      sourceName: source.droppableId,
+      destName: destination.droppableId,
+    }
     dispatch(
       source.droppableId === destination.droppableId
         ? ia.reorderListAction(payload)
-        : ia.moveListItemAction({
-            ...payload,
-            destName: destination.droppableId,
-          })
+        : ia.moveListItemAction(payload)
     )
   }
 
@@ -36,11 +33,14 @@ export default function App() {
         Click
       </button>
       <div style={{ display: 'flex' }}>
-        <div style={{ flexBasis: '50%' }}>
-          <DroppableList droppableId="available" list={available} />
+        <div style={{ flexBasis: '33%' }}>
+          <DroppableList droppableId="available" />
         </div>
-        <div style={{ flexBasis: '50%' }}>
-          <DroppableList droppableId="selected" list={selected} />
+        <div style={{ flexBasis: '33%' }}>
+          <DroppableList droppableId="selected" />
+        </div>
+        <div style={{ flexBasis: '33%' }}>
+          <DroppableList droppableId="temp" />
         </div>
       </div>
     </DragDropContext>

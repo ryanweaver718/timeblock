@@ -1,16 +1,17 @@
+import propTypes from 'prop-types'
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
+import { useSelector } from 'react-redux'
 import Item from './Item'
-import propTypes from 'prop-types'
 
 DroppableList.propTypes = {
   droppableId: propTypes.string.isRequired,
-  list: propTypes.array.isRequired,
 }
-DroppableList.defaultProps = {
-  list: [],
-}
-export default function DroppableList({ droppableId, list }) {
+
+export default function DroppableList({ droppableId }) {
+  const { list } = useSelector(({ items }) => ({
+    list: items[droppableId],
+  }))
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (

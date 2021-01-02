@@ -4,9 +4,12 @@ import range from 'lodash/range'
 import extraReducers from './itemsThunkReducer'
 import { v4 as uuid } from 'uuid'
 
+const getList = type => range(10).map(i => ({ id: uuid(), content: type() }))
+
 const initialState = {
-  selected: range(10).map(i => ({ id: uuid(), content: faker.commerce.department() })),
-  available: range(10).map(i => ({ id: uuid(), content: faker.name.firstName() })),
+  selected: getList(faker.commerce.department),
+  available: getList(faker.name.firstName),
+  temp: getList(faker.address.city),
 }
 
 const itemsSlice = createSlice({
