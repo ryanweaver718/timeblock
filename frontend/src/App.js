@@ -3,7 +3,7 @@ import React from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 import { itemsActions as ia } from 'store/items/itemsReducer'
-import { addItemThunk } from 'store/items/itemsThunks'
+import { createNewItem } from 'store/items/itemsThunks'
 
 export default function App() {
   const dispatch = useDispatch()

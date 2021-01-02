@@ -1,3 +1,5 @@
+import pickBy from 'lodash/pickBy'
+
 export const response = data => {
   return {
     headers: {
@@ -8,3 +10,5 @@ export const response = data => {
     body: JSON.stringify(data),
   }
 }
+
+export const pickDefined = object => pickBy(object, value => value !== undefined && value !== null)

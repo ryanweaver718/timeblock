@@ -1,44 +1,44 @@
-import { Schema, model } from 'dynamoose'
+import { model, Schema } from 'dynamoose'
 
-const TaskSchema = new Schema({
-  id: {
-    type: String,
-    hashKey: true,
-  },
-  details: String,
-  startTime: String,
-  endTime: String,
-  totalMinutes: String,
-})
-
-const SavedDaySchema = new Schema({
+const ItemSchema = new Schema({
   id: {
     type: String,
     hashKey: true,
   },
   name: String,
-  tasks: {
-    type: Array,
-    schema: TaskSchema,
-  },
+  details: String,
+  totalMinutes: String,
 })
 
-const DaySchema = new Schema({
-  type: {
+const ItemGroupSchema = new Schema({
+  id: {
+    type: String,
     hashKey: true,
-    type: String,
-    default: 'day',
   },
-  date: {
-    rangeKey: true,
-    type: String,
-  },
-  tasks: {
+  name: String,
+  details: String,
+  itemIds: {
     type: Array,
-    schema: [TaskSchema],
+    schema: [String],
   },
 })
 
-export const DayModel = model('day', DaySchema)
-export const SavedDayModel = model('saved-day', SavedDaySchema)
-export const TaskModel = model('task', TaskSchema)
+// const DaySchema = new Schema({
+//   type: {
+//     hashKey: true,
+//     type: String,
+//     default: 'day',
+//   },
+//   date: {
+//     rangeKey: true,
+//     type: String,
+//   },
+//   tasks: {
+//     type: Array,
+//     schema: [TaskSchema],
+//   },
+// })
+
+// export const DayModel = model('day', DaySchema)
+export const ItemGroupModel = model('', ItemGroupSchema)
+export const ItemModel = model('items', ItemSchema)

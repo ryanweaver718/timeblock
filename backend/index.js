@@ -1,30 +1,44 @@
-import { response } from './helpers'
-import { DayModel, SavedDayModel, TaskModel } from './models'
+import { pickDefined, response } from './helpers'
+import { ItemGroupModel, ItemModel } from './models'
+import { v4 as uuid } from 'uuid'
+import pickBy from 'lodash/pickBy'
 
-export const createDay = async ({ body }) => {
-  const { date, tasks } = JSON.parse(body)
-  const day = await DayModel.create({ date, tasks })
-  return response({ day })
+export const createItem = async ({ body }) => {
+  const { details, totalMinutes, name } = JSON.parse(body)
+  const item = await ItemModel.create({
+    id: uuid(),
+    name,
+    details,
+    totalMinutes,
+  })
+  return response({ item })
 }
 
-export const createTask = async ({ body }) => {
-  const { details, startTime, endTime, totalMinutes } = JSON.parse(body)
-  const task = await TaskModel.create({ details, startTime, endTime, totalMinutes, totalMinutes })
-  return response({ task })
+export const getItems = async () => {
+  let items = await ItemModel.scan().exec()
+  return response({ items })
 }
 
-export const createSavedDay = async ({ body }) => {
-  const { name, tasks } = JSON.parse(body)
-  const savedDay = await DayModel.create({ name, tasks })
-  return response({ savedDay })
+export const updateItem = async ({ body, queryStringParameters }) => {
+  const { id } = queryStringParameters
+  const { name, details, totalMinutes } = JSON.parse(body)
+  const item = await ItemModel.update({ id }, pickDefined({ name, details, totalMinutes }))
+  return response({ item })
 }
 
-export const getTasks = async () => {
-  let tasks = await TaskModel.scan().exec()
-  return response({ tasks })
+export const deleteItem = async ({ queryStringParameters }) => {
+  const { id } = queryStringParameters
+  await ItemModel.delete({ id })
+  return response({ success: true })
 }
 
-export const getSavedDays = async () => {
-  let savedDays = await SavedDayModel.scan().exec()
-  return response({ savedDays })
+export const getItemGroups = async () => {
+  const groups = await ItemGroupModel.scan().exec()
+  return response({ groups })
+}
+
+export const createItemGroup = async ({ body }) => {
+  const { itemIds, name, details } = JSON.parse(body)
+  const group = await ItemGroupModel.create({ id: uuid(), itemIds, name, details })
+  return response({ group })
 }

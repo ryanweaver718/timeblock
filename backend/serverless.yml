@@ -19,42 +19,48 @@ provider:
       Resource: '*'
 
 functions:
-  createDay:
-    handler: index.createDay
+  createItem:
+    handler: index.createItem
     events:
       - http:
-          path: /day
-          method: pose
-          cors: true
-  createTask:
-    handler: index.createTask
-    events:
-      - http:
-          path: /task
+          path: /item
           method: post
           cors: true
-  createSavedDay:
-    handler: index.createSavedDay
+  createItemGroup:
+    handler: index.createItemGroup
     events:
       - http:
-          path: /saved-day
+          path: /group
           method: post
           cors: true
-  getSavedDays:
-    handler: index.getSavedDays
+  getItems:
+    handler: index.getItems
     events:
       - http:
-          path: /saved-days
+          path: /items
           method: get
           cors: true
-  getTasks:
-    handler: index.getTasks
+  getItemGroups:
+    handler: index.getItemGroups
     events:
       - http:
-          path: /tasks
+          path: /groups
           method: get
           cors: true
-
+  updateItem:
+    handler: index.updateItem
+    events:
+      - http:
+          path: /item
+          method: put
+          cors: true
+  deleteItem:
+    handler: index.deleteItem
+    events:
+      - http:
+          path: /item
+          method: delete
+          cors: true
 plugins:
   - serverless-webpack
   - serverless-offline
