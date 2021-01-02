@@ -1,0 +1,60 @@
+service: timeblock
+frameworkVersion: '2'
+custom:
+  webpack:
+    webpackConfig: './webpack.config.js'
+    includeModuels: true
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  iamRoleStatments:
+    - Effect: 'Allow'
+      Action:
+        - 'dynamodb:*'
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - 'sts:*'
+      Resource: '*'
+
+functions:
+  createDay:
+    handler: index.createDay
+    events:
+      - http:
+          path: /day
+          method: pose
+          cors: true
+  createTask:
+    handler: index.createTask
+    events:
+      - http:
+          path: /task
+          method: post
+          cors: true
+  createSavedDay:
+    handler: index.createSavedDay
+    events:
+      - http:
+          path: /saved-day
+          method: post
+          cors: true
+  getSavedDays:
+    handler: index.getSavedDays
+    events:
+      - http:
+          path: /saved-days
+          method: get
+          cors: true
+  getTasks:
+    handler: index.getTasks
+    events:
+      - http:
+          path: /tasks
+          method: get
+          cors: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
