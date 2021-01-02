@@ -1,7 +1,15 @@
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 import Item from './Item'
+import propTypes from 'prop-types'
 
+DroppableList.propTypes = {
+  droppableId: propTypes.string.isRequired,
+  list: propTypes.array.isRequired,
+}
+DroppableList.defaultProps = {
+  list: [],
+}
 export default function DroppableList({ droppableId, list }) {
   return (
     <Droppable droppableId={droppableId}>
