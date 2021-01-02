@@ -3,6 +3,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { useDispatch, useSelector } from 'react-redux'
 import DroppableList from 'components/List'
 import { itemsActions as ia } from 'store/items/itemsReducer'
+import { addItemThunk } from 'store/items/itemsThunks'
 
 export default function App() {
   const { available, selected } = useSelector(({ items }) => ({
@@ -27,6 +28,13 @@ export default function App() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+      <button
+        onClick={() => {
+          dispatch(addItemThunk())
+        }}
+      >
+        Click
+      </button>
       <div style={{ display: 'flex' }}>
         <div style={{ flexBasis: '50%' }}>
           <DroppableList droppableId="available" list={available} />

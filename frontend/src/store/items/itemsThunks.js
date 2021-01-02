@@ -5,13 +5,10 @@ const testPromise = () =>
   new Promise(resolve => {
     setTimeout(() => {
       resolve({ id: '123123123123', content: 'I AM A BIRD HELLO' })
-    })
+    }, 3000)
   })
 
-const addItem = ct('createItem', async (payload, thunkAPI) => {
+export const addItemThunk = ct('createItem', async (payload, thunkAPI) => {
   let newItem = await testPromise()
+  return { item: newItem }
 })
-
-export default extraReducers = {
-  [addItem.fulfilled]: (state, action) => {},
-}

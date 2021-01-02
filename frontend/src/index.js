@@ -1,10 +1,15 @@
+import { configureStore } from '@reduxjs/toolkit'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import rootReducer from './store/rootReducer'
-import { createStore } from 'redux'
+import thunk from 'redux-thunk'
 import App from './App'
-const store = createStore(rootReducer)
+import reducer from './store/rootReducer'
+
+const store = configureStore({
+  reducer,
+  middleware: [thunk],
+})
 
 ReactDOM.render(
   <React.StrictMode>

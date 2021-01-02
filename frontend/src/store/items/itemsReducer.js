@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import faker from 'faker'
 import range from 'lodash/range'
+import extraReducers from './itemsThunkReducer'
 import { v4 as uuid } from 'uuid'
 
 const initialState = {
@@ -27,6 +28,7 @@ const itemsSlice = createSlice({
       state[sourceName].splice(end, 0, removed)
     },
   },
+  extraReducers,
 })
 
 export default itemsSlice.reducer
