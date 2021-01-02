@@ -11,8 +11,12 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "response": () => /* binding */ response
+/* harmony export */   "response": () => /* binding */ response,
+/* harmony export */   "pickDefined": () => /* binding */ pickDefined
 /* harmony export */ });
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/pickBy */ "lodash/pickBy");
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_pickBy__WEBPACK_IMPORTED_MODULE_0__);
+
 const response = data => {
   return {
     headers: {
@@ -23,6 +27,7 @@ const response = data => {
     body: JSON.stringify(data)
   };
 };
+const pickDefined = object => lodash_pickBy__WEBPACK_IMPORTED_MODULE_0___default()(object, value => value !== undefined && value !== null);
 
 /***/ }),
 
@@ -34,76 +39,105 @@ const response = data => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createDay": () => /* binding */ createDay,
-/* harmony export */   "createTask": () => /* binding */ createTask,
-/* harmony export */   "createSavedDay": () => /* binding */ createSavedDay,
-/* harmony export */   "getTasks": () => /* binding */ getTasks,
-/* harmony export */   "getSavedDays": () => /* binding */ getSavedDays
+/* harmony export */   "createItem": () => /* binding */ createItem,
+/* harmony export */   "getItems": () => /* binding */ getItems,
+/* harmony export */   "updateItem": () => /* binding */ updateItem,
+/* harmony export */   "deleteItem": () => /* binding */ deleteItem,
+/* harmony export */   "getItemGroups": () => /* binding */ getItemGroups,
+/* harmony export */   "createItemGroup": () => /* binding */ createItemGroup
 /* harmony export */ });
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./helpers.js");
 /* harmony import */ var _models__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./models */ "./models.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid */ "uuid");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/pickBy */ "lodash/pickBy");
+/* harmony import */ var lodash_pickBy__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_pickBy__WEBPACK_IMPORTED_MODULE_3__);
 
 
-const createDay = async ({
-  body
-}) => {
-  const {
-    date,
-    tasks
-  } = JSON.parse(body);
-  const day = await _models__WEBPACK_IMPORTED_MODULE_1__.DayModel.create({
-    date,
-    tasks
-  });
-  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
-    day
-  });
-};
-const createTask = async ({
+
+
+const createItem = async ({
   body
 }) => {
   const {
     details,
-    startTime,
-    endTime,
-    totalMinutes
-  } = JSON.parse(body);
-  const task = await _models__WEBPACK_IMPORTED_MODULE_1__.TaskModel.create({
-    details,
-    startTime,
-    endTime,
     totalMinutes,
+    name
+  } = JSON.parse(body);
+  const item = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.create({
+    id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__.v4)(),
+    name,
+    details,
     totalMinutes
   });
   return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
-    task
+    item
   });
 };
-const createSavedDay = async ({
+const getItems = async () => {
+  let items = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.scan().exec();
+  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
+    items
+  });
+};
+const updateItem = async ({
+  body,
+  queryStringParameters
+}) => {
+  const {
+    id
+  } = queryStringParameters;
+  const {
+    name,
+    details,
+    totalMinutes
+  } = JSON.parse(body);
+  const item = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.update({
+    id
+  }, (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.pickDefined)({
+    name,
+    details,
+    totalMinutes
+  }));
+  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
+    item
+  });
+};
+const deleteItem = async ({
+  queryStringParameters
+}) => {
+  const {
+    id
+  } = queryStringParameters;
+  await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.delete({
+    id
+  });
+  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
+    success: true
+  });
+};
+const getItemGroups = async () => {
+  const groups = (await _models__WEBPACK_IMPORTED_MODULE_1__.ItemGroupModel.scan().exec()) || [];
+  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
+    groups
+  });
+};
+const createItemGroup = async ({
   body
 }) => {
   const {
+    itemIds,
     name,
-    tasks
+    details
   } = JSON.parse(body);
-  const savedDay = await _models__WEBPACK_IMPORTED_MODULE_1__.DayModel.create({
+  const group = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemGroupModel.create({
+    id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__.v4)(),
+    itemIds,
     name,
-    tasks
+    details
   });
   return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
-    savedDay
-  });
-};
-const getTasks = async () => {
-  let tasks = await _models__WEBPACK_IMPORTED_MODULE_1__.TaskModel.scan().exec();
-  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
-    tasks
-  });
-};
-const getSavedDays = async () => {
-  let savedDays = await _models__WEBPACK_IMPORTED_MODULE_1__.SavedDayModel.scan().exec();
-  return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
-    savedDays
+    group
   });
 };
 
@@ -117,52 +151,51 @@ const getSavedDays = async () => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DayModel": () => /* binding */ DayModel,
-/* harmony export */   "SavedDayModel": () => /* binding */ SavedDayModel,
-/* harmony export */   "TaskModel": () => /* binding */ TaskModel
+/* harmony export */   "ItemGroupModel": () => /* binding */ ItemGroupModel,
+/* harmony export */   "ItemModel": () => /* binding */ ItemModel
 /* harmony export */ });
 /* harmony import */ var dynamoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dynamoose */ "dynamoose");
 /* harmony import */ var dynamoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dynamoose__WEBPACK_IMPORTED_MODULE_0__);
 
-const TaskSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
-  id: {
-    type: String,
-    hashKey: true
-  },
-  details: String,
-  startTime: String,
-  endTime: String,
-  totalMinutes: String
-});
-const SavedDaySchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
+const ItemSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
   id: {
     type: String,
     hashKey: true
   },
   name: String,
-  tasks: {
-    type: Array,
-    schema: TaskSchema
-  }
+  details: String,
+  totalMinutes: String
 });
-const DaySchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
-  type: {
-    hashKey: true,
+const ItemGroupSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
+  id: {
     type: String,
-    default: 'day'
+    hashKey: true
   },
-  date: {
-    rangeKey: true,
-    type: String
-  },
-  tasks: {
+  name: String,
+  details: String,
+  itemIds: {
     type: Array,
-    schema: [TaskSchema]
+    schema: [String]
   }
-});
-const DayModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('day', DaySchema);
-const SavedDayModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('saved-day', SavedDaySchema);
-const TaskModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('task', TaskSchema);
+}); // const DaySchema = new Schema({
+//   type: {
+//     hashKey: true,
+//     type: String,
+//     default: 'day',
+//   },
+//   date: {
+//     rangeKey: true,
+//     type: String,
+//   },
+//   tasks: {
+//     type: Array,
+//     schema: [TaskSchema],
+//   },
+// })
+// export const DayModel = model('day', DaySchema)
+
+const ItemGroupModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item-group', ItemGroupSchema);
+const ItemModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item', ItemSchema);
 
 /***/ }),
 
@@ -173,6 +206,26 @@ const TaskModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('task', TaskS
 /***/ ((module) => {
 
 module.exports = require("dynamoose");;
+
+/***/ }),
+
+/***/ "lodash/pickBy":
+/*!********************************!*\
+  !*** external "lodash/pickBy" ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = require("lodash/pickBy");;
+
+/***/ }),
+
+/***/ "uuid":
+/*!***********************!*\
+  !*** external "uuid" ***!
+  \***********************/
+/***/ ((module) => {
+
+module.exports = require("uuid");;
 
 /***/ })
 

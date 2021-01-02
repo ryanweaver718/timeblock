@@ -40,5 +40,5 @@ const ItemGroupSchema = new Schema({
 // })
 
 // export const DayModel = model('day', DaySchema)
-export const ItemGroupModel = model('', ItemGroupSchema)
-export const ItemModel = model('items', ItemSchema)
+export const ItemGroupModel = model('item-group', ItemGroupSchema)
+export const ItemModel = model('item', ItemSchema)

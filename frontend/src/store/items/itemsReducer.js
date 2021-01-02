@@ -7,9 +7,10 @@ import { v4 as uuid } from 'uuid'
 const getList = type => range(10).map(i => ({ id: uuid(), content: type() }))
 
 const initialState = {
-  selected: getList(faker.commerce.department),
-  available: getList(faker.name.firstName),
-  temp: getList(faker.address.city),
+  selected: [],
+  available: [],
+  newGroup: [],
+  groups: [],
 }
 
 const itemsSlice = createSlice({

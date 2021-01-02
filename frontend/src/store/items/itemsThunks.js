@@ -24,3 +24,8 @@ export const deleteItem = ct('deleteItem', async payload => {
   await del(`/item?id=${id}`)
   return { id }
 })
+
+export const getGroups = ct('getGroups', async () => {
+  const { groups } = await get('/group')
+  return { groups }
+})

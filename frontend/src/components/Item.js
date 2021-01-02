@@ -19,7 +19,7 @@ export default function Item({ item, index }) {
             ...provided.draggableProps.style,
           }}
         >
-          {item.content}
+          {item.name}
         </div>
       )}
     </Draggable>

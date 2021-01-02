@@ -33,7 +33,7 @@ export const deleteItem = async ({ queryStringParameters }) => {
 }
 
 export const getItemGroups = async () => {
-  const groups = await ItemGroupModel.scan().exec()
+  const groups = (await ItemGroupModel.scan().exec()) || []
   return response({ groups })
 }
 

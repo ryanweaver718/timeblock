@@ -1,13 +1,16 @@
 import DroppableList from 'components/List'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 import { itemsActions as ia } from 'store/items/itemsReducer'
-import { createNewItem } from 'store/items/itemsThunks'
+import { createNewItem, getItems } from 'store/items/itemsThunks'
+import ItemForm from 'components/ItemForm'
 
 export default function App() {
   const dispatch = useDispatch()
-
+  useEffect(() => {
+    dispatch(getItems())
+  })
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return
     const payload = {
@@ -24,25 +27,21 @@ export default function App() {
   }
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <button
-        onClick={() => {
-          dispatch(addItemThunk())
-        }}
-      >
-        Click
-      </button>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flexBasis: '33%' }}>
-          <DroppableList droppableId="available" />
+    <>
+      <ItemForm />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexBasis: '33%' }}>
+            <DroppableList droppableId="available" />
+          </div>
+          <div style={{ flexBasis: '33%' }}>
+            <DroppableList droppableId="selected" />
+          </div>
+          <div style={{ flexBasis: '33%' }}>
+            <DroppableList droppableId="newGroup" />
+          </div>
         </div>
-        <div style={{ flexBasis: '33%' }}>
-          <DroppableList droppableId="selected" />
-        </div>
-        <div style={{ flexBasis: '33%' }}>
-          <DroppableList droppableId="temp" />
-        </div>
-      </div>
-    </DragDropContext>
+      </DragDropContext>
+    </>
   )
 }
