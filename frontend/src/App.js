@@ -1,16 +1,18 @@
+import ItemForm from 'components/ItemForm'
+import AvailableList from 'components/available'
 import DroppableList from 'components/List'
 import React, { useEffect } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 import { itemsActions as ia } from 'store/items/itemsReducer'
-import { createNewItem, getItems } from 'store/items/itemsThunks'
-import ItemForm from 'components/ItemForm'
+import { getItems } from 'store/items/itemsThunks'
 
 export default function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getItems())
-  })
+    //eslint-disable-next-line
+  }, [])
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return
     const payload = {
@@ -32,7 +34,7 @@ export default function App() {
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: 'flex' }}>
           <div style={{ flexBasis: '33%' }}>
-            <DroppableList droppableId="available" />
+            <AvailableList droppableId="available" />
           </div>
           <div style={{ flexBasis: '33%' }}>
             <DroppableList droppableId="selected" />
