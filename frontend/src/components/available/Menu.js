@@ -26,17 +26,20 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-export default function QuestionsMenu({ search, setSearch, sort, setSort, filtered, setFiltered }) {
+QuestionsMenu.propTypes = {
+  setFilter: PropTypes.func.isRequired,
+  search: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
+}
+export default function QuestionsMenu({ search, setSearch, filter, setFilter }) {
   const classes = useStyles()
-  const sortedMenuItems = ['Default Sort', 'A-Z', 'Z-A']
   const answeredMenuItems = ['Show All', 'Answered', 'Not Answered', 'My Questions']
 
   return (
     <div className={classes.root}>
-      <Search search={search} setSearch={setSearch} />
-      <BaseMenu selected={filtered} menuItems={answeredMenuItems} itemClick={setFiltered} />
-      <div style={{ flexGrow: 1 }} />
-      <BaseMenu selected={sort} menuItems={sortedMenuItems} itemClick={setSort} />
+      <BaseMenu selected={filter} menuItems={answeredMenuItems} itemClick={setFilter} />
+      <Search search={search} setSearch={setSearch} /> <div style={{ flexGrow: 1 }} />
     </div>
   )
 }
@@ -44,8 +47,7 @@ export default function QuestionsMenu({ search, setSearch, sort, setSort, filter
 QuestionsMenu.propTypes = {
   search: PropTypes.string.isRequired,
   setSearch: PropTypes.func.isRequired,
-  sort: PropTypes.string.isRequired,
-  setSort: PropTypes.func.isRequired,
+  setHasClickedSort: PropTypes.func.isRequired,
   filtered: PropTypes.string.isRequired,
   setFiltered: PropTypes.func.isRequired,
 }

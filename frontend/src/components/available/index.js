@@ -12,20 +12,12 @@ export default function Index({ droppableId }) {
     list: items[droppableId] || [],
   }))
   const [search, setSearch] = useState('')
-  const [sort, setSort] = useState('Default Sort')
   const [filter, setFilter] = useState('Show All')
 
   return (
     <>
-      <Menu
-        search={search}
-        setSearch={setSearch}
-        sort={sort}
-        setSort={setSort}
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <AvailableList droppableId={droppableId} list={list} sort={sort} search={search} />
+      <Menu search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
+      <AvailableList droppableId={droppableId} list={list} search={search} />
     </>
   )
 }

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { createItem } from 'store/items/itemsThunks'
+// const ListEveryIcon = lazy(() => import('./ListEveryIcon'))
 const ItemForm = () => {
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -41,6 +42,9 @@ const ItemForm = () => {
       >
         Save
       </button>
+      {/* <Suspense fallback={'Loading Icons...'}>
+        <ListEveryIcon />
+      </Suspense> */}
     </>
   )
 }

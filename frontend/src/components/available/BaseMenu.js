@@ -29,9 +29,14 @@ BaseMenu.propTypes = {
   selected: PropTypes.string.isRequired,
   itemClick: PropTypes.func.isRequired,
   menuItems: PropTypes.array.isRequired,
+  extraHandler: PropTypes.func,
 }
 
-export default function BaseMenu({ selected, itemClick, menuItems }) {
+BaseMenu.defaultProps = {
+  extraHandler: () => {},
+}
+
+export default function BaseMenu({ selected, itemClick, menuItems, extraHandler }) {
   const classes = useStyles()
   const [, setOpen] = useState(false)
   // const anchorRef = useRef(null)
@@ -42,6 +47,7 @@ export default function BaseMenu({ selected, itemClick, menuItems }) {
   }
   const handleClick = event => {
     itemClick(event.currentTarget.innerText)
+    extraHandler()
     popupState.close()
   }
 
