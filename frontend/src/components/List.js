@@ -1,6 +1,6 @@
 import propTypes from 'prop-types'
 import React from 'react'
-import { Droppable } from 'react-beautiful-dnd'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 import { useSelector } from 'react-redux'
 import Item from './Item'
 
@@ -24,7 +24,9 @@ export default function DroppableList({ droppableId }) {
           }}
         >
           {list.map((item, index) => (
-            <Item item={item} index={index} key={item.id} />
+            <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
+              {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
+            </Draggable>
           ))}
           {provided.placeholder}
         </div>
