@@ -38,6 +38,9 @@ const ItemForm = () => {
       <button
         onClick={() => {
           dispatch(createItem({ name, details, totalMinutes }));
+          setName('');
+          setDetails('');
+          setTotalMinutes('');
         }}
       >
         Save
