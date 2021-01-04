@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createItem } from 'store/items/itemsThunks';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 // const ListEveryIcon = lazy(() => import('./ListEveryIcon'))
 const ItemForm = () => {
   const dispatch = useDispatch();
@@ -10,7 +12,8 @@ const ItemForm = () => {
 
   return (
     <>
-      <input
+      <TextField
+        variant="outlined"
         placeholder="name"
         value={name}
         onChange={(e) => {
@@ -18,7 +21,8 @@ const ItemForm = () => {
         }}
       />
       <br />
-      <input
+      <TextField
+        variant="outlined"
         placeholder="details"
         value={details}
         onChange={(e) => {
@@ -26,7 +30,8 @@ const ItemForm = () => {
         }}
       />
       <br />
-      <input
+      <TextField
+        variant="outlined"
         placeholder="minutes"
         type="number"
         value={totalMinutes}
@@ -35,7 +40,8 @@ const ItemForm = () => {
         }}
       />
       <br />
-      <button
+      <Button
+        variant="contained"
         onClick={() => {
           dispatch(createItem({ name, details, totalMinutes }));
           setName('');
@@ -44,7 +50,7 @@ const ItemForm = () => {
         }}
       >
         Save
-      </button>
+      </Button>
       {/* <Suspense fallback={'Loading Icons...'}>
         <ListEveryIcon />
       </Suspense> */}
