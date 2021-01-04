@@ -6,14 +6,13 @@ import Item from '../Item';
 AvailableList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
-  sort: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
 };
 AvailableList.defaultProps = {
   list: [],
 };
 
-export default function AvailableList({ droppableId, list, sort, search }) {
+export default function AvailableList({ droppableId, list, search }) {
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
@@ -29,21 +28,6 @@ export default function AvailableList({ droppableId, list, sort, search }) {
           {list
             .filter((item) => {
               return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
-            })
-            .sort((itemA, itemB) => {
-              let a = itemA.name.toLowerCase();
-              let b = itemB.name.toLowerCase();
-              switch (sort) {
-                case 'A-Z':
-                  if (a > b) return 1;
-                  else if (b > a) return -1;
-                  break;
-                case 'Z-A':
-                  if (a > b) return -1;
-                  else if (b > a) return 1;
-                  break;
-              }
-              return 0;
             })
             .map((item, index) => (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
