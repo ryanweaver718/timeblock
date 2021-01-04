@@ -49,7 +49,7 @@ export default function Index({ droppableId }) {
         <Typography variant="h5">Available Items</Typography>
       </div>
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
-      <AvailableList className={classes.list} droppableId={droppableId} list={list} />
+      <AvailableList className={classes.list} droppableId={droppableId} list={list} search={search} />
     </div>
   );
 }
