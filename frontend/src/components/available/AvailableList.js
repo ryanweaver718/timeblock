@@ -1,17 +1,17 @@
-import List from '@material-ui/core/List'
-import PropTypes from 'prop-types'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import Item from '../Item'
+import List from '@material-ui/core/List';
+import PropTypes from 'prop-types';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import Item from '../Item';
 
 AvailableList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   sort: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
-}
+};
 AvailableList.defaultProps = {
   list: [],
-}
+};
 
 export default function AvailableList({ droppableId, list, sort, search }) {
   return (
@@ -27,34 +27,32 @@ export default function AvailableList({ droppableId, list, sort, search }) {
           }}
         >
           {list
-            .filter(item => {
-              return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true
+            .filter((item) => {
+              return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
             })
             .sort((itemA, itemB) => {
-              let a = itemA.name.toLowerCase()
-              let b = itemB.name.toLowerCase()
+              let a = itemA.name.toLowerCase();
+              let b = itemB.name.toLowerCase();
               switch (sort) {
                 case 'A-Z':
-                  if (a > b) return 1
-                  else if (b > a) return -1
-                  break
+                  if (a > b) return 1;
+                  else if (b > a) return -1;
+                  break;
                 case 'Z-A':
-                  if (a > b) return -1
-                  else if (b > a) return 1
-                  break
+                  if (a > b) return -1;
+                  else if (b > a) return 1;
+                  break;
               }
-              return 0
+              return 0;
             })
             .map((item, index) => (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
-                {(provided, snapshot) => (
-                  <Item item={item} snapshot={snapshot} provided={provided} />
-                )}
+                {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
               </Draggable>
             ))}
           {provided.placeholder}
         </List>
       )}
     </Droppable>
-  )
+  );
 }

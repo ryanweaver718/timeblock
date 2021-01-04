@@ -1,19 +1,17 @@
-import List from '@material-ui/core/List'
-import PropTypes from 'prop-types'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import Item from '../Item'
+import List from '@material-ui/core/List';
+import PropTypes from 'prop-types';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import Item from '../Item';
 
 AvailableList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
-  sort: PropTypes.string.isRequired,
-  search: PropTypes.string.isRequired,
-}
+};
 AvailableList.defaultProps = {
   list: [],
-}
+};
 
-export default function AvailableList({ droppableId, list, sort, search }) {
+export default function AvailableList({ droppableId, list }) {
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
@@ -35,5 +33,5 @@ export default function AvailableList({ droppableId, list, sort, search }) {
         </List>
       )}
     </Droppable>
-  )
+  );
 }

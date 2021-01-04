@@ -1,28 +1,28 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { createItem } from 'store/items/itemsThunks'
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createItem } from 'store/items/itemsThunks';
 // const ListEveryIcon = lazy(() => import('./ListEveryIcon'))
 const ItemForm = () => {
-  const dispatch = useDispatch()
-  const [name, setName] = useState('')
-  const [details, setDetails] = useState('')
-  const [totalMinutes, setTotalMinutes] = useState('')
+  const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [details, setDetails] = useState('');
+  const [totalMinutes, setTotalMinutes] = useState('');
 
   return (
     <>
       <input
         placeholder="name"
         value={name}
-        onChange={e => {
-          setName(e.target.value)
+        onChange={(e) => {
+          setName(e.target.value);
         }}
       />
       <br />
       <input
         placeholder="details"
         value={details}
-        onChange={e => {
-          setDetails(e.target.value)
+        onChange={(e) => {
+          setDetails(e.target.value);
         }}
       />
       <br />
@@ -30,14 +30,14 @@ const ItemForm = () => {
         placeholder="minutes"
         type="number"
         value={totalMinutes}
-        onChange={e => {
-          setTotalMinutes(e.target.value)
+        onChange={(e) => {
+          setTotalMinutes(e.target.value);
         }}
       />
       <br />
       <button
         onClick={() => {
-          dispatch(createItem({ name, details, totalMinutes }))
+          dispatch(createItem({ name, details, totalMinutes }));
         }}
       >
         Save
@@ -46,7 +46,7 @@ const ItemForm = () => {
         <ListEveryIcon />
       </Suspense> */}
     </>
-  )
-}
+  );
+};
 
-export default ItemForm
+export default ItemForm;

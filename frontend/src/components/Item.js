@@ -1,25 +1,20 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles'
-import { useState } from 'react'
-import ListItem from '@material-ui/core/ListItem'
-import { Draggable } from 'react-beautiful-dnd'
-import Typograhpy from '@material-ui/core/Typography'
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-  hovering: {},
-}))
+import ListItem from '@material-ui/core/ListItem';
+import Typograhpy from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 
+Item.propTypes = {
+  item: PropTypes.object.isRequired,
+  provided: PropTypes.object.isRequired,
+  snapshot: PropTypes.object.isRequired,
+};
 export default function Item({ item, provided, snapshot }) {
-  const [isHovering, setIsHovering] = useState(false)
-  const theme = useTheme()
-  const { dragHandleProps, draggableProps, innerRef } = provided
-  const { isDragging } = snapshot
-  let background = 'darkgrey'
-  if (isDragging) background = 'lightgreen'
-  else if (isHovering) background = 'grey'
+  const [isHovering, setIsHovering] = useState(false);
+  const { dragHandleProps, draggableProps, innerRef } = provided;
+  const { isDragging } = snapshot;
+  let background = 'darkgrey';
+  if (isDragging) background = 'lightgreen';
+  else if (isHovering) background = 'grey';
   return (
     <ListItem
       button
@@ -40,5 +35,5 @@ export default function Item({ item, provided, snapshot }) {
     >
       <Typograhpy>{item.name}</Typograhpy>
     </ListItem>
-  )
+  );
 }

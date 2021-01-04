@@ -1,16 +1,16 @@
-import propTypes from 'prop-types'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import { useSelector } from 'react-redux'
-import Item from './Item'
+import propTypes from 'prop-types';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { useSelector } from 'react-redux';
+import Item from './Item';
 
 DroppableList.propTypes = {
   droppableId: propTypes.string.isRequired,
-}
+};
 
 export default function DroppableList({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId],
-  }))
+  }));
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
@@ -31,5 +31,5 @@ export default function DroppableList({ droppableId }) {
         </div>
       )}
     </Droppable>
-  )
+  );
 }

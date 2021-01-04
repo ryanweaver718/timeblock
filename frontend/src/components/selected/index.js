@@ -1,12 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles'
-import propTypes from 'prop-types'
-import { useSelector } from 'react-redux'
-import SelectedList from './SelectedList'
-import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles';
+import propTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import SelectedList from './SelectedList';
+import Typography from '@material-ui/core/Typography';
 Index.propTypes = {
   droppableId: propTypes.string.isRequired,
-}
-const useStyles = makeStyles(theme => ({
+};
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -29,12 +29,12 @@ const useStyles = makeStyles(theme => ({
   list: {
     flexBasis: '100%',
   },
-}))
+}));
 export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
-  }))
-  const classes = useStyles()
+  }));
+  const classes = useStyles();
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -43,5 +43,5 @@ export default function Index({ droppableId }) {
 
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
-  )
+  );
 }
