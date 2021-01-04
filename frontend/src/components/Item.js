@@ -2,6 +2,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useState } from 'react'
 import ListItem from '@material-ui/core/ListItem'
 import { Draggable } from 'react-beautiful-dnd'
+import Typograhpy from '@material-ui/core/Typography'
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -33,10 +34,11 @@ export default function Item({ item, provided, snapshot }) {
         margin: `0 0 ${8}px 0`,
         borderRadius: '10px',
         background,
+        height: '1rem',
         ...draggableProps.style,
       }}
     >
-      {item.name}
+      <Typograhpy>{item.name}</Typograhpy>
     </ListItem>
   )
 }

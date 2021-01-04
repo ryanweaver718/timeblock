@@ -1,6 +1,5 @@
 import TextField from '@material-ui/core/TextField'
 import propTypes from 'prop-types'
-import React from 'react'
 
 Search.propTypes = {
   search: propTypes.string.isRequired,

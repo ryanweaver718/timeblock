@@ -14,14 +14,14 @@ AvailableList.defaultProps = {
 }
 
 export default function AvailableList({ droppableId, list, sort, search }) {
-  console.log('the droppable list', list)
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
         <List
           ref={provided.innerRef}
           style={{
-            background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
+            background: snapshot.isDraggingOver ? 'lightblue' : '	#E8E8E8',
+            borderRadius: '10px',
             padding: 8,
             flexGrow: 1,
           }}

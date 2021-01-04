@@ -1,7 +1,8 @@
-import ItemForm from 'components/ItemForm'
 import AvailableList from 'components/available'
+import ItemForm from 'components/available/ItemForm'
 import DroppableList from 'components/List'
-import React, { useEffect } from 'react'
+import SelectedList from 'components/selected'
+import { useEffect } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import { useDispatch } from 'react-redux'
 import { itemsActions as ia } from 'store/items/itemsReducer'
@@ -37,7 +38,7 @@ export default function App() {
             <AvailableList droppableId="available" />
           </div>
           <div style={{ flexBasis: '33%' }}>
-            <DroppableList droppableId="selected" />
+            <SelectedList droppableId="selected" />
           </div>
           <div style={{ flexBasis: '33%' }}>
             <DroppableList droppableId="newGroup" />

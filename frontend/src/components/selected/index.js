@@ -1,10 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 import propTypes from 'prop-types'
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import AvailableList from './AvailableList'
-import Menu from './Menu'
+import SelectedList from './SelectedList'
+import Typography from '@material-ui/core/Typography'
 Index.propTypes = {
   droppableId: propTypes.string.isRequired,
 }
@@ -31,36 +29,19 @@ const useStyles = makeStyles(theme => ({
   list: {
     flexBasis: '100%',
   },
-  menu: {
-    flexBasis: '100%',
-  },
 }))
 export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
   }))
   const classes = useStyles()
-  const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('Show All')
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h5">Available Items</Typography>
+        <Typography variant="h5">Daily Schedule</Typography>
       </div>
-      <Menu
-        className={classes.menu}
-        search={search}
-        setSearch={setSearch}
-        filter={filter}
-        setFilter={setFilter}
-      />
-      <AvailableList
-        className={classes.list}
-        droppableId={droppableId}
-        list={list}
-        search={search}
-      />
+
+      <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   )
 }
