@@ -26,7 +26,9 @@ export default function AvailableList({ droppableId, list, search }) {
           }}
         >
           {list
-            .filter((item) => (search ? item.name.toLowerCase().includes(search.toLowerCase()) : true))
+            .filter((item) => {
+              return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
+            })
             .map((item, index) => (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
                 {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
