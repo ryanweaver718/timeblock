@@ -1,11 +1,14 @@
+import SelectTime from './SelectTime';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import 'date-fns';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import SelectedList from './SelectedList';
-import Typography from '@material-ui/core/Typography';
 Index.propTypes = {
   droppableId: propTypes.string.isRequired,
 };
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -40,6 +43,7 @@ export default function Index({ droppableId }) {
       <div className={classes.header}>
         <Typography variant="h5">Daily Schedule</Typography>
       </div>
+      <SelectTime />
 
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
