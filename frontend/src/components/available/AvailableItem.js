@@ -35,11 +35,11 @@ export default function Item({ item, provided, snapshot }) {
         margin: `0 0 ${8}px 0`,
         borderRadius: '10px',
         background,
-        height: '1rem',
+        height: `${Math.ceil(1*item.totalMinutes)}rem`,
         ...draggableProps.style,
       }}
     >
-      <Typograhpy>{item.name}</Typograhpy>
+      <Typograhpy>{item.name}</Typograhpy> {item.totalMinutes}
       <div style={{ flexGrow: 1 }} />
       <IconButton
         onClick={() => {
