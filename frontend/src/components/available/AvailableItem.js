@@ -35,7 +35,7 @@ export default function Item({ item, provided, snapshot }) {
         margin: `0 0 ${8}px 0`,
         borderRadius: '10px',
         background,
-        height: `${Math.ceil(1*item.totalMinutes)}rem`,
+        height: '1rem',
         ...draggableProps.style,
       }}
     >
