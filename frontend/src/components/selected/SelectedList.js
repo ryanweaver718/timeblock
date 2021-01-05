@@ -1,7 +1,7 @@
 import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import Item from '../Item';
+import Item from './SelectedItem';
 
 AvailableList.propTypes = {
   droppableId: PropTypes.string.isRequired,
