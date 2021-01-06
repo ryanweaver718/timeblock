@@ -14,11 +14,17 @@ export default function SelectTime() {
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justify="space-around">
+      <Grid
+        container
+        justify="space-around"
+        style={{ marginTop: '2.25rem', marginBottom: '.85rem', marginRight: '1rem', marginLeft: '1rem' }}
+      >
         <KeyboardTimePicker
           margin="normal"
+          fullWidth={true}
           id="time-picker"
           label="Time picker"
+          variant="outlined"
           value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{

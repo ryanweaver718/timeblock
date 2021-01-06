@@ -1,10 +1,10 @@
-import SelectTime from './SelectTime';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import propTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import SelectedList from './SelectedList';
+import SelectTime from './SelectTime';
 Index.propTypes = {
   droppableId: propTypes.string.isRequired,
 };
@@ -41,10 +41,9 @@ export default function Index({ droppableId }) {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h5">Daily Schedule</Typography>
+        <Typography variant="h4">Daily Schedule</Typography>
       </div>
       <SelectTime />
-
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   );

@@ -1,6 +1,6 @@
-import BaseMenu from './BaseMenu';
-import Search from './Search';
+import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
+import BaseMenu from './BaseMenu';
 
 FilterMenu.propTypes = {
   search: PropTypes.string.isRequired,
@@ -14,7 +14,20 @@ export default function FilterMenu({ search, setSearch, filter, setFilter }) {
   return (
     <>
       <BaseMenu selected={filter} menuItems={answeredMenuItems} itemClick={setFilter} />
-      <Search search={search} setSearch={setSearch} /> <div style={{ flexGrow: 1 }} />
+      <TextField
+        id="standard-full-width"
+        label="Search"
+        style={{ marginBottom: 20, marginRight: '1rem', marginLeft: '1rem' }}
+        placeholder="Search Items"
+        fullWidth
+        onChange={(e) => setSearch(e.target.value)}
+        value={search}
+        margin="normal"
+        variant="outlined"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
     </>
   );
 }

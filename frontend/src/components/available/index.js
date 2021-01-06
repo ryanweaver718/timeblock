@@ -46,7 +46,7 @@ export default function Index({ droppableId }) {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h5">Available Items</Typography>
+        <Typography variant="h4">Available Items</Typography>
       </div>
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
       <AvailableList className={classes.list} droppableId={droppableId} list={list} search={search} />
