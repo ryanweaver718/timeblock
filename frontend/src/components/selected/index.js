@@ -1,12 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import SelectedList from './SelectedList';
 import SelectTime from './SelectTime';
 Index.propTypes = {
-  droppableId: propTypes.string.isRequired,
+  droppableId: PropTypes.string.isRequired,
 };
 
 const useStyles = makeStyles((theme) => ({

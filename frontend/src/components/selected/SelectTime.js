@@ -1,17 +1,18 @@
+
 import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
 import { KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
-import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { itemsActions } from 'store/items/itemsReducer';
+
 
 export default function SelectTime() {
-  // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
-
+  const dispatch = useDispatch();
   const handleDateChange = (date) => {
-    setSelectedDate(date);
+    dispatch(itemsActions.updateSelectedDateAction({ date }));
   };
-
+  const {selectedDate} = useSelector(({items})=>({selectedDate: items.selectedDate}))
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid

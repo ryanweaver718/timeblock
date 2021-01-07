@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import extraReducers from './itemsThunkReducer';
+import moment from 'moment';
 
 const initialState = {
   selected: [],
   available: [],
   newGroup: [],
   groups: [],
+  selectedDate: moment().toDate(),
 };
 
 const itemsSlice = createSlice({
@@ -25,6 +27,10 @@ const itemsSlice = createSlice({
       const { sourceName, start, end } = payload;
       const [removed] = state[sourceName].splice(start, 1);
       state[sourceName].splice(end, 0, removed);
+    },
+    updateSelectedDateAction(state, { payload }) {
+      const { date } = payload;
+      state.selectedDate = moment(date).toDate();
     },
     updateSelectedItemTotalTimeAction(state, { payload }) {
       const { id, totalMinutes } = payload;
