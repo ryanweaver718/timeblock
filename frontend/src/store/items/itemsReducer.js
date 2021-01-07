@@ -26,6 +26,15 @@ const itemsSlice = createSlice({
       const [removed] = state[sourceName].splice(start, 1);
       state[sourceName].splice(end, 0, removed);
     },
+    updateSelectedItemTotalTimeAction(state, { payload }) {
+      const { id, totalMinutes } = payload;
+      state.selected = state.selected.map((item) => {
+        if (item.id === id) {
+          item.totalMinutes = totalMinutes;
+        }
+        return item;
+      });
+    },
   },
   extraReducers,
 });
