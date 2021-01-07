@@ -10,9 +10,8 @@ import { getItems } from 'store/items/itemsThunks';
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getItems());
-    //eslint-disable-next-line
-  }, []);
+    dispatch(getItems()); 
+  }, []);  //eslint-disable-line
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
     const payload = {
