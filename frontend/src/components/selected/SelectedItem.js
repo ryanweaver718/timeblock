@@ -1,15 +1,29 @@
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
+import TextField from '@material-ui/core/TextField';
 import Typograhpy from '@material-ui/core/Typography';
+import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/styles';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import moment from 'moment';
-import EditIcon from '@material-ui/icons/Edit';
-import IconButton from '@material-ui/core/IconButton';
-import DoneIcon from '@material-ui/icons/Done';
 import { getItemColor } from '../utils';
+
+const useStyles = makeStyles(() => ({
+  item: ({ isHovering, isDragging, priority, draggablePropsStyle, totalMinutes }) => ({
+    display: 'flex',
+    userSelect: 'none',
+    padding: 8 * 2,
+    margin: `0 0 ${8}px 0`,
+    borderRadius: '10px',
+    background: getItemColor(isDragging, isHovering, priority),
+    height: `${Math.ceil(1 * totalMinutes) / 2}rem`,
+    ...draggablePropsStyle,
+  }),
+}));
 
 SelectedItem.propTypes = {
   item: PropTypes.object.isRequired,
@@ -21,38 +35,31 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   const [isHovering, setIsHovering] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
-  const { dragHandleProps, draggableProps, innerRef } = provided;
-  const { isDragging } = snapshot;
   const dispatch = useDispatch();
+  const classes = useStyles({
+    isDragging: snapshot.isDragging,
+    isHovering,
+    draggablePropsStyle: provided.draggableProps.style,
+    priority: item.priority,
+  });
 
   const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
 
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-  const saveChanges = async () => {
-    setIsEditing(false);
+  const handleEdit = () => void setIsEditing(true);
+  const saveChanges = async () => void setIsEditing(false);
+  const handleItemUpdate = (e) => {
+    dispatch(itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) }));
   };
 
   return (
     <ListItem
       button
-      ref={innerRef}
-      {...draggableProps}
-      {...dragHandleProps}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        userSelect: 'none',
-        padding: 8 * 2,
-        margin: `0 0 ${8}px 0`,
-        borderRadius: '10px',
-        background: getItemColor(isDragging, isHovering, item.priority),
-        height: `${Math.ceil(1 * item.totalMinutes) / 2}rem`,
-        ...draggableProps.style,
-      }}
+      className={classes.item}
     >
       <Typograhpy variant="p" style={{ flexGrow: 1 }}>
         {calculatedTime}
@@ -68,11 +75,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
             placeholder="minutes"
             type="number"
             value={item.totalMinutes}
-            onChange={(e) => {
-              dispatch(
-                itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) })
-              );
-            }}
+            onChange={handleItemUpdate}
           />
           <IconButton onClick={saveChanges}>
             <DoneIcon />
