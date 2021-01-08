@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import extraReducers from './itemsThunkReducer';
 import moment from 'moment';
+import { v4 as uuid } from 'uuid';
 
 const initialState = {
   selected: [],
@@ -8,6 +9,7 @@ const initialState = {
   newGroup: [],
   groups: [],
   selectedDate: moment().toDate(),
+  selectedTime: moment().toDate(),
 };
 
 const itemsSlice = createSlice({
@@ -32,18 +34,23 @@ const itemsSlice = createSlice({
       const { date } = payload;
       state.selectedDate = moment(date).toDate();
     },
-    updateSelectedItemTotalTimeAction(state, { payload }) {
-      const { id, totalMinutes } = payload;
-      state.selected = state.selected.map((item) => {
+    updateSelectedTimeAction(state, { payload }) {
+      const { time } = payload;
+      state.selectedTime = moment(time).toDate();
+    },
+    addTemporaryItemAction(state, { payload: { name, details, totalMinutes } }) {
+      state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes) });
+    },
+    updateSelectedItemTotalTimeAction(state, { payload: { id, totalMinutes } }) {
+      for (const item of state.selected) {
         if (item.id === id) {
           item.totalMinutes = totalMinutes;
+          break;
         }
-        return item;
-      });
+      }
     },
   },
   extraReducers,
 });
-
 export default itemsSlice.reducer;
 export const itemsActions = itemsSlice.actions;

@@ -19,7 +19,7 @@ SelectedItem.propTypes = {
 export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
   const [isHovering, setIsHovering] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { selectedDate } = useSelector(({ items }) => ({ selectedDate: items.selectedDate }));
+  const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
   const { dragHandleProps, draggableProps, innerRef } = provided;
   const { isDragging } = snapshot;
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   if (isDragging) background = 'lightgreen';
   else if (isHovering) background = 'white';
 
-  const calculatedTime = moment(selectedDate).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
+  const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
 
   const handleEdit = () => {
     setIsEditing(true);

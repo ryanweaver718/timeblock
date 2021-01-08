@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createItem } from 'store/items/itemsThunks';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { itemsActions } from 'store/items/itemsReducer';
 // const ListEveryIcon = lazy(() => import('./ListEveryIcon'))
 const ItemForm = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,17 @@ const ItemForm = () => {
         }}
       >
         Save
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => {
+          dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes }));
+          setName('');
+          setDetails('');
+          setTotalMinutes('');
+        }}
+      >
+        Just for today
       </Button>
       {/* <Suspense fallback={'Loading Icons...'}>
         <ListEveryIcon />
