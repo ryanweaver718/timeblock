@@ -4,12 +4,13 @@ import { v4 as uuid } from 'uuid'
 import pickBy from 'lodash/pickBy'
 
 export const createItem = async ({ body }) => {
-  const { details, totalMinutes, name } = JSON.parse(body)
+  const { details, totalMinutes, name, priority } = JSON.parse(body)
   const item = await ItemModel.create({
     id: uuid(),
     name,
     details,
     totalMinutes,
+    priority,
   })
   return response({ item })
 }
@@ -21,8 +22,11 @@ export const getItems = async () => {
 
 export const updateItem = async ({ body, queryStringParameters }) => {
   const { id } = queryStringParameters
-  const { name, details, totalMinutes } = JSON.parse(body)
-  const item = await ItemModel.update({ id }, pickDefined({ name, details, totalMinutes }))
+  const { name, details, totalMinutes, priority } = JSON.parse(body)
+  const item = await ItemModel.update(
+    { id },
+    pickDefined({ name, details, totalMinutes, priority })
+  )
   return response({ item })
 }
 

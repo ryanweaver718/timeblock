@@ -7,6 +7,19 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteItem } from 'store/items/itemsThunks';
 import { getItemColor } from '../utils';
+import { makeStyles } from '@material-ui/styles';
+const useStyles = makeStyles(() => ({
+  item: ({ isHovering, isDragging, priority, draggablePropsStyle }) => ({
+    display: 'flex',
+    userSelect: 'none',
+    padding: 8 * 2,
+    margin: `0 0 ${8}px 0`,
+    borderRadius: '10px',
+    background: getItemColor(isDragging, isHovering, priority),
+    height: '1rem',
+    ...draggablePropsStyle,
+  }),
+}));
 
 Item.propTypes = {
   item: PropTypes.object.isRequired,
@@ -15,35 +28,26 @@ Item.propTypes = {
 };
 export default function Item({ item, provided, snapshot }) {
   const [isHovering, setIsHovering] = useState(false);
-  const { dragHandleProps, draggableProps, innerRef } = provided;
-  const { isDragging } = snapshot;
   const dispatch = useDispatch();
+  const classes = useStyles({
+    isDragging: snapshot.isDragging,
+    isHovering,
+    draggablePropsStyle: provided.draggableProps.style,
+    priority: item.priority,
+  });
   return (
     <ListItem
       button
-      ref={innerRef}
-      {...draggableProps}
-      {...dragHandleProps}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      style={{
-        display: 'flex',
-        userSelect: 'none',
-        padding: 8 * 2,
-        margin: `0 0 ${8}px 0`,
-        borderRadius: '10px',
-        background: getItemColor(isDragging, isHovering, item.priority),
-        height: '1rem',
-        ...draggableProps.style,
-      }}
+      className={classes.item}
     >
-      <Typograhpy>{item.name}</Typograhpy> {item.totalMinutes}
+      <Typograhpy>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
-      <IconButton
-        onClick={() => {
-          dispatch(deleteItem({ id: item.id }));
-        }}
-      >
+      <IconButton onClick={() => void dispatch(deleteItem({ id: item.id }))}>
         <DeleteIcon />
       </IconButton>
     </ListItem>

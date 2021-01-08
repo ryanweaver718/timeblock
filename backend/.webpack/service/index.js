@@ -62,13 +62,15 @@ const createItem = async ({
   const {
     details,
     totalMinutes,
-    name
+    name,
+    priority
   } = JSON.parse(body);
   const item = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.create({
     id: (0,uuid__WEBPACK_IMPORTED_MODULE_2__.v4)(),
     name,
     details,
-    totalMinutes
+    totalMinutes,
+    priority
   });
   return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
     item
@@ -90,14 +92,16 @@ const updateItem = async ({
   const {
     name,
     details,
-    totalMinutes
+    totalMinutes,
+    priority
   } = JSON.parse(body);
   const item = await _models__WEBPACK_IMPORTED_MODULE_1__.ItemModel.update({
     id
   }, (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.pickDefined)({
     name,
     details,
-    totalMinutes
+    totalMinutes,
+    priority
   }));
   return (0,_helpers__WEBPACK_IMPORTED_MODULE_0__.response)({
     item
@@ -164,7 +168,11 @@ const ItemSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
   },
   name: String,
   details: String,
-  totalMinutes: String
+  totalMinutes: String,
+  priority: {
+    type: String,
+    enum: ['1', '2', '3', '4']
+  }
 });
 const ItemGroupSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
   id: {
@@ -178,8 +186,8 @@ const ItemGroupSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
     schema: [String]
   }
 });
-const ItemGroupModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)("item-group", ItemGroupSchema);
-const ItemModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)("item", ItemSchema);
+const ItemGroupModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item-group', ItemGroupSchema);
+const ItemModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item', ItemSchema);
 
 /***/ }),
 
