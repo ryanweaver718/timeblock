@@ -1,7 +1,7 @@
 
 import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
-import { KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { KeyboardTimePicker,KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
@@ -12,7 +12,12 @@ export default function SelectTime() {
   const handleDateChange = (date) => {
     dispatch(itemsActions.updateSelectedDateAction({ date }));
   };
-  const {selectedDate} = useSelector(({items})=>({selectedDate: items.selectedDate}))
+  const handleTimeChange = (time) => {
+    dispatch(itemsActions.updateSelectedTimeAction({ time }));
+  };
+  //save it
+  const {selectedTime, selectedDate} = useSelector(({items})=>({selectedTime: items.selectedTime, selectedDate: items.selectedDate}));
+  //what now
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid
@@ -20,14 +25,28 @@ export default function SelectTime() {
         justify="space-around"
         style={{ marginTop: '2.25rem', marginBottom: '.85rem', marginRight: '1rem', marginLeft: '1rem' }}
       >
-        <KeyboardTimePicker
+         <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
           margin="normal"
-          fullWidth={true}
-          id="time-picker"
-          label="Time picker"
-          variant="outlined"
+          style={{flexGrow:"1",margin:'2rem'}}
+          id="date-picker-inline"
+          label="Date"
           value={selectedDate}
           onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        <KeyboardTimePicker
+          margin="normal"
+          style={{flexGrow:"1", margin:'2rem'}}
+          id="time-picker"
+          label="Time"
+          variant="outlined"
+          value={selectedTime}
+          onChange={handleTimeChange}
           KeyboardButtonProps={{
             'aria-label': 'change time',
           }}

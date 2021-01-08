@@ -6,6 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
 import moment from 'moment';
+import EditIcon from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
+import DoneIcon from '@material-ui/icons/Done';
 
 SelectedItem.propTypes = {
   item: PropTypes.object.isRequired,
@@ -15,14 +18,25 @@ SelectedItem.propTypes = {
 };
 export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
   const [isHovering, setIsHovering] = useState(false);
-  const { selectedDate } = useSelector(({ items }) => ({ selectedDate: items.selectedDate }));
+  const [isEditing, setIsEditing] = useState(false);
+  const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
   const { dragHandleProps, draggableProps, innerRef } = provided;
   const { isDragging } = snapshot;
   const dispatch = useDispatch();
+
   let background = 'darkgrey';
   if (isDragging) background = 'lightgreen';
   else if (isHovering) background = 'white';
-  const calculatedTime = moment(selectedDate).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
+
+  const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+  const saveChanges = async () => {
+    setIsEditing(false);
+  };
+
   return (
     <ListItem
       button
@@ -50,18 +64,31 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         {item.name}
       </Typograhpy>
       <div style={{ flexGrow: 1 }} />
-
-      <TextField
-        variant="outlined"
-        placeholder="minutes"
-        type="number"
-        value={item.totalMinutes}
-        onChange={(e) => {
-          dispatch(
-            itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) })
-          );
-        }}
-      />
+      {isEditing ? (
+        <div>
+          <TextField
+            variant="outlined"
+            placeholder="minutes"
+            type="number"
+            value={item.totalMinutes}
+            onChange={(e) => {
+              dispatch(
+                itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) })
+              );
+            }}
+          />
+          <IconButton onClick={saveChanges}>
+            <DoneIcon />
+          </IconButton>
+        </div>
+      ) : (
+        <div>
+          {`Total Minutes ${item.totalMinutes}`}
+          <IconButton onClick={handleEdit}>
+            <EditIcon />
+          </IconButton>
+        </div>
+      )}
     </ListItem>
   );
 }
