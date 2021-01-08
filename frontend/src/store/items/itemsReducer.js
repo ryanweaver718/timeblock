@@ -38,8 +38,8 @@ const itemsSlice = createSlice({
       const { time } = payload;
       state.selectedTime = moment(time).toDate();
     },
-    addTemporaryItemAction(state, { payload: { name, details, totalMinutes } }) {
-      state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes) });
+    addTemporaryItemAction(state, { payload: { name, details, totalMinutes, priority } }) {
+      state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes), priority });
     },
     updateSelectedItemTotalTimeAction(state, { payload: { id, totalMinutes } }) {
       for (const item of state.selected) {

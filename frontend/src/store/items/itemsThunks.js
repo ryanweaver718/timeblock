@@ -4,7 +4,8 @@ import { get, post, put, del } from 'store/utils';
 const ct = (action, callback) => createAsyncThunk(`items/thunk/${action}`, callback);
 
 export const createItem = ct('createItem', async (payload) => {
-  const { item } = await post('/item', payload);
+  const { name, details, totalMinutes } = payload;
+  const { item } = await post('/item', { name, details, totalMinutes });
   return { item };
 });
 
@@ -15,7 +16,7 @@ export const getItems = ct('getItems', async () => {
 
 export const updateItem = ct('updateItems', async (payload) => {
   const { id, name, details, totalMinutes } = payload;
-  const { item } = put(`/item?id=${id}`, { name, details, totalMinutes });
+  const { item } = await put(`/item?id=${id}`, { name, details, totalMinutes });
   return { item };
 });
 

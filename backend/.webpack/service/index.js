@@ -177,25 +177,9 @@ const ItemGroupSchema = new dynamoose__WEBPACK_IMPORTED_MODULE_0__.Schema({
     type: Array,
     schema: [String]
   }
-}); // const DaySchema = new Schema({
-//   type: {
-//     hashKey: true,
-//     type: String,
-//     default: 'day',
-//   },
-//   date: {
-//     rangeKey: true,
-//     type: String,
-//   },
-//   tasks: {
-//     type: Array,
-//     schema: [TaskSchema],
-//   },
-// })
-// export const DayModel = model('day', DaySchema)
-
-const ItemGroupModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item-group', ItemGroupSchema);
-const ItemModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)('item', ItemSchema);
+});
+const ItemGroupModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)("item-group", ItemGroupSchema);
+const ItemModel = (0,dynamoose__WEBPACK_IMPORTED_MODULE_0__.model)("item", ItemSchema);
 
 /***/ }),
 

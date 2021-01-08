@@ -1,8 +1,7 @@
 import * as it from './itemsThunks';
 
 const itemsThunkReducer = {
-  [it.createItem.fulfilled]: (state, { payload: {item}}) => {
-
+  [it.createItem.fulfilled]: (state, { payload: { item } }) => {
     state.available.push(item);
   },
   [it.getItems.fulfilled]: (state, { payload: { items } }) => {
