@@ -1,5 +1,4 @@
 import AvailableList from 'components/available';
-import ItemForm from 'components/available/ItemForm';
 import SelectedList from 'components/selected';
 import { useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -27,7 +26,6 @@ export default function App() {
 
   return (
     <>
-      <ItemForm />
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: 'flex' }}>
           <div style={{ flexBasis: '50%' }}>
