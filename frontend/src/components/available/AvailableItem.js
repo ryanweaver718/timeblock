@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteItem } from 'store/items/itemsThunks';
+import { getItemColor } from '../utils';
 
 Item.propTypes = {
   item: PropTypes.object.isRequired,
@@ -17,9 +18,6 @@ export default function Item({ item, provided, snapshot }) {
   const { dragHandleProps, draggableProps, innerRef } = provided;
   const { isDragging } = snapshot;
   const dispatch = useDispatch();
-  let background = 'darkgrey';
-  if (isDragging) background = 'lightgreen';
-  else if (isHovering) background = 'grey';
   return (
     <ListItem
       button
@@ -34,7 +32,7 @@ export default function Item({ item, provided, snapshot }) {
         padding: 8 * 2,
         margin: `0 0 ${8}px 0`,
         borderRadius: '10px',
-        background,
+        background: getItemColor(isDragging, isHovering, item.priority),
         height: '1rem',
         ...draggableProps.style,
       }}

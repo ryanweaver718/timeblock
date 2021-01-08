@@ -9,6 +9,7 @@ import moment from 'moment';
 import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import DoneIcon from '@material-ui/icons/Done';
+import { getItemColor } from '../utils';
 
 SelectedItem.propTypes = {
   item: PropTypes.object.isRequired,
@@ -23,10 +24,6 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   const { dragHandleProps, draggableProps, innerRef } = provided;
   const { isDragging } = snapshot;
   const dispatch = useDispatch();
-
-  let background = 'darkgrey';
-  if (isDragging) background = 'lightgreen';
-  else if (isHovering) background = 'white';
 
   const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
 
@@ -52,7 +49,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         padding: 8 * 2,
         margin: `0 0 ${8}px 0`,
         borderRadius: '10px',
-        background,
+        background: getItemColor(isDragging, isHovering, item.priority),
         height: `${Math.ceil(1 * item.totalMinutes) / 2}rem`,
         ...draggableProps.style,
       }}

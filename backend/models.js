@@ -1,4 +1,4 @@
-import { model, Schema } from 'dynamoose'
+import { model, Schema } from "dynamoose";
 
 const ItemSchema = new Schema({
   id: {
@@ -8,7 +8,7 @@ const ItemSchema = new Schema({
   name: String,
   details: String,
   totalMinutes: String,
-})
+});
 
 const ItemGroupSchema = new Schema({
   id: {
@@ -21,24 +21,7 @@ const ItemGroupSchema = new Schema({
     type: Array,
     schema: [String],
   },
-})
+});
 
-// const DaySchema = new Schema({
-//   type: {
-//     hashKey: true,
-//     type: String,
-//     default: 'day',
-//   },
-//   date: {
-//     rangeKey: true,
-//     type: String,
-//   },
-//   tasks: {
-//     type: Array,
-//     schema: [TaskSchema],
-//   },
-// })
-
-// export const DayModel = model('day', DaySchema)
-export const ItemGroupModel = model('item-group', ItemGroupSchema)
-export const ItemModel = model('item', ItemSchema)
+export const ItemGroupModel = model("item-group", ItemGroupSchema);
+export const ItemModel = model("item", ItemSchema);
