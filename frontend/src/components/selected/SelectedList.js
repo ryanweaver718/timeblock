@@ -6,21 +6,19 @@ import SelectedItem from './SelectedItem';
 SelectedList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
-
 };
 SelectedList.defaultProps = {
   list: [],
 };
 
 export default function SelectedList({ droppableId, list }) {
-  
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
         <List
           ref={provided.innerRef}
           style={{
-            background: snapshot.isDraggingOver ? 'lightblue' : '	#E8E8E8',
+            background: snapshot.isDraggingOver ? 'lightblue' : '	white',
             borderRadius: '10px',
             padding: 8,
             flexGrow: 1,
@@ -31,7 +29,6 @@ export default function SelectedList({ droppableId, list }) {
               .slice(0, index)
               .map((itm) => parseInt(itm.totalMinutes))
               .reduce((accumulater, element) => accumulater + element, 0);
-
             return (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
                 {(provided, snapshot) => (
@@ -40,7 +37,6 @@ export default function SelectedList({ droppableId, list }) {
                     item={item}
                     snapshot={snapshot}
                     provided={provided}
-                   
                   />
                 )}
               </Draggable>

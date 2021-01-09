@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import SelectedList from './SelectedList';
 import SelectTime from './SelectTime';
-import Timeline from './Timeline';
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
 };
@@ -46,7 +45,6 @@ export default function Index({ droppableId }) {
       </div>
       <SelectTime />
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
-      <Timeline />
     </div>
   );
 }
