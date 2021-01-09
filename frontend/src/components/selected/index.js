@@ -2,13 +2,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { itemsActions } from 'store/items/itemsReducer';
 import SelectedList from './SelectedList';
 import SelectTime from './SelectTime';
+
+
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
 };
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -33,16 +35,24 @@ const useStyles = makeStyles((theme) => ({
     flexBasis: '100%',
   },
 }));
+
+
 export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
   }));
+  const dispatch = useDispatch();
+  const handleClear = () => {
+    dispatch(itemsActions.clearDailyScheduleAction())
+}
   const classes = useStyles();
+  
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h4">Daily Schedule</Typography>
+        <Typography variant="h4">Daily Schedule</Typography>       
       </div>
+      <button onClick={handleClear}>clear</button>
       <SelectTime />
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
