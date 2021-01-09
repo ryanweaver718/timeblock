@@ -16,29 +16,26 @@ export default function AvailableList({ droppableId, list, search }) {
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <List
-            ref={provided.innerRef}
-            style={{
-              background: snapshot.isDraggingOver ? 'lightblue' : '	#E8E8E8',
-              borderRadius: '10px',
-              padding: 8,
-              flexGrow: 1,
-            }}
-          >
-            {list
-              .filter((item) => {
-                return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
-              })
-              .map((item, index) => (
-                <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
-                  {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
-                </Draggable>
-              ))}
-            {provided.placeholder}
-          </List>
-          <div style={{ flexGrow: 1 }} />
-        </div>
+        <List
+          ref={provided.innerRef}
+          style={{
+            background: snapshot.isDraggingOver ? 'lightblue' : '	#E8E8E8',
+            borderRadius: '10px',
+            padding: 8,
+            flexGrow: 1,
+          }}
+        >
+          {list
+            .filter((item) => {
+              return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
+            })
+            .map((item, index) => (
+              <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
+                {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
+              </Draggable>
+            ))}
+          {provided.placeholder}
+        </List>
       )}
     </Droppable>
   );
