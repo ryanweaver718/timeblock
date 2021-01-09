@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
   header: {
     flexBasis: '100%',
     padding: '1rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  heading: {
+    paddingRight: '3rem',
   },
   list: {
     flexBasis: '100%',
@@ -41,9 +47,12 @@ export default function Index({ droppableId }) {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h4">Daily Schedule</Typography>
+        <Typography variant="h4" className={classes.heading}>
+          Daily Schedule
+        </Typography>
+        <SelectTime />
       </div>
-      <SelectTime />
+
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   );
