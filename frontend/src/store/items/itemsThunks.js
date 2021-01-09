@@ -30,3 +30,9 @@ export const getGroups = ct('getGroups', async () => {
   const { groups } = await get('/group');
   return { groups };
 });
+
+export const saveList = ct('saveList', async (payload, thunkAPI) => {
+  const { selected, selectedDate, selectedTime } = thunkAPI.getState();
+  const resp = await post('/save-list', { selected, selectedDate, selectedTime });
+  console.log('RESPONSE FROM GOOGLE', resp);
+});

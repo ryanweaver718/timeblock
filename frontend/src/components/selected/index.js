@@ -2,9 +2,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SelectedList from './SelectedList';
+import { saveList } from 'store/items/itemsThunks';
 import SelectTime from './SelectTime';
+import IconButton from '@material-ui/core/IconButton';
+import SaveIcon from '@material-ui/icons/Save';
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
 };
@@ -44,6 +47,9 @@ export default function Index({ droppableId }) {
     list: items[droppableId] || [],
   }));
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const handleSave = () => void dispatch(saveList());
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -51,6 +57,9 @@ export default function Index({ droppableId }) {
           Daily Schedule
         </Typography>
         <SelectTime />
+        <IconButton onClick={handleSave}>
+          <SaveIcon />
+        </IconButton>
       </div>
 
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />

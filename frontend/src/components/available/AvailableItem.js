@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 8 * 2,
     margin: `0 0 ${8}px 0`,
     borderRadius: '10px',
+    border: `.15rem solid ${theme.palette.priorities[priority].main}`,
     background: showInverseColor ? 'white' : theme.palette.priorities[priority].main,
     height: '1rem',
     ...draggablePropsStyle,
