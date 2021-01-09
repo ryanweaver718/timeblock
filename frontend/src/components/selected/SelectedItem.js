@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
-import RepeatIcon from '@material-ui/icons/Repeat';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
@@ -17,14 +16,11 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import { getItemColor } from '../utils';
+import ItemIcon from './ItemIcon';
 
 const useStyles = makeStyles(() => ({
   item: ({ draggablePropsStyle }) => ({
     ...draggablePropsStyle,
-  }),
-  itemIcon: ({ isHovering, isDragging, priority }) => ({
-    background: getItemColor(isDragging, isHovering, priority),
   }),
   paper: {
     padding: '6px 16px',
@@ -42,12 +38,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   const [isEditing, setIsEditing] = useState(false);
   const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
   const dispatch = useDispatch();
-  const classes = useStyles({
-    isDragging: snapshot.isDragging,
-    isHovering,
-    draggablePropsStyle: provided.draggableProps.style,
-    priority: item.priority,
-  });
+  const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
 
   const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
 
@@ -72,8 +63,8 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot className={classes.itemIcon}>
-          <RepeatIcon />
+        <TimelineDot>
+          <ItemIcon isHovering={isHovering} isDragging={snapshot.isDragging} priority={item.priority} />
         </TimelineDot>
         <TimelineConnector />
       </TimelineSeparator>

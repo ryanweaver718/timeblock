@@ -7,7 +7,7 @@ export const getItemColor = (isDragging, isHovering, priority) => {
   };
   const priorityHovering = {
     1: 'lightred',
-    2: 'lightorange',
+    2: 'lightpink',
     3: 'lightyellow',
     4: 'lightgreen',
   };
