@@ -19,7 +19,7 @@ export default function SelectedList({ droppableId, list }) {
           align="alternate"
           ref={provided.innerRef}
           style={{
-            background: snapshot.isDraggingOver ? 'lightblue' : '	white',
+            background: snapshot.isDraggingOver ? '#f5f5f5' : '	white',
             borderRadius: '10px',
             padding: 8,
             flexGrow: 1,

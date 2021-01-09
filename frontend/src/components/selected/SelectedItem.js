@@ -62,7 +62,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <ItemIcon isHovering={isHovering} isDragging={snapshot.isDragging} priority={item.priority} />
+        <ItemIcon showInverseColor={isHovering || snapshot.isDragging} priority={item.priority} />
         <TimelineConnector />
       </TimelineSeparator>
 
