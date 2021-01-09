@@ -1,42 +1,34 @@
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 import RepeatIcon from '@material-ui/icons/Repeat';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineItem from '@material-ui/lab/TimelineItem';
-import IconButton from '@material-ui/core/IconButton';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import { makeStyles } from '@material-ui/styles';
 import moment from 'moment';
-import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
-import EditIcon from '@material-ui/icons/Edit';
-import DoneIcon from '@material-ui/icons/Done';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import TextField from '@material-ui/core/TextField';
-
 import { getItemColor } from '../utils';
 
 const useStyles = makeStyles(() => ({
-  item: ({ totalMinutes, draggablePropsStyle }) => ({
-    display: 'flex',
-    userSelect: 'none',
-    padding: 8 * 2,
-    margin: `0 0 ${8}px 0`,
-    borderRadius: '2px',
-    paper: {
-      padding: '6px 16px',
-    },
-
-    // background: true ? 'white' : getItemColor(isDragging, isHovering, priority),
-    height: `${Math.ceil(1 * totalMinutes) / 2}rem`,
+  item: ({ draggablePropsStyle }) => ({
     ...draggablePropsStyle,
   }),
   itemIcon: ({ isHovering, isDragging, priority }) => ({
     background: getItemColor(isDragging, isHovering, priority),
   }),
+  paper: {
+    padding: '6px 16px',
+  },
 }));
 
 SelectedItem.propTypes = {
@@ -83,9 +75,11 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         <TimelineDot className={classes.itemIcon}>
           <RepeatIcon />
         </TimelineDot>
+        <TimelineConnector />
       </TimelineSeparator>
+
       <TimelineContent>
-        <Paper elevation={3} className={classes.paper}>
+        <Paper elevation={5} className={classes.paper}>
           <Typography variant="h6" component="h1">
             {item.name}
           </Typography>

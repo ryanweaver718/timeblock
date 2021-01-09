@@ -1,4 +1,4 @@
-import List from '@material-ui/core/List';
+import Timeline from '@material-ui/lab/Timeline';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import SelectedItem from './SelectedItem';
@@ -15,7 +15,8 @@ export default function SelectedList({ droppableId, list }) {
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
-        <List
+        <Timeline
+          align="alternate"
           ref={provided.innerRef}
           style={{
             background: snapshot.isDraggingOver ? 'lightblue' : '	white',
@@ -43,7 +44,7 @@ export default function SelectedList({ droppableId, list }) {
             );
           })}
           {provided.placeholder}
-        </List>
+        </Timeline>
       )}
     </Droppable>
   );
