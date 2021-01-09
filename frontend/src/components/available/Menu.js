@@ -2,6 +2,14 @@ import TextField from '@material-ui/core/TextField';
 import PropTypes from 'prop-types';
 import BaseMenu from './BaseMenu';
 
+import { priorities } from '../../constants';
+
+const displayPriorities = Object.keys(priorities)
+  .sort((a, b) => a - b)
+  .map((key) => priorities[key]);
+
+const answeredMenuItems = ['Show All Priorities', ...displayPriorities];
+
 FilterMenu.propTypes = {
   search: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
@@ -9,8 +17,6 @@ FilterMenu.propTypes = {
   setFilter: PropTypes.func.isRequired,
 };
 export default function FilterMenu({ search, setSearch, filter, setFilter }) {
-  const answeredMenuItems = ['Show All', 'Specific Groups Here'];
-
   return (
     <>
       <BaseMenu selected={filter} menuItems={answeredMenuItems} itemClick={setFilter} />
