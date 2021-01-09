@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
     flexWrap: 'wrap',
-    alignItems: 'center',
+    alignItems: 'stretch',
     background: theme.palette.background.light,
     padding: `0.25rem `,
     boxShadow: '0px 0.5rem 0.5rem #0004',
