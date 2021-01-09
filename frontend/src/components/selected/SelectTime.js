@@ -29,6 +29,8 @@ export default function SelectTime() {
         disableToolbar
         variant="inline"
         format="MM/dd/yyyy"
+        disablePast={true}
+        inputVariant="outlined"
         className={classes.date}
         id="date-picker-inline"
         label="Date"
@@ -42,6 +44,7 @@ export default function SelectTime() {
         classes={classes.time}
         id="time-picker"
         label="Time"
+        inputVariant="outlined"
         variant="outlined"
         value={selectedTime}
         onChange={handleTimeChange}

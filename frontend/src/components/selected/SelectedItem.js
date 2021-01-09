@@ -6,7 +6,6 @@ import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
-import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
@@ -63,9 +62,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
         </Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <TimelineDot>
-          <ItemIcon isHovering={isHovering} isDragging={snapshot.isDragging} priority={item.priority} />
-        </TimelineDot>
+        <ItemIcon isHovering={isHovering} isDragging={snapshot.isDragging} priority={item.priority} />
         <TimelineConnector />
       </TimelineSeparator>
 
