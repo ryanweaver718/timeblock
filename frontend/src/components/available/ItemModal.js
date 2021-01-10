@@ -32,16 +32,32 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
   const [details, setDetails] = useState('');
   const [priority, setPriority] = useState('');
   const [totalMinutes, setTotalMinutes] = useState('');
+  const [nameError, setNameError] = useState(false);
+
   const clearAndClose = () => {
     setName('');
     setDetails('');
     setTotalMinutes('');
     setPriority('');
+    setNameError(false);
     handleClose();
   };
+
+  const validateInput = () => {
+    let isValid = true;
+    if (name === '') {
+      setNameError(true);
+      isValid = false;
+    }
+    return isValid
+  };
+
   const handleSaveTemp = () => {
-    dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
-    clearAndClose();
+    const isValid = validateInput()
+    if (isValid) {
+      dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
+      clearAndClose();
+    }
   };
 
   const handleSave = () => {
@@ -62,10 +78,13 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
           <FormControl className={classes.formControl} variant="outlined">
             <TextField
               variant="outlined"
+              error={nameError}
               placeholder="name"
+              helperText={nameError ? 'Name Is Required' : ''}
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
+                setNameError(false);
               }}
             />
             <br />
