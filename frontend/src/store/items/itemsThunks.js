@@ -3,20 +3,21 @@ import { get, post, put, del } from 'store/utils';
 
 const ct = (action, callback) => createAsyncThunk(`items/thunk/${action}`, callback);
 
-export const createItem = ct('createItem', async (payload) => {
-  const { name, details, totalMinutes, priority } = payload;
-  const { item } = await post('/item', { name, details, totalMinutes, priority });
+export const createUserItem = ct('createUserItem', async (payload) => {
+  const { name, totalMinutes, priority } = payload;
+  const { item } = await post('/user-item', { name, totalMinutes, priority });
   return { item };
 });
 
-export const getItems = ct('getItems', async () => {
-  const { items } = (await get('/items')) || [];
-  return { items };
+export const getUser = ct('getUser', async (payload) => {
+  const { userId } = payload;
+  const { user } = (await get(`/user?userId=${userId}`)) || {};
+  return { items: user.items };
 });
 
 export const updateItem = ct('updateItems', async (payload) => {
-  const { id, name, details, totalMinutes, priority } = payload;
-  const { item } = await put(`/item?id=${id}`, { name, details, totalMinutes, priority });
+  const { id, name, totalMinutes, priority } = payload;
+  const { item } = await put(`/item?id=${id}`, { name, totalMinutes, priority });
   return { item };
 });
 

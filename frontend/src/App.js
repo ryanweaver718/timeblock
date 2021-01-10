@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
-import { getItems } from 'store/items/itemsThunks';
+import { getUser } from 'store/items/itemsThunks';
 
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getItems());
+    dispatch(getUser({ userId: 'test123' }));
   }, []); //eslint-disable-line
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;

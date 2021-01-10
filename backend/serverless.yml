@@ -19,33 +19,19 @@ provider:
       Resource: '*'
 
 functions:
-  createItem:
-    handler: index.createItem
+  getUser:
+    handler: index.getUser
     events:
       - http:
-          path: /item
-          method: post
-          cors: true
-  createItemGroup:
-    handler: index.createItemGroup
-    events:
-      - http:
-          path: /group
-          method: post
-          cors: true
-  getItems:
-    handler: index.getItems
-    events:
-      - http:
-          path: /items
+          path: /user
           method: get
           cors: true
-  getItemGroups:
-    handler: index.getItemGroups
+  createUserItem:
+    handler: index.createUserItem
     events:
       - http:
-          path: /groups
-          method: get
+          path: /user-item
+          method: post
           cors: true
   updateItem:
     handler: index.updateItem

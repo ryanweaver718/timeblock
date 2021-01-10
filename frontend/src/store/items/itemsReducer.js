@@ -39,11 +39,10 @@ const itemsSlice = createSlice({
       state.selectedTime = moment(time).toDate();
     },
     clearDailyScheduleAction(state) {
-      state.available = [...state.available, ...state.selected],
-      state.selected = []
+      (state.available = [...state.available, ...state.selected]), (state.selected = []);
     },
-    addTemporaryItemAction(state, { payload: { name, details, totalMinutes, priority } }) {
-      state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes), priority });
+    addTemporaryItemAction(state, { payload: { name, totalMinutes, priority } }) {
+      state.available.push({ id: uuid(), name, totalMinutes: parseInt(totalMinutes), priority });
     },
     updateSelectedItemTotalTimeAction(state, { payload: { id, totalMinutes } }) {
       for (const item of state.selected) {

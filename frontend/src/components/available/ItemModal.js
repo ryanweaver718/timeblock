@@ -14,7 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import { createItem } from 'store/items/itemsThunks';
+import { createUserItem } from 'store/items/itemsThunks';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +30,6 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [name, setName] = useState('');
-  const [details, setDetails] = useState('');
   const [priority, setPriority] = useState('');
   const [totalMinutes, setTotalMinutes] = useState('');
   const [nameError, setNameError] = useState(false);
@@ -39,7 +38,6 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
 
   const clearAndClose = () => {
     setName('');
-    setDetails('');
     setTotalMinutes('');
     setPriority('');
     setNameError(false);
@@ -67,13 +65,13 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
   const handleSaveTemp = () => {
     const isValid = validateInput();
     if (isValid) {
-      dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
+      dispatch(itemsActions.addTemporaryItemAction({ name, totalMinutes, priority }));
       clearAndClose();
     }
   };
 
   const handleSave = () => {
-    dispatch(createItem({ name, details, totalMinutes, priority }));
+    dispatch(createUserItem({ name, totalMinutes, priority }));
     clearAndClose();
   };
 
@@ -97,15 +95,6 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
               onChange={(e) => {
                 setName(e.target.value);
                 setNameError(false);
-              }}
-            />
-            <br />
-            <TextField
-              variant="outlined"
-              placeholder="Details"
-              value={details}
-              onChange={(e) => {
-                setDetails(e.target.value);
               }}
             />
             <br />

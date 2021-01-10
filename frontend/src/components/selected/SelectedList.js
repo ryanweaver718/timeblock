@@ -2,6 +2,7 @@ import Timeline from '@material-ui/lab/Timeline';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import SelectedItem from './SelectedItem';
+import useTheme from '@material-ui/styles/useTheme';
 
 SelectedList.propTypes = {
   droppableId: PropTypes.string.isRequired,
@@ -12,11 +13,12 @@ SelectedList.defaultProps = {
 };
 
 export default function SelectedList({ droppableId, list }) {
+  const theme = useTheme();
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
         <Timeline
-          align="left"
+          align={theme.breakpoints.down('md') ? 'right' : 'alternate'}
           ref={provided.innerRef}
           style={{
             background: snapshot.isDraggingOver ? '#f5f5f5' : '	white',

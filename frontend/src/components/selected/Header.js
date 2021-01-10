@@ -35,6 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   speedDial: {
     marginTop: '1.5rem',
+    // position: 'absolute',
+    zIndex: 3,
     // height: '1rem',
     // width: '1rem',
   },
@@ -57,9 +59,9 @@ export default function Header() {
 
   const actions = [
     { icon: <SaveIcon />, name: 'Save', handler: () => void dispatch(saveList()) },
-    { icon: <ClearIcon />, name: 'Clear', handler: () => void dispatch(ia.clearDailyScheduleAction()) },
+    { icon: <ClearIcon />, name: 'Reset', handler: () => void dispatch(ia.clearDailyScheduleAction()) },
   ];
-  const handleClear = () => {};
+
   const speedDialHandler = (callback) => {
     callback();
     handleClose();
