@@ -54,7 +54,7 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
       setNameError(true);
       isValid = false;
     }
-    if (totalMinutes === '' || totalMinutes==="0") {
+    if (totalMinutes === '' || totalMinutes === '0') {
       setMinuteError(true);
       isValid = false;
     }
@@ -62,10 +62,10 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
       setPriorityError(true);
       isValid = false;
     }
-    return isValid
+    return isValid;
   };
   const handleSaveTemp = () => {
-    const isValid = validateInput()
+    const isValid = validateInput();
     if (isValid) {
       dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
       clearAndClose();
@@ -91,8 +91,8 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
             <TextField
               variant="outlined"
               error={nameError}
-              placeholder="name"
               helperText={nameError ? 'Name Is Required' : ''}
+              placeholder="Name"
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
@@ -102,7 +102,7 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
             <br />
             <TextField
               variant="outlined"
-              placeholder="details"
+              placeholder="Details"
               value={details}
               onChange={(e) => {
                 setDetails(e.target.value);
@@ -112,13 +112,13 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
             <TextField
               error={minuteError}
               variant="outlined"
-              placeholder="minutes"
               helperText={minuteError ? 'Selected Minutes Is Required' : ''}
+              placeholder="Default Minutes"
               type="number"
               value={totalMinutes}
               onChange={(e) => {
                 setTotalMinutes(e.target.value);
-                setMinuteError(false)
+                setMinuteError(false);
               }}
             />
             <br />
@@ -130,9 +130,9 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
                 id="demo-simple-select"
                 value={priority}
                 error={priorityError}
-                onChange={(e) => { void 
-                setPriority(e.target.value);
-                setPriorityError(false)
+                onChange={(e) => {
+                  void setPriority(e.target.value);
+                  setPriorityError(false);
                 }}
               >
                 <MenuItem value={'1'}>Critical</MenuItem>

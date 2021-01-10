@@ -1,5 +1,5 @@
 import { pickDefined, response } from './helpers'
-import { ItemGroupModel, ItemModel } from './models'
+import { ItemGroupModel, ItemModel, DayModel } from './models'
 import { v4 as uuid } from 'uuid'
 import pickBy from 'lodash/pickBy'
 
@@ -45,4 +45,8 @@ export const createItemGroup = async ({ body }) => {
   const { itemIds, name, details } = JSON.parse(body)
   const group = await ItemGroupModel.create({ id: uuid(), itemIds, name, details })
   return response({ group })
+}
+
+export const createDay = async ({ body }) => {
+  const { items, startTime, date } = JSON.parse(body)
 }

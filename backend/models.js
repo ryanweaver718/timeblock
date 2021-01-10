@@ -24,5 +24,17 @@ const ItemGroupSchema = new Schema({
   },
 })
 
+const DaySchema = new Schema({
+  date: {
+    type: String,
+    hashKey: true,
+  },
+  startTime: String,
+  items: {
+    type: Array,
+    schema: ItemSchema,
+  },
+})
+export const DayModel = model('day-items', DaySchema)
 export const ItemGroupModel = model('item-group', ItemGroupSchema)
 export const ItemModel = model('item', ItemSchema)
