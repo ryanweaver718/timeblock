@@ -2,17 +2,23 @@ import List from '@material-ui/core/List';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import Item from './AvailableItem';
+import has from 'lodash/has';
+import { priorities } from '../../constants';
+import invert from 'lodash/invert';
+
+const invertedPriorities = invert(priorities);
 
 AvailableList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
   search: PropTypes.string.isRequired,
+  filter: PropTypes.string.isRequired,
 };
 AvailableList.defaultProps = {
   list: [],
 };
 
-export default function AvailableList({ droppableId, list, search }) {
+export default function AvailableList({ droppableId, list, search, filter }) {
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
@@ -27,7 +33,14 @@ export default function AvailableList({ droppableId, list, search }) {
         >
           {list
             .filter((item) => {
-              return search ? item.name.toLowerCase().includes(search.toLowerCase()) : true;
+              let showItem = true;
+              if (search) {
+                showItem = item.name.toLowerCase().includes(search.toLowerCase());
+              }
+              if (has(invertedPriorities, filter)) {
+                showItem = invertedPriorities[filter] === item.priority;
+              }
+              return showItem;
             })
             .map((item, index) => (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>

@@ -9,8 +9,8 @@ import { getItems } from 'store/items/itemsThunks';
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getItems()); 
-  }, []);  //eslint-disable-line
+    dispatch(getItems());
+  }, []); //eslint-disable-line
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
     const payload = {
@@ -28,10 +28,10 @@ export default function App() {
     <>
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: 'flex' }}>
-          <div style={{ flexBasis: '50%' }}>
+          <div style={{ flexBasis: '25%' }}>
             <AvailableList droppableId="available" />
           </div>
-          <div style={{ flexBasis: '50%' }}>
+          <div style={{ flexBasis: '75%' }}>
             <SelectedList droppableId="selected" />
           </div>
         </div>

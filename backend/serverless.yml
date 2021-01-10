@@ -61,6 +61,14 @@ functions:
           path: /item
           method: delete
           cors: true
+
+  saveList:
+    handler: index.saveList
+    events:
+      - http:
+          path: /save-list
+          method: post
+          cors: true
 plugins:
   - serverless-webpack
   - serverless-offline

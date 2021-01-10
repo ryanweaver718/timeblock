@@ -51,7 +51,7 @@ export default function Index({ droppableId }) {
   }));
   const classes = useStyles();
   const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('Show All');
+  const [filter, setFilter] = useState('Show All Priorities');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const handleOpenModal = () => void setIsAddModalOpen(true);
   const handleClose = () => void setIsAddModalOpen(false);
@@ -65,7 +65,7 @@ export default function Index({ droppableId }) {
       </div>
       <ItemModal isAddModalOpen={isAddModalOpen} handleClose={handleClose} />
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
-      <AvailableList className={classes.list} droppableId={droppableId} list={list} search={search} />
+      <AvailableList className={classes.list} droppableId={droppableId} list={list} filter={filter} search={search} />
     </div>
   );
 }
