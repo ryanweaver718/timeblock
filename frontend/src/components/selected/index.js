@@ -1,17 +1,16 @@
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import 'date-fns';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import SelectedList from './SelectedList';
-import { saveList } from 'store/items/itemsThunks';
-import SelectTime from './SelectTime';
-import IconButton from '@material-ui/core/IconButton';
 import SaveIcon from '@material-ui/icons/Save';
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { itemsActions } from 'store/items/itemsReducer';
+import { saveList } from 'store/items/itemsThunks';
+import SelectedList from './SelectedList';
+import SelectTime from './SelectTime';
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
 };
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -42,26 +41,29 @@ const useStyles = makeStyles((theme) => ({
     flexBasis: '100%',
   },
 }));
+
+
 export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
   }));
-  const classes = useStyles();
   const dispatch = useDispatch();
-
+  const handleClear = () => {
+    dispatch(itemsActions.clearDailyScheduleAction())
+}
+  const classes = useStyles();
   const handleSave = () => void dispatch(saveList());
+  
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h4" className={classes.heading}>
-          Daily Schedule
-        </Typography>
-        <SelectTime />
-        <IconButton onClick={handleSave}>
+        <Typography variant="h4">Daily Schedule</Typography>       
+      
+      <button onClick={handleClear}>clear</button>
+      <SelectTime /> <IconButton onClick={handleSave}>
           <SaveIcon />
         </IconButton>
-      </div>
-
+        </div>
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   );

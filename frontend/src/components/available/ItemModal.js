@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
 import { createItem } from 'store/items/itemsThunks';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const useStyles = makeStyles(() => ({
   formControl: { margin: '1rem' },
@@ -32,16 +33,43 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
   const [details, setDetails] = useState('');
   const [priority, setPriority] = useState('');
   const [totalMinutes, setTotalMinutes] = useState('');
+  const [nameError, setNameError] = useState(false);
+  const [minuteError, setMinuteError] = useState(false);
+  const [priorityError, setPriorityError] = useState(false);
+
   const clearAndClose = () => {
     setName('');
     setDetails('');
     setTotalMinutes('');
     setPriority('');
+    setNameError(false);
+    setMinuteError(false);
+    setPriorityError(false);
     handleClose();
   };
+
+  const validateInput = () => {
+    let isValid = true;
+    if (name === '') {
+      setNameError(true);
+      isValid = false;
+    }
+    if (totalMinutes === '' || totalMinutes==="0") {
+      setMinuteError(true);
+      isValid = false;
+    }
+    if (priority === '') {
+      setPriorityError(true);
+      isValid = false;
+    }
+    return isValid
+  };
   const handleSaveTemp = () => {
-    dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
-    clearAndClose();
+    const isValid = validateInput()
+    if (isValid) {
+      dispatch(itemsActions.addTemporaryItemAction({ name, details, totalMinutes, priority }));
+      clearAndClose();
+    }
   };
 
   const handleSave = () => {
@@ -62,10 +90,13 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
           <FormControl className={classes.formControl} variant="outlined">
             <TextField
               variant="outlined"
+              error={nameError}
               placeholder="name"
+              helperText={nameError ? 'Name Is Required' : ''}
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
+                setNameError(false);
               }}
             />
             <br />
@@ -79,29 +110,37 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
             />
             <br />
             <TextField
+              error={minuteError}
               variant="outlined"
               placeholder="minutes"
+              helperText={minuteError ? 'Selected Minutes Is Required' : ''}
               type="number"
               value={totalMinutes}
               onChange={(e) => {
                 setTotalMinutes(e.target.value);
+                setMinuteError(false)
               }}
             />
             <br />
-            <FormControl variant="outlined">
+            <FormControl variant="outlined" error={priorityError}>
               <InputLabel id="demo-simple-select-label">Priority</InputLabel>
               <Select
                 label="Priority"
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={priority}
-                onChange={(e) => void setPriority(e.target.value)}
+                error={priorityError}
+                onChange={(e) => { void 
+                setPriority(e.target.value);
+                setPriorityError(false)
+                }}
               >
                 <MenuItem value={'1'}>Critical</MenuItem>
                 <MenuItem value={'2'}>High</MenuItem>
                 <MenuItem value={'3'}>Medium</MenuItem>
                 <MenuItem value={'4'}>Low</MenuItem>
               </Select>
+              <FormHelperText>{priorityError ? 'Selected Priority Is Required' : ''}</FormHelperText>
             </FormControl>
           </FormControl>
 

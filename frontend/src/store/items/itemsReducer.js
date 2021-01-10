@@ -38,6 +38,10 @@ const itemsSlice = createSlice({
       const { time } = payload;
       state.selectedTime = moment(time).toDate();
     },
+    clearDailyScheduleAction(state) {
+      state.available = [...state.available, ...state.selected],
+      state.selected = []
+    },
     addTemporaryItemAction(state, { payload: { name, details, totalMinutes, priority } }) {
       state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes), priority });
     },
