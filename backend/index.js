@@ -25,35 +25,45 @@ export const createUserItem = async ({ body, queryStringParameters }) => {
   })
   return response({ item })
 }
-export const updateItem = async ({ body, queryStringParameters }) => {
-  const { id, userId = 'test123' } = queryStringParameters
+export const updateUserItem = async ({ body, queryStringParameters }) => {
+  const { id, userId } = queryStringParameters
   const { fieldName, fieldValue } = JSON.parse(body)
   const item = await UserModel.updateItem(userId, id, fieldName, fieldValue)
   return response({ item })
 }
 
-export const deleteItem = async ({ queryStringParameters }) => {
-  const { id, userId = 'test123' } = queryStringParameters
+export const deleteUserItem = async ({ queryStringParameters }) => {
+  const { id, userId } = queryStringParameters
   const deletedId = await UserModel.deleteItem(userId, id)
   return response({ success: true, id: deletedId })
 }
 
-export const createDay = async ({ body }) => {
-  const { items, startTime, date, userId = 'test123' } = JSON.parse(body)
+export const createDay = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { items, startTime, date } = JSON.parse(body)
   const day = (await DayModel.create({ userId, date, startTime, items })).serialize()
   return response({ day })
 }
 
-export const updateDayStartTime = async ({ body }) => {
-  const { startTime, userId, date } = JSON.parse(body)
-  const day = await DayModel.update({ userId, date }, { startTime })
+export const updateDay = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { fieldName, fieldValue, date } = JSON.parse(body)
+  if (fieldName !== 'startTime') throw Error('Field Name Not Allowed')
+  const day = await DayModel.update({ userId, date }, { [fieldName]: fieldValue })
   return { day }
 }
 
-export const updateDayItem = async ({ body }) => {
-  const { date, dynamoIndex, fieldKey, fieldValue, userId = 'test123' } = JSON.parse(body)
-  const allUserItems = await DayModel.updateItem(userId, date, dynamoIndex, fieldKey, fieldValue)
+export const updateDayItem = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { date, dynamoIndex, fieldName, fieldValue } = JSON.parse(body)
+  const allUserItems = await DayModel.updateItem(userId, date, dynamoIndex, fieldName, fieldValue)
   return { items: allUserItems }
+}
+
+export const deleteDay = async ({ queryStringParameters }) => {
+  const { userId, date } = queryStringParameters
+  await DayModel.delete({ userId, date })
+  return response({ date })
 }
 
 export const saveList = async () => {

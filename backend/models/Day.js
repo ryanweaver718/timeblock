@@ -31,14 +31,14 @@ const DayModel = model('day-items', DaySchema)
 
 DayModel.methods.set(
   'updateItem',
-  async function (userId, date, dynamoIndex, fieldKey, fieldValue) {
+  async function (userId, date, dynamoIndex, fieldName, fieldValue) {
     const params = {
       TableName: this.Model.name,
       Key: { userId, date },
-      UpdateExpression: `SET #items[${dynamoIndex.toString()}].#fieldKey = :v`,
+      UpdateExpression: `SET #items[${dynamoIndex.toString()}].#fieldName = :v`,
       ExpressionAttributeNames: {
         '#items': 'items',
-        '#fieldKey': fieldKey,
+        '#fieldName': fieldName,
       },
       ExpressionAttributeValues: {
         ':v': fieldValue,

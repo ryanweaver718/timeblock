@@ -5,7 +5,7 @@ import DeleteIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteItem } from 'store/items/itemsThunks';
+import { deleteUserItem } from 'store/items/itemsThunks';
 import { makeStyles } from '@material-ui/styles';
 const useStyles = makeStyles((theme) => ({
   item: ({ showInverseColor, priority, draggablePropsStyle }) => ({
@@ -47,7 +47,7 @@ export default function Item({ item, provided, snapshot }) {
     >
       <Typograhpy>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
-      <IconButton onClick={() => void dispatch(deleteItem({ id: item.id }))}>
+      <IconButton onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>
         <DeleteIcon />
       </IconButton>
     </ListItem>

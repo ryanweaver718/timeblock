@@ -33,19 +33,40 @@ functions:
           path: /user-item
           method: post
           cors: true
-  updateItem:
-    handler: index.updateItem
+  updateUserItem:
+    handler: index.updateUserItem
     events:
       - http:
-          path: /item
+          path: /user-item
           method: put
           cors: true
-  deleteItem:
-    handler: index.deleteItem
+  deleteUserItem:
+    handler: index.deleteUserItem
     events:
       - http:
-          path: /item
+          path: /user-item
           method: delete
+          cors: true
+  createDay:
+    handler: index.createDay
+    events:
+      - http:
+          path: /day
+          method: post
+          cors: true
+  updateDay:
+    handler: index.updateDay
+    events:
+      - http:
+          path: /day
+          method: put
+          cors: true
+  updateDayItem:
+    handler: index.updateDayItem
+    events:
+      - http:
+          path: /day
+          method: put
           cors: true
 
   saveList:

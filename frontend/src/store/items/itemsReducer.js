@@ -6,8 +6,6 @@ import { v4 as uuid } from 'uuid';
 const initialState = {
   selected: [],
   available: [],
-  newGroup: [],
-  groups: [],
   selectedDate: moment().toDate(),
   selectedTime: moment().toDate(),
 };
