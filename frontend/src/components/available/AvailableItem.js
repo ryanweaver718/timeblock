@@ -47,7 +47,7 @@ export default function Item({ item }) {
       <IconButton onClick={() => setOpen(true)}>
         <EditIcon />
       </IconButton>
-      <ItemModal isOpen={open} handleClose={() => setOpen(false)} isEditingItem={true} item={item} />
+      {open && <ItemModal isOpen={open} handleClose={() => setOpen(false)} isEditingItem={true} item={item} />}
       <Typograhpy>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
       <IconButton onClick={() => void dispatch(itemsActions.addToSelected({ item }))}>

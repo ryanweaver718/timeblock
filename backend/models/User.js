@@ -42,14 +42,14 @@ UserModel.methods.set('addItem', async function (userId, itemObject) {
   return { ...item, id: itemId }
 })
 
-UserModel.methods.set('updateItem', async function (userId, itemId, item) {
+UserModel.methods.set('updateItem', async function (userId, item) {
   const params = {
     TableName: this.Model.name,
     Key: { userId },
     UpdateExpression: `SET #items.#itemId = :v`,
     ExpressionAttributeNames: {
       '#items': 'items',
-      '#itemId': itemId,
+      '#itemId': item.id,
     },
     ExpressionAttributeValues: {
       ':v': item,
@@ -57,7 +57,7 @@ UserModel.methods.set('updateItem', async function (userId, itemId, item) {
     ReturnValues: 'ALL_NEW',
   }
   const response = await dynamo.update(params).promise()
-  return response.Attributes.items[itemId]
+  return response.Attributes.items[item.id]
 })
 
 UserModel.methods.set('deleteItem', async function (userId, itemId) {

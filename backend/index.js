@@ -12,7 +12,6 @@ export const getUser = async ({ queryStringParameters }) => {
   if (!user) {
     user = await UserModel.create({ userId })
   }
-
   return response({ user: user.serialize() })
 }
 export const createUserItem = async ({ body, queryStringParameters }) => {
@@ -28,8 +27,9 @@ export const createUserItem = async ({ body, queryStringParameters }) => {
 export const updateUserItem = async ({ body, queryStringParameters }) => {
   const { userId } = queryStringParameters
   const { item } = JSON.parse(body)
-  const item = await UserModel.updateItem(userId, item)
-  return response({ item })
+  console.log('TEH ITEM', item)
+  const updatedItem = await UserModel.updateItem(userId, item)
+  return response({ item: updatedItem })
 }
 
 export const deleteUserItem = async ({ queryStringParameters }) => {
