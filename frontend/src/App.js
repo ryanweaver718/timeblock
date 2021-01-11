@@ -19,22 +19,26 @@ export default function App() {
       sourceName: source.droppableId,
       destName: destination.droppableId,
     };
-    dispatch(
-      source.droppableId === destination.droppableId ? ia.reorderListAction(payload) : ia.moveListItemAction(payload)
-    );
+    // dispatch(
+    //   source.droppableId === destination.droppableId ? ia.reorderListAction(payload) : ia.moveListItemAction(payload)
+    // );
+    dispatch(ia.reorderListAction(payload));
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flexBasis: '20%' }}>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flexBasis: '20%' }}>
+        <DragDropContext onDragEnd={onDragEnd}>
           <AvailableList droppableId="available" />
-        </div>
-        <div style={{ flexGrow: 1 }} />
-        <div style={{ flexBasis: '70%' }}>
-          <SelectedList droppableId="selected" />
-        </div>
+        </DragDropContext>
       </div>
-    </DragDropContext>
+      <div style={{ flexGrow: 1 }} />
+
+      <div style={{ flexBasis: '70%' }}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <SelectedList droppableId="selected" />
+        </DragDropContext>
+      </div>
+    </div>
   );
 }

@@ -69,11 +69,11 @@ SelectedItem.propTypes = {
 };
 export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
   const [isHovering, setIsHovering] = useState(false);
-  const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
+  const { startTime } = useSelector(({ items }) => ({ startTime: items.startTime }));
   const dispatch = useDispatch();
   const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
 
-  const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
+  const calculatedTime = moment(startTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
 
   const handleItemUpdate = (e) => {
     dispatch(itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) }));

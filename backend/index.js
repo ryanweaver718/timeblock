@@ -2,6 +2,7 @@ import { DynamoDB } from 'aws-sdk'
 import { response } from './helpers'
 import isArray from 'lodash/isArray'
 import UserModel from './models/User'
+import moment from 'moment'
 import DayModel from './models/Day'
 const dynamo = new DynamoDB.DocumentClient()
 
@@ -39,14 +40,19 @@ export const deleteUserItem = async ({ queryStringParameters }) => {
 
 export const getDay = async ({ queryStringParameters }) => {
   const { userId, date } = queryStringParameters
-  console.log('THE GET DAY', userId, date)
   const day = await DayModel.get({ userId, date })
   return response({ day: day ? day.serialize() : {} })
 }
 export const createDay = async ({ body, queryStringParameters }) => {
   const { userId } = queryStringParameters
-  const { items, startTime, date } = JSON.parse(body)
-  const day = await DayModel.create({ userId, date, startTime, items })
+  const { items, startTime } = JSON.parse(body)
+  const day = new DayModel({
+    userId,
+    date: moment(startTime).format('YYYY-MM-DD'),
+    startTime,
+    items,
+  })
+  await day.save()
   return response({ day: day ? day.serialize() : {} })
 }
 
@@ -75,7 +81,6 @@ export const test = async () => {
   const userId = 'test123'
   const date = '2021-01-10'
   const items = await DayModel.updateItem(userId, date, 0, 'completed', false)
-  console.log('items', items)
+
   const day = (await DayModel.get({ userId, date })).serialize()
-  console.log('day', day)
 }

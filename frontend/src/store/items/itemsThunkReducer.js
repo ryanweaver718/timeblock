@@ -6,8 +6,7 @@ const itemsThunkReducer = {
     return {
       ...state,
       available: items,
-      selectedDate: moment(day.startDate).toDate(),
-      selectedTime: moment(day.startTime).toDate(),
+      startTime: moment(day.startTime).toDate(),
       selected: day.items || [],
     };
   },
@@ -25,11 +24,12 @@ const itemsThunkReducer = {
     const idx = state.available.findIndex((item) => id === item.id);
     state.available.splice(idx, 1);
   },
-  [it.getDay.fulfilled]: (state, { payload: { day, selectedDate } }) => {
-    return { ...state, selected: day.items || [], selectedTime: day.startTime || null, selectedDate };
+  [it.getDay.fulfilled]: (state, { payload: { day } }) => {
+    console.log('getting the day starttime', day.startTime);
+    return { ...state, selected: day.items || [], startTime: day.startTime };
   },
   [it.createDay.fulfilled]: (state, { payload: { day } }) => {
-    console.log('THE NEW DAY', day);
+    state.startTime = day.startTime;
   },
   [it.updateDay.fulfilled]: (state, { payload: { day } }) => {
     console.log('THE UPDATE DAY', day);
@@ -37,8 +37,8 @@ const itemsThunkReducer = {
   [it.updateDayItem.fulfilled]: (state, { payload: { items } }) => {
     console.log('THE NEW DAY ITEMS', items);
   },
-  [it.deleteDay.fulfilled]: (state, { payload: { date } }) => {
-    console.log('deleted day', date);
+  [it.deleteDay.fulfilled]: (state) => {
+    state.selected = [];
   },
 };
 

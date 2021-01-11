@@ -61,6 +61,13 @@ functions:
           path: /day
           method: post
           cors: true
+  deleteDay:
+    handler: index.deleteDay
+    events:
+      - http:
+          path: /day
+          method: delete
+          cors: true
   updateDay:
     handler: index.updateDay
     events:

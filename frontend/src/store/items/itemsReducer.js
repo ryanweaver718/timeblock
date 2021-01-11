@@ -6,8 +6,7 @@ import { v4 as uuid } from 'uuid';
 const initialState = {
   selected: [],
   available: [],
-  selectedDate: moment().toDate(),
-  selectedTime: '',
+  startTime: moment().toDate(),
   userId: 'test123',
 };
 
@@ -34,11 +33,10 @@ const itemsSlice = createSlice({
     },
     updateSelectedDateAction(state, { payload }) {
       const { date } = payload;
-      state.selectedDate = moment(date).toDate();
+      state.startTime = moment(date).toDate();
     },
-    updateSelectedTimeAction(state, { payload }) {
-      const { time } = payload;
-      state.selectedTime = moment(time).toDate();
+    updateStartTime(state, { payload: { startTime } }) {
+      state.startTime = startTime;
     },
     clearDailyScheduleAction(state) {
       state.selected = [];
