@@ -13,6 +13,10 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
 import ItemIcon from './ItemIcon';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete'
+
+
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -66,15 +70,19 @@ SelectedItem.propTypes = {
   provided: PropTypes.object.isRequired,
   snapshot: PropTypes.object.isRequired,
   currentTotalTime: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired
 };
-export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
+export default function SelectedItem({ item, provided, snapshot, currentTotalTime, index }) {
   const [isHovering, setIsHovering] = useState(false);
   const { startTime } = useSelector(({ items }) => ({ startTime: items.startTime }));
   const dispatch = useDispatch();
   const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
-
   const calculatedTime = moment(startTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
 
+  const removeItem = () => {
+    console.log('THE INDEX OF THIS ITEM IS:', index)
+  dispatch(itemsActions.deleteItemAction({index})); 
+  };
   const handleItemUpdate = (e) => {
     dispatch(itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) }));
   };
@@ -101,6 +109,11 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
       <TimelineContent>
         <Paper elevation={5} className={classes.paper}>
           <div>
+          <IconButton onClick={removeItem}> 
+          <DeleteIcon/>
+          </IconButton>
+
+          {/* Delete Button that sends dispatch inside reducer it wil be array.splice(index, 1) */}
             <BootstrapInput
               className={classes.margin}
               defaultValue="Naked input"

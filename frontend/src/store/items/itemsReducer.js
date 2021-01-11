@@ -40,6 +40,10 @@ const itemsSlice = createSlice({
     addTemporaryItemAction(state, { payload: { name, totalMinutes, priority } }) {
       state.available.push({ id: uuid(), name, totalMinutes: parseInt(totalMinutes), priority });
     },
+    deleteItemAction(state, { payload: {index} }) {
+      state.selected.splice(index, 1) // you need the index of the item not the item iteself
+    },
+
     updateSelectedItemTotalTimeAction(state, { payload: { id, totalMinutes } }) {
       for (const item of state.selected) {
         if (item.id === id) {

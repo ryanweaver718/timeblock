@@ -44,7 +44,7 @@ export default function AvailableList({ droppableId, list, search, filter }) {
             })
             .map((item, index) => (
               <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
-                {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} />}
+                {(provided, snapshot) => <Item item={item} snapshot={snapshot} provided={provided} index={index}/>}
               </Draggable>
             ))}
           {provided.placeholder}
