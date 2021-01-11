@@ -10,7 +10,7 @@
   "author": "ryan sulewski",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.814.0",
+    "aws-sdk": "^2.824.0",
     "dynamoose": "^2.5.0",
     "lodash": "^4.17.20",
     "uuid": "^8.3.2"

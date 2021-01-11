@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './App';
 import reducer from './store/rootReducer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import ThemeProvider from './AppTheme';
 
 const store = configureStore({
   reducer,
@@ -14,7 +16,10 @@ const store = configureStore({
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

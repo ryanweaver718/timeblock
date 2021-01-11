@@ -1,28 +1,29 @@
 import IconButton from '@material-ui/core/IconButton';
-import ListItem from '@material-ui/core/ListItem';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Typograhpy from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography';
 import DoneIcon from '@material-ui/icons/Done';
 import EditIcon from '@material-ui/icons/Edit';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
+import TimelineContent from '@material-ui/lab/TimelineContent';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
 import { makeStyles } from '@material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import { getItemColor } from '../utils';
+import ItemIcon from './ItemIcon';
 
 const useStyles = makeStyles(() => ({
-  item: ({ isHovering, isDragging, priority, draggablePropsStyle, totalMinutes }) => ({
-    display: 'flex',
-    userSelect: 'none',
-    padding: 8 * 2,
-    margin: `0 0 ${8}px 0`,
-    borderRadius: '10px',
-    background: getItemColor(isDragging, isHovering, priority),
-    height: `${Math.ceil(1 * totalMinutes) / 2}rem`,
+  item: ({ draggablePropsStyle }) => ({
     ...draggablePropsStyle,
   }),
+  paper: {
+    padding: '6px 16px',
+  },
 }));
 
 SelectedItem.propTypes = {
@@ -36,14 +37,9 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   const [isEditing, setIsEditing] = useState(false);
   const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
   const dispatch = useDispatch();
-  const classes = useStyles({
-    isDragging: snapshot.isDragging,
-    isHovering,
-    draggablePropsStyle: provided.draggableProps.style,
-    priority: item.priority,
-  });
+  const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
 
-  const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm');
+  const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
 
   const handleEdit = () => void setIsEditing(true);
   const saveChanges = async () => void setIsEditing(false);
@@ -52,8 +48,7 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   };
 
   return (
-    <ListItem
-      button
+    <TimelineItem
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
@@ -61,34 +56,44 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
     >
-      <Typograhpy variant="p" style={{ flexGrow: 1 }}>
-        {calculatedTime}
-      </Typograhpy>
-      <Typograhpy varitant="h6" style={{ flexGrow: 1 }}>
-        {item.name}
-      </Typograhpy>
-      <div style={{ flexGrow: 1 }} />
-      {isEditing ? (
-        <div>
-          <TextField
-            variant="outlined"
-            placeholder="minutes"
-            type="number"
-            value={item.totalMinutes}
-            onChange={handleItemUpdate}
-          />
-          <IconButton onClick={saveChanges}>
-            <DoneIcon />
-          </IconButton>
-        </div>
-      ) : (
-        <div>
-          {`Total Minutes ${item.totalMinutes}`}
-          <IconButton onClick={handleEdit}>
-            <EditIcon />
-          </IconButton>
-        </div>
-      )}
-    </ListItem>
+      <TimelineOppositeContent>
+        <Typography variant="body2" color="textSecondary">
+          {calculatedTime}
+        </Typography>
+      </TimelineOppositeContent>
+      <TimelineSeparator>
+        <ItemIcon showInverseColor={isHovering || snapshot.isDragging} priority={item.priority} />
+        <TimelineConnector />
+      </TimelineSeparator>
+
+      <TimelineContent>
+        <Paper elevation={5} className={classes.paper}>
+          <Typography variant="h6" component="h1">
+            {item.name}
+          </Typography>
+          {isEditing ? (
+            <div>
+              <TextField
+                variant="outlined"
+                placeholder="minutes"
+                type="number"
+                value={item.totalMinutes}
+                onChange={handleItemUpdate}
+              />
+              <IconButton onClick={saveChanges}>
+                <DoneIcon />
+              </IconButton>
+            </div>
+          ) : (
+            <div>
+              {`${item.totalMinutes} min.`}
+              <IconButton onClick={handleEdit}>
+                <EditIcon />
+              </IconButton>
+            </div>
+          )}
+        </Paper>
+      </TimelineContent>
+    </TimelineItem>
   );
 }

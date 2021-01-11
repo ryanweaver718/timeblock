@@ -1,48 +1,81 @@
-import { pickDefined, response } from './helpers'
-import { ItemGroupModel, ItemModel } from './models'
-import { v4 as uuid } from 'uuid'
-import pickBy from 'lodash/pickBy'
+import { DynamoDB } from 'aws-sdk'
+import { response } from './helpers'
+import isArray from 'lodash/isArray'
+import UserModel from './models/User'
+import DayModel from './models/Day'
+const dynamo = new DynamoDB.DocumentClient()
 
-export const createItem = async ({ body }) => {
-  const { details, totalMinutes, name, priority } = JSON.parse(body)
-  const item = await ItemModel.create({
-    id: uuid(),
+export const getUser = async ({ queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  let user = await UserModel.get({ userId })
+  if (!user) {
+    user = await UserModel.create({ userId })
+  }
+
+  return response({ user: user.serialize() })
+}
+export const createUserItem = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { totalMinutes, name, priority } = JSON.parse(body)
+  const item = await UserModel.addItem(userId, {
     name,
-    details,
     totalMinutes,
     priority,
   })
   return response({ item })
 }
-
-export const getItems = async () => {
-  let items = await ItemModel.scan().exec()
-  return response({ items })
-}
-
-export const updateItem = async ({ body, queryStringParameters }) => {
-  const { id } = queryStringParameters
-  const { name, details, totalMinutes, priority } = JSON.parse(body)
-  const item = await ItemModel.update(
-    { id },
-    pickDefined({ name, details, totalMinutes, priority })
-  )
+export const updateUserItem = async ({ body, queryStringParameters }) => {
+  const { id, userId } = queryStringParameters
+  const { fieldName, fieldValue } = JSON.parse(body)
+  const item = await UserModel.updateItem(userId, id, fieldName, fieldValue)
   return response({ item })
 }
 
-export const deleteItem = async ({ queryStringParameters }) => {
-  const { id } = queryStringParameters
-  await ItemModel.delete({ id })
-  return response({ success: true })
+export const deleteUserItem = async ({ queryStringParameters }) => {
+  const { id, userId } = queryStringParameters
+  const deletedId = await UserModel.deleteItem(userId, id)
+  return response({ success: true, id: deletedId })
 }
 
-export const getItemGroups = async () => {
-  const groups = (await ItemGroupModel.scan().exec()) || []
-  return response({ groups })
+export const getDay = async ({ queryStringParameters }) => {
+  const { userId, date } = queryStringParameters
+  console.log('THE GET DAY', userId, date)
+  const day = await DayModel.get({ userId, date })
+  return response({ day: day ? day.serialize() : {} })
+}
+export const createDay = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { items, startTime, date } = JSON.parse(body)
+  const day = await DayModel.create({ userId, date, startTime, items })
+  return response({ day: day ? day.serialize() : {} })
 }
 
-export const createItemGroup = async ({ body }) => {
-  const { itemIds, name, details } = JSON.parse(body)
-  const group = await ItemGroupModel.create({ id: uuid(), itemIds, name, details })
-  return response({ group })
+export const updateDay = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { fieldName, fieldValue, date } = JSON.parse(body)
+  if (fieldName !== 'startTime') throw Error('Field Name Not Allowed')
+  const day = await DayModel.update({ userId, date }, { [fieldName]: fieldValue })
+  return response({ day: day ? day.serialize() : {} })
+}
+
+export const updateDayItem = async ({ body, queryStringParameters }) => {
+  const { userId } = queryStringParameters
+  const { date, dynamoIndex, fieldName, fieldValue } = JSON.parse(body)
+  const allUserItems = await DayModel.updateItem(userId, date, dynamoIndex, fieldName, fieldValue)
+  return { items: allUserItems }
+}
+
+export const deleteDay = async ({ queryStringParameters }) => {
+  const { userId, date } = queryStringParameters
+  await DayModel.delete({ userId, date })
+  return response({ date })
+}
+
+export const test = async () => {
+  const userId = 'test123'
+  const date = '2021-01-10'
+  const items = await DayModel.updateItem(userId, date, 0, 'completed', false)
+  console.log('items', items)
+  const day = (await DayModel.get({ userId, date })).serialize()
+  console.log('day', day)
 }

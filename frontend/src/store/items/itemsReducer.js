@@ -6,10 +6,9 @@ import { v4 as uuid } from 'uuid';
 const initialState = {
   selected: [],
   available: [],
-  newGroup: [],
-  groups: [],
   selectedDate: moment().toDate(),
-  selectedTime: moment().toDate(),
+  selectedTime: '',
+  userId: 'test123',
 };
 
 const itemsSlice = createSlice({
@@ -38,8 +37,11 @@ const itemsSlice = createSlice({
       const { time } = payload;
       state.selectedTime = moment(time).toDate();
     },
-    addTemporaryItemAction(state, { payload: { name, details, totalMinutes, priority } }) {
-      state.available.push({ id: uuid(), name, details, totalMinutes: parseInt(totalMinutes), priority });
+    clearDailyScheduleAction(state) {
+      (state.available = [...state.available, ...state.selected]), (state.selected = []);
+    },
+    addTemporaryItemAction(state, { payload: { name, totalMinutes, priority } }) {
+      state.available.push({ id: uuid(), name, totalMinutes: parseInt(totalMinutes), priority });
     },
     updateSelectedItemTotalTimeAction(state, { payload: { id, totalMinutes } }) {
       for (const item of state.selected) {

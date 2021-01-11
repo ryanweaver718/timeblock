@@ -1,15 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import 'date-fns';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import Header from './Header';
 import SelectedList from './SelectedList';
-import SelectTime from './SelectTime';
-import Timeline from './Timeline';
+
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
 };
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -23,17 +21,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '-1px',
     borderBottom: `1px solid lightblue`,
   },
-  filterOn: {
-    color: theme.palette.primary.main,
-  },
-  header: {
-    flexBasis: '100%',
-    padding: '1rem',
-  },
   list: {
     flexBasis: '100%',
   },
 }));
+
 export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
@@ -41,12 +33,8 @@ export default function Index({ droppableId }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div className={classes.header}>
-        <Typography variant="h4">Daily Schedule</Typography>
-      </div>
-      <SelectTime />
+      <Header />
       <SelectedList className={classes.list} droppableId={droppableId} list={list} />
-      <Timeline />
     </div>
   );
 }
