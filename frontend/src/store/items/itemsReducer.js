@@ -14,12 +14,8 @@ const itemsSlice = createSlice({
   name: 'items',
   initialState,
   reducers: {
-    setListAction(state, { payload }) {
-      const { listName, list } = payload;
-      state[listName] = list;
-    },
     addToSelected(state, { payload: { item } }) {
-      state.selected.unshift(item);
+      state.selected.push({ ...item, dayItemId: uuid() });
     },
     moveListItemAction(state, { payload }) {
       const { sourceName, destName, start, end } = payload;

@@ -33,7 +33,7 @@ export default function SelectedList({ droppableId, list }) {
               .map((itm) => parseInt(itm.totalMinutes))
               .reduce((accumulater, element) => accumulater + element, 0);
             return (
-              <Draggable key={item.id} draggableId={`drag-${item.id}`} index={index}>
+              <Draggable key={item.dayItemId} draggableId={`drag-${item.dayItemId}`} index={index}>
                 {(provided, snapshot) => (
                   <SelectedItem
                     currentTotalTime={currentTotalTime}

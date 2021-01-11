@@ -1,13 +1,14 @@
 import * as it from './itemsThunks';
+import { v4 as uuid } from 'uuid';
 import moment from 'moment';
 const itemsThunkReducer = {
   [it.initialize.fulfilled]: (state, { payload: { items, day } }) => {
-    console.log('HERE', items, day);
+    const selected = (day.items || []).map((item) => ({ ...item, dayItemId: uuid() }));
     return {
       ...state,
       available: items,
       startTime: moment(day.startTime).toDate(),
-      selected: day.items || [],
+      selected,
     };
   },
   [it.createUserItem.fulfilled]: (state, { payload: { item } }) => {
@@ -25,8 +26,8 @@ const itemsThunkReducer = {
     state.available.splice(idx, 1);
   },
   [it.getDay.fulfilled]: (state, { payload: { day } }) => {
-    console.log('getting the day starttime', day.startTime);
-    return { ...state, selected: day.items || [], startTime: day.startTime };
+    const selected = (day.items || []).map((item) => ({ ...item, dayItemId: uuid() }));
+    return { ...state, selected, startTime: day.startTime };
   },
   [it.createDay.fulfilled]: (state, { payload: { day } }) => {
     state.startTime = day.startTime;

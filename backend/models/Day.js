@@ -1,5 +1,6 @@
 import { DynamoDB } from 'aws-sdk'
 import { model, Schema } from 'dynamoose'
+import { v4 as uuid } from 'uuid'
 
 const dynamo = new DynamoDB.DocumentClient()
 
