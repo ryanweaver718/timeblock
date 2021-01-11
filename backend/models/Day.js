@@ -27,7 +27,7 @@ const DaySchema = new Schema({
   },
 })
 
-const DayModel = model('day-items', DaySchema)
+const DayModel = model('day-items-model', DaySchema)
 
 DayModel.methods.set(
   'updateItem',

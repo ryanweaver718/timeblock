@@ -20,7 +20,7 @@ const UserSchema = new Schema(
   }
 )
 
-const UserModel = model('user-items', UserSchema)
+const UserModel = model('user-items-model', UserSchema)
 
 UserModel.methods.set('addItem', async function (userId, itemObject) {
   const itemId = uuid()
