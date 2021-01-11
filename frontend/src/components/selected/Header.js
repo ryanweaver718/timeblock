@@ -8,8 +8,9 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import { useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch } from 'react-redux';
-import { saveList } from 'store/items/itemsThunks';
+import { test, createDay, deleteDay } from 'store/items/itemsThunks';
 import SelectTime from './SelectTime';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,8 +59,10 @@ export default function Header() {
   const handleOpen = () => void setOpen(true);
 
   const actions = [
-    { icon: <SaveIcon />, name: 'Save', handler: () => void dispatch(saveList()) },
-    { icon: <ClearIcon />, name: 'Reset', handler: () => void dispatch(ia.clearDailyScheduleAction()) },
+    { icon: <SaveIcon />, name: 'Save', handler: () => void dispatch(createDay()) },
+    { icon: <ClearIcon />, name: 'Reset Day', handler: () => void dispatch(ia.clearDailyScheduleAction()) },
+    { icon: <DeleteIcon />, name: 'Delete Day', handler: () => void dispatch(deleteDay()) },
+    { icon: <div>TEST</div>, name: 'TEST', handler: () => void dispatch(test()) },
   ];
 
   const speedDialHandler = (callback) => {

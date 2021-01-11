@@ -66,13 +66,11 @@ export const deleteDay = async ({ queryStringParameters }) => {
   return response({ date })
 }
 
-export const saveList = async () => {
+export const test = async () => {
   const userId = 'test123'
   const date = '2021-01-10'
-
   const items = await DayModel.updateItem(userId, date, 0, 'completed', false)
   console.log('items', items)
-
   // const day = await DayModel.create({
   //   userId,
   //   date: '2021-01-10',

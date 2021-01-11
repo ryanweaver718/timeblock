@@ -68,8 +68,7 @@ functions:
           path: /day
           method: put
           cors: true
-
-  saveList:
+  test:
     handler: index.saveList
     events:
       - http:

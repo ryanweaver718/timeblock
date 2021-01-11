@@ -8,6 +8,7 @@ const initialState = {
   available: [],
   selectedDate: moment().toDate(),
   selectedTime: moment().toDate(),
+  userId: 'test123',
 };
 
 const itemsSlice = createSlice({
