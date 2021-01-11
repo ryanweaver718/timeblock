@@ -2,15 +2,14 @@ import DateFnsUtils from '@date-io/date-fns';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import AlarmIcon from '@material-ui/icons/AddAlarm';
-import SnoozeIcon from '@material-ui/icons/Snooze';
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import makeStyles from '@material-ui/styles/makeStyles';
 import 'date-fns';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDay } from 'store/items/itemsThunks';
 import { itemsActions as ia } from 'store/items/itemsReducer';
-import { useState, useEffect } from 'react';
+import { getDay } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
   date: {},
@@ -28,7 +27,7 @@ export default function SelectTime() {
   }, [startTime]);
   const handleDateChange = (date, val) => {
     if (val.endsWith(' _')) val = val.replace(' _', ' am');
-    date = moment(val.toString()).toDate();
+    // date = moment(val.toString()).toDate();
     if (moment(date).isValid()) {
       if (moment(date).isSame(currentDate, 'day')) {
         dispatch(ia.updateStartTime({ startTime: moment(date).toDate() }));
@@ -43,18 +42,19 @@ export default function SelectTime() {
       <KeyboardDateTimePicker
         autoOk
         className={classes.date}
-        hideTabs
-        ampm={false}
+        // hideTabs
+        inputVariant="outlined"
+        variant="inline"
+        ampm={true}
         value={currentDate}
         onChange={handleDateChange}
-        allowKeyboardControl={false}
+        allowKeyboardControl={true}
         minDate={new Date('2019-01-01')}
         helperText="Day & Wake Up Time"
-        leftArrowIcon={<AlarmIcon />}
+        showTodayButton
         leftArrowButtonProps={{ 'aria-label': 'Prev month' }}
         rightArrowButtonProps={{ 'aria-label': 'Next month' }}
         format="MM/dd/yyyy hh:mm a"
-        rightArrowIcon={<SnoozeIcon />}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
