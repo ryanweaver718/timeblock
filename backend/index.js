@@ -26,9 +26,9 @@ export const createUserItem = async ({ body, queryStringParameters }) => {
   return response({ item })
 }
 export const updateUserItem = async ({ body, queryStringParameters }) => {
-  const { id, userId } = queryStringParameters
-  const { fieldName, fieldValue } = JSON.parse(body)
-  const item = await UserModel.updateItem(userId, id, fieldName, fieldValue)
+  const { userId } = queryStringParameters
+  const { item } = JSON.parse(body)
+  const item = await UserModel.updateItem(userId, item)
   return response({ item })
 }
 

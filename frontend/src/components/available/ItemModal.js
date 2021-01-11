@@ -15,7 +15,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import { createUserItem, deleteUserItem } from 'store/items/itemsThunks';
+import { createUserItem, deleteUserItem, updateUserItem } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
   formControl: { margin: '1rem' },
@@ -77,8 +77,21 @@ export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) 
   };
 
   const handleSave = () => {
-    dispatch(createUserItem({ name, totalMinutes, priority }));
-    clearAndClose();
+    const isValid = validateInput();
+
+    if (isValid) {
+      dispatch(createUserItem({ name, totalMinutes, priority }));
+      clearAndClose();
+    }
+  };
+
+  const handleUpdate = () => {
+    const isValid = validateInput();
+
+    if (isValid) {
+      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority } }));
+      clearAndClose();
+    }
   };
 
   return (
@@ -140,23 +153,39 @@ export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) 
           </FormControl>
 
           <DialogContentText id="alert-dialog-description">
-            Save will permanently save the item for later use, Save temporary will only be used for today
+            {isEditingItem
+              ? `Deleting this item will remove any historical analytics tracking`
+              : `Save will permanently save the item for later use, Today only will only be used for today`}
           </DialogContentText>
         </DialogContent>
         <DialogActions style={{ display: 'flex' }}>
-          <Button onClick={clearAndClose} color="secondary">
-            Cancel
-          </Button>
-          {isEditingItem && <Button onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>Delete Item</Button>}
-          <div sytle={{ flexGrow: 1 }} />
-          {!isEditingItem && (
-            <Button onClick={handleSaveTemp} color="primary">
-              Temporary Save
+          <div>
+            <Button onClick={clearAndClose} color="secondary">
+              Cancel
             </Button>
-          )}
-          <Button onClick={handleSave} color="primary" autoFocus>
-            Save
-          </Button>
+          </div>
+          <div style={{ flexGrow: 1 }} />
+          <div>
+            {isEditingItem && (
+              <Button onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>Delete Item</Button>
+            )}
+
+            {!isEditingItem && (
+              <Button onClick={handleSaveTemp} color="primary">
+                Today Only
+              </Button>
+            )}
+
+            {isEditingItem ? (
+              <Button onClick={handleUpdate} color="primary" autoFocus>
+                Update Item
+              </Button>
+            ) : (
+              <Button onClick={handleSave} color="primary" autoFocus>
+                Save
+              </Button>
+            )}
+          </div>
         </DialogActions>
       </Dialog>
     </>
