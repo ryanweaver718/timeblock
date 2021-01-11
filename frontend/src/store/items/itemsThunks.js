@@ -83,5 +83,5 @@ export const deleteDay = ct('deleteDay', async (payload, thunkAPI) => {
 
 export const test = ct('test', async (payload, thunkAPI) => {
   const { userId, selected } = thunkAPI.getState().items;
-  const resp = await post(`/test?userId=${userId}`, { selected });
+  await post(`/test?userId=${userId}`, { selected });
 });
