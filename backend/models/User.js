@@ -38,7 +38,8 @@ UserModel.methods.set('addItem', async function (userId, itemObject) {
     ReturnValues: 'UPDATED_NEW',
   }
   const response = await dynamo.update(params).promise()
-  return response.Attributes.items[itemId]
+  const item = response.Attributes.items[itemId]
+  return { ...item, id: itemId }
 })
 
 UserModel.methods.set('updateItem', async function (userId, itemId, itemFieldName, itemFieldValue) {

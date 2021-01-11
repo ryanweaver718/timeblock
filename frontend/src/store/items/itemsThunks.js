@@ -8,6 +8,7 @@ export const createUserItem = ct('createUserItem', async (payload, thunkAPI) => 
   const { userId } = thunkAPI.getState();
   const { name, totalMinutes, priority } = payload;
   const { item } = await post(`/user-item?userId=${userId}`, { name, totalMinutes, priority });
+  console.log('NEWLY CREATED ITEM', item);
   return { item };
 });
 
@@ -27,7 +28,7 @@ export const updateUserItem = ct('updateUserItem', async (payload, thunkAPI) => 
 export const deleteUserItem = ct('deleteUserItem', async (payload, thunkAPI) => {
   const { id } = payload;
   const { userId } = thunkAPI.getState();
-  await del(`/item?id=${id}&userId=${userId}`);
+  await del(`/user-item?id=${id}&userId=${userId}`);
   return { id };
 });
 
