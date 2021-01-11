@@ -18,7 +18,7 @@ export default function SelectedList({ droppableId, list }) {
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
         <Timeline
-          align={theme.breakpoints.down('md') ? 'right' : 'alternate'}
+          align={theme.breakpoints.down('sm') ? 'alternate' : 'alternate'}
           ref={provided.innerRef}
           style={{
             background: snapshot.isDraggingOver ? '#f5f5f5' : '	white',

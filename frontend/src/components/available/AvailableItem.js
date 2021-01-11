@@ -5,8 +5,12 @@ import DeleteIcon from '@material-ui/icons/DeleteForever';
 import IconButton from '@material-ui/core/IconButton';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { deleteUserItem } from 'store/items/itemsThunks';
+import { itemsActions } from 'store/items/itemsReducer';
+import Popover from '@material-ui/core/Popover';
 import { makeStyles } from '@material-ui/styles';
+import EditIcon from '@material-ui/icons/Edit';
 const useStyles = makeStyles((theme) => ({
   item: ({ showInverseColor, priority, draggablePropsStyle }) => ({
     display: 'flex',
@@ -29,6 +33,8 @@ Item.propTypes = {
 export default function Item({ item, provided, snapshot }) {
   const dispatch = useDispatch();
   const [isHovering, setIsHovering] = useState(false);
+  const [popoverAnchor, setPopoverAnchor] = useState(null);
+  const [open, setOpen] = useState(false);
   const showInverseColor = snapshot.isDragging || isHovering;
   const classes = useStyles({
     showInverseColor,
@@ -45,10 +51,34 @@ export default function Item({ item, provided, snapshot }) {
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
     >
+      <Popover
+        id={item.id}
+        open={open}
+        anchorEl={popoverAnchor}
+        onClose={() => setPopoverAnchor(false)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <IconButton onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>
+          <DeleteIcon />
+        </IconButton>
+      </Popover>
+      {open && (
+        <IconButton onClick={() => setOpen(true)}>
+          <EditIcon />
+        </IconButton>
+      )}
       <Typograhpy>{item.name}</Typograhpy>
+
       <div style={{ flexGrow: 1 }} />
-      <IconButton onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>
-        <DeleteIcon />
+      <IconButton onClick={() => void dispatch(itemsActions.addToSelected({ item: item }))}>
+        <AddCircleIcon />
       </IconButton>
     </ListItem>
   );

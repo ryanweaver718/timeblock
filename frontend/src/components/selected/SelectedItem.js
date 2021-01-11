@@ -1,15 +1,12 @@
-import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import DoneIcon from '@material-ui/icons/Done';
-import EditIcon from '@material-ui/icons/Edit';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, withStyles } from '@material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -17,12 +14,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
 import ItemIcon from './ItemIcon';
 
+const BootstrapInput = withStyles((theme) => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    width: '25%',
+    backgroundColor: theme.palette.background.paper,
+    //border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase);
+
 const useStyles = makeStyles(() => ({
   item: ({ draggablePropsStyle }) => ({
     ...draggablePropsStyle,
   }),
   paper: {
     padding: '6px 16px',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 }));
 
@@ -34,15 +69,12 @@ SelectedItem.propTypes = {
 };
 export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
   const [isHovering, setIsHovering] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const { selectedTime } = useSelector(({ items }) => ({ selectedTime: items.selectedTime }));
   const dispatch = useDispatch();
   const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
 
   const calculatedTime = moment(selectedTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
 
-  const handleEdit = () => void setIsEditing(true);
-  const saveChanges = async () => void setIsEditing(false);
   const handleItemUpdate = (e) => {
     dispatch(itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) }));
   };
@@ -68,30 +100,22 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
 
       <TimelineContent>
         <Paper elevation={5} className={classes.paper}>
-          <Typography variant="h6" component="h1">
-            {item.name}
-          </Typography>
-          {isEditing ? (
-            <div>
-              <TextField
-                variant="outlined"
-                placeholder="minutes"
-                type="number"
-                value={item.totalMinutes}
-                onChange={handleItemUpdate}
-              />
-              <IconButton onClick={saveChanges}>
-                <DoneIcon />
-              </IconButton>
-            </div>
-          ) : (
-            <div>
-              {`${item.totalMinutes} min.`}
-              <IconButton onClick={handleEdit}>
-                <EditIcon />
-              </IconButton>
-            </div>
-          )}
+          <div>
+            <BootstrapInput
+              className={classes.margin}
+              defaultValue="Naked input"
+              inputProps={{ 'aria-label': 'naked' }}
+              type="number"
+              value={item.totalMinutes}
+              onChange={handleItemUpdate}
+              placeholder="min"
+            />
+          </div>
+          <div>
+            <Typography variant="h6" component="h1">
+              {item.name}
+            </Typography>
+          </div>
         </Paper>
       </TimelineContent>
     </TimelineItem>

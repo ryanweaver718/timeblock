@@ -19,6 +19,9 @@ const itemsSlice = createSlice({
       const { listName, list } = payload;
       state[listName] = list;
     },
+    addToSelected(state, { payload: { item } }) {
+      state.selected.unshift(item);
+    },
     moveListItemAction(state, { payload }) {
       const { sourceName, destName, start, end } = payload;
       const [removed] = state[sourceName].splice(start, 1);
@@ -38,7 +41,7 @@ const itemsSlice = createSlice({
       state.selectedTime = moment(time).toDate();
     },
     clearDailyScheduleAction(state) {
-      (state.available = [...state.available, ...state.selected]), (state.selected = []);
+      state.selected = [];
     },
     addTemporaryItemAction(state, { payload: { name, totalMinutes, priority } }) {
       state.available.push({ id: uuid(), name, totalMinutes: parseInt(totalMinutes), priority });
