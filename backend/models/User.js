@@ -71,7 +71,7 @@ UserModel.serializer.add('itemsToArray', {
   modify: (serialized, original) => {
     serialized.items = Object.entries(original.items || {})
       .map(([itemId, item]) => ({
-        itemId,
+        id: itemId,
         ...item,
       }))
       .sort((a, b) => b.priority - a.priority)

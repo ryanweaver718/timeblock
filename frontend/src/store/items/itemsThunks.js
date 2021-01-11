@@ -51,7 +51,7 @@ export const updateDay = ct('updateDay', async (payload, thunkAPI) => {
 export const updateDayItem = ct('updateDayItem', async (payload, thunkAPI) => {
   const { userId } = thunkAPI.getState();
   const { date, dynamoIndex, fieldName, fieldValue } = payload;
-  const { items } = await put(`/day?userId=${userId}`, { date, dynamoIndex, fieldName, fieldValue });
+  const { items } = await put(`/day-item?userId=${userId}`, { date, dynamoIndex, fieldName, fieldValue });
   return { items };
 });
 

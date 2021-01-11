@@ -71,11 +71,6 @@ export const test = async () => {
   const date = '2021-01-10'
   const items = await DayModel.updateItem(userId, date, 0, 'completed', false)
   console.log('items', items)
-  // const day = await DayModel.create({
-  //   userId,
-  //   date: '2021-01-10',
-  //   items: [{ id: '123', name: 'run', totalMinutes: '25', priority: '4', completed: false }],
-  // })
   const day = (await DayModel.get({ userId, date })).serialize()
   console.log('day', day)
 }

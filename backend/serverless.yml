@@ -65,14 +65,14 @@ functions:
     handler: index.updateDayItem
     events:
       - http:
-          path: /day
+          path: /day-item
           method: put
           cors: true
   test:
-    handler: index.saveList
+    handler: index.test
     events:
       - http:
-          path: /save-list
+          path: /test
           method: post
           cors: true
 plugins:

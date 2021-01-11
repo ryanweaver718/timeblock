@@ -25,17 +25,16 @@ export default function App() {
   };
 
   return (
-    <>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div style={{ display: 'flex' }}>
-          <div style={{ flexBasis: '25%' }}>
-            <AvailableList droppableId="available" />
-          </div>
-          <div style={{ flexBasis: '75%' }}>
-            <SelectedList droppableId="selected" />
-          </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flexBasis: '20%' }}>
+          <AvailableList droppableId="available" />
         </div>
-      </DragDropContext>
-    </>
+        <div style={{ flexGrow: 1 }} />
+        <div style={{ flexBasis: '70%' }}>
+          <SelectedList droppableId="selected" />
+        </div>
+      </div>
+    </DragDropContext>
   );
 }
