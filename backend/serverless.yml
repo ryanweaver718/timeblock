@@ -47,6 +47,13 @@ functions:
           path: /user-item
           method: delete
           cors: true
+  getDay:
+    handler: index.getDay
+    events:
+      - http:
+          path: /day
+          method: get
+          cors: true
   createDay:
     handler: index.createDay
     events:

@@ -1,9 +1,10 @@
 import DateFnsUtils from '@date-io/date-fns';
+import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import makeStyles from '@material-ui/styles/makeStyles';
-import { KeyboardTimePicker, KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
+import { getDay } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
   time: { marginRight: '2rem' },
@@ -13,8 +14,9 @@ const useStyles = makeStyles(() => ({
 export default function SelectTime() {
   const dispatch = useDispatch();
   const classes = useStyles();
+
   const handleDateChange = (date) => {
-    dispatch(itemsActions.updateSelectedDateAction({ date }));
+    dispatch(getDay({ selectedDate: date }));
   };
   const handleTimeChange = (time) => {
     dispatch(itemsActions.updateSelectedTimeAction({ time }));
@@ -26,6 +28,7 @@ export default function SelectTime() {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDatePicker
+        autoOk={true}
         disableToolbar
         variant="inline"
         format="MM/dd/yyyy"
@@ -43,7 +46,8 @@ export default function SelectTime() {
       <KeyboardTimePicker
         // classes={classes.time}
         id="time-picker"
-        label="Time"
+        autoOk={true}
+        // label="Time"
         inputVariant="outlined"
         variant="outlined"
         value={selectedTime}

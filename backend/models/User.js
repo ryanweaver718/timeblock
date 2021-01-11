@@ -75,7 +75,7 @@ UserModel.serializer.add('itemsToArray', {
         id: itemId,
         ...item,
       }))
-      .sort((a, b) => b.priority - a.priority)
+      .sort((a, b) => a.priority - b.priority)
     return serialized
   },
 })

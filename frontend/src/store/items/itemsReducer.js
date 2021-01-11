@@ -7,7 +7,7 @@ const initialState = {
   selected: [],
   available: [],
   selectedDate: moment().toDate(),
-  selectedTime: moment().toDate(),
+  selectedTime: '',
   userId: 'test123',
 };
 

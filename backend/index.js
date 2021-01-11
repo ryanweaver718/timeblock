@@ -11,9 +11,8 @@ export const getUser = async ({ queryStringParameters }) => {
   if (!user) {
     user = await UserModel.create({ userId })
   }
-  user = user.serialize()
 
-  return response({ user })
+  return response({ user: user.serialize() })
 }
 export const createUserItem = async ({ body, queryStringParameters }) => {
   const { userId } = queryStringParameters
@@ -38,11 +37,17 @@ export const deleteUserItem = async ({ queryStringParameters }) => {
   return response({ success: true, id: deletedId })
 }
 
+export const getDay = async ({ queryStringParameters }) => {
+  const { userId, date } = queryStringParameters
+  console.log('THE GET DAY', userId, date)
+  const day = await DayModel.get({ userId, date })
+  return response({ day: day ? day.serialize() : {} })
+}
 export const createDay = async ({ body, queryStringParameters }) => {
   const { userId } = queryStringParameters
   const { items, startTime, date } = JSON.parse(body)
-  const day = (await DayModel.create({ userId, date, startTime, items })).serialize()
-  return response({ day })
+  const day = await DayModel.create({ userId, date, startTime, items })
+  return response({ day: day ? day.serialize() : {} })
 }
 
 export const updateDay = async ({ body, queryStringParameters }) => {
@@ -50,7 +55,7 @@ export const updateDay = async ({ body, queryStringParameters }) => {
   const { fieldName, fieldValue, date } = JSON.parse(body)
   if (fieldName !== 'startTime') throw Error('Field Name Not Allowed')
   const day = await DayModel.update({ userId, date }, { [fieldName]: fieldValue })
-  return { day }
+  return response({ day: day ? day.serialize() : {} })
 }
 
 export const updateDayItem = async ({ body, queryStringParameters }) => {
