@@ -36,6 +36,7 @@ export default function SelectedList({ droppableId, list }) {
               <Draggable key={item.dayItemId} draggableId={`drag-${item.dayItemId}`} index={index}>
                 {(provided, snapshot) => (
                   <SelectedItem
+                    index={index}
                     currentTotalTime={currentTotalTime}
                     item={item}
                     snapshot={snapshot}
@@ -43,6 +44,7 @@ export default function SelectedList({ droppableId, list }) {
                   />
                 )}
               </Draggable>
+              
             );
           })}
           {provided.placeholder}
