@@ -63,7 +63,7 @@ export default function Index({ droppableId }) {
           <AddCircleOutlineIcon className={classes.addButton} />
         </IconButton>
       </div>
-      <ItemModal isOpen={isOpen} handleClose={handleClose} />
+      {isOpen && <ItemModal isOpen={isOpen} handleClose={handleClose} />}
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
       <AvailableList className={classes.list} droppableId={droppableId} list={list} filter={filter} search={search} />
     </div>

@@ -102,7 +102,8 @@ export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) 
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Add Available Item'}</DialogTitle>
+        <DialogTitle>{!isEditingItem ? `Create Item` : `Update Item`}</DialogTitle>
+
         <DialogContent>
           <FormControl className={classes.formControl} variant="outlined">
             <TextField
