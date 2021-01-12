@@ -52,9 +52,9 @@ export default function Index({ droppableId }) {
   const classes = useStyles();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('Show All Priorities');
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const handleOpenModal = () => void setIsAddModalOpen(true);
-  const handleClose = () => void setIsAddModalOpen(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpenModal = () => void setIsOpen(true);
+  const handleClose = () => void setIsOpen(false);
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -63,7 +63,7 @@ export default function Index({ droppableId }) {
           <AddCircleOutlineIcon className={classes.addButton} />
         </IconButton>
       </div>
-      <ItemModal isAddModalOpen={isAddModalOpen} handleClose={handleClose} />
+      <ItemModal isOpen={isOpen} handleClose={handleClose} />
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
       <AvailableList className={classes.list} droppableId={droppableId} list={list} filter={filter} search={search} />
     </div>

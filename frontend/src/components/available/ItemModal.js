@@ -5,33 +5,39 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import InputLabel from '@material-ui/core/InputLabel';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { itemsActions } from 'store/items/itemsReducer';
-import { createUserItem } from 'store/items/itemsThunks';
-import FormHelperText from '@material-ui/core/FormHelperText';
+import { createUserItem, deleteUserItem, updateUserItem } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
   formControl: { margin: '1rem' },
 }));
 
 ItemModal.propTypes = {
-  isAddModalOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  isEditingItem: PropTypes.bool.isRequired,
+};
+ItemModal.defaultProps = {
+  item: { priority: '', totalMinutes: '', name: '', id: '' },
+  isEditingItem: false,
 };
 
-export default function ItemModal({ isAddModalOpen, handleClose }) {
+export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const [name, setName] = useState('');
-  const [priority, setPriority] = useState('');
-  const [totalMinutes, setTotalMinutes] = useState('');
+  const [name, setName] = useState(item.name);
+  const [priority, setPriority] = useState(item.priority);
+  const [totalMinutes, setTotalMinutes] = useState(item.totalMinutes);
   const [nameError, setNameError] = useState(false);
   const [minuteError, setMinuteError] = useState(false);
   const [priorityError, setPriorityError] = useState(false);
@@ -71,14 +77,27 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
   };
 
   const handleSave = () => {
-    dispatch(createUserItem({ name, totalMinutes, priority }));
-    clearAndClose();
+    const isValid = validateInput();
+
+    if (isValid) {
+      dispatch(createUserItem({ name, totalMinutes, priority }));
+      clearAndClose();
+    }
+  };
+
+  const handleUpdate = () => {
+    const isValid = validateInput();
+
+    if (isValid) {
+      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority } }));
+      clearAndClose();
+    }
   };
 
   return (
     <>
       <Dialog
-        open={isAddModalOpen}
+        open={isOpen}
         onClose={clearAndClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -134,20 +153,39 @@ export default function ItemModal({ isAddModalOpen, handleClose }) {
           </FormControl>
 
           <DialogContentText id="alert-dialog-description">
-            Save will permanently save the item for later use, Save temporary will only be used for today
+            {isEditingItem
+              ? `Deleting this item will remove any historical analytics tracking`
+              : `Save will permanently save the item for later use, Today only will only be used for today`}
           </DialogContentText>
         </DialogContent>
         <DialogActions style={{ display: 'flex' }}>
-          <Button onClick={clearAndClose} color="secondary">
-            Cancel
-          </Button>
-          <div sytle={{ flexGrow: 1 }} />
-          <Button onClick={handleSaveTemp} color="primary">
-            Temporary Save
-          </Button>
-          <Button onClick={handleSave} color="primary" autoFocus>
-            Save
-          </Button>
+          <div>
+            <Button onClick={clearAndClose} color="secondary">
+              Cancel
+            </Button>
+          </div>
+          <div style={{ flexGrow: 1 }} />
+          <div>
+            {isEditingItem && (
+              <Button onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>Delete Item</Button>
+            )}
+
+            {!isEditingItem && (
+              <Button onClick={handleSaveTemp} color="primary">
+                Today Only
+              </Button>
+            )}
+
+            {isEditingItem ? (
+              <Button onClick={handleUpdate} color="primary" autoFocus>
+                Update Item
+              </Button>
+            ) : (
+              <Button onClick={handleSave} color="primary" autoFocus>
+                Save
+              </Button>
+            )}
+          </div>
         </DialogActions>
       </Dialog>
     </>

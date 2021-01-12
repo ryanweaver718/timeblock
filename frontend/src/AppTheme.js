@@ -18,11 +18,11 @@ const palette = {
     dark: '#015b7e',
   },
   secondary: {
-    main: '#f4f4f4',
+    main: '#ab3131',
     dark: '#ececec',
   },
   tertiary: {
-    main: '#ab3131',
+    main: '#ff1717',
   },
   priorities: {
     1: {

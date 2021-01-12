@@ -28,8 +28,7 @@ export const getUser = ct('getUser', async (payload, thunkAPI) => {
 
 export const updateUserItem = ct('updateUserItem', async (payload, thunkAPI) => {
   const { userId } = thunkAPI.getState().items;
-  const { fieldName, fieldValue, id } = payload;
-  const { item } = await put(`/item?id=${id}&userId=${userId}`, { fieldName, fieldValue });
+  const { item } = await put(`/user-item?userId=${userId}`, { item: payload.item });
   return { item };
 });
 

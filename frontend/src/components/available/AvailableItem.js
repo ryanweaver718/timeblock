@@ -1,16 +1,14 @@
+import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import Typograhpy from '@material-ui/core/Typography';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
+import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import DeleteIcon from '@material-ui/icons/DeleteForever';
-import IconButton from '@material-ui/core/IconButton';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { deleteUserItem } from 'store/items/itemsThunks';
 import { itemsActions } from 'store/items/itemsReducer';
-import Popover from '@material-ui/core/Popover';
-import { makeStyles } from '@material-ui/styles';
-import EditIcon from '@material-ui/icons/Edit';
+import ItemModal from './ItemModal';
 const useStyles = makeStyles((theme) => ({
   item: ({ showInverseColor, priority, draggablePropsStyle }) => ({
     display: 'flex',
@@ -30,54 +28,29 @@ Item.propTypes = {
   provided: PropTypes.object.isRequired,
   snapshot: PropTypes.object.isRequired,
 };
-export default function Item({ item, provided, snapshot }) {
+export default function Item({ item }) {
   const dispatch = useDispatch();
   const [isHovering, setIsHovering] = useState(false);
-  const [popoverAnchor, setPopoverAnchor] = useState(null);
   const [open, setOpen] = useState(false);
-  const showInverseColor = snapshot.isDragging || isHovering;
+  const showInverseColor = isHovering;
   const classes = useStyles({
     showInverseColor,
-    draggablePropsStyle: provided.draggableProps.style,
     priority: item.priority,
   });
   return (
     <ListItem
       button
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
     >
-      <Popover
-        id={item.id}
-        open={open}
-        anchorEl={popoverAnchor}
-        onClose={() => setPopoverAnchor(false)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <IconButton onClick={() => void dispatch(deleteUserItem({ id: item.id }))}>
-          <DeleteIcon />
-        </IconButton>
-      </Popover>
-      {open && (
-        <IconButton onClick={() => setOpen(true)}>
-          <EditIcon />
-        </IconButton>
-      )}
+      <IconButton onClick={() => setOpen(true)}>
+        <EditIcon />
+      </IconButton>
+      {open && <ItemModal isOpen={open} handleClose={() => setOpen(false)} isEditingItem={true} item={item} />}
       <Typograhpy>{item.name}</Typograhpy>
-
       <div style={{ flexGrow: 1 }} />
-      <IconButton onClick={() => void dispatch(itemsActions.addToSelected({ item: item }))}>
+      <IconButton onClick={() => void dispatch(itemsActions.addToSelected({ item }))}>
         <AddCircleIcon />
       </IconButton>
     </ListItem>
