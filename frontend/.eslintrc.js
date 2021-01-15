@@ -37,6 +37,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'react/display-name': 'off',
     'react/react-in-jsx-scope': 'off',
+
     semi: 'off',
   },
 };

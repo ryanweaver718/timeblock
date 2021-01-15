@@ -38,6 +38,7 @@ export default function SelectedList({ droppableId, list }) {
                   <SelectedItem
                     currentTotalTime={currentTotalTime}
                     item={item}
+                    index={index}
                     snapshot={snapshot}
                     provided={provided}
                   />

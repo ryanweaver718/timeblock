@@ -1,4 +1,3 @@
-import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
@@ -6,58 +5,38 @@ import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import { makeStyles, withStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { itemsActions } from 'store/items/itemsReducer';
+import { useSelector } from 'react-redux';
 import ItemIcon from './ItemIcon';
-
-const BootstrapInput = withStyles((theme) => ({
-  root: {
-    'label + &': {
-      marginTop: theme.spacing(3),
-    },
-  },
-  input: {
-    borderRadius: 4,
-    position: 'relative',
-    width: '25%',
-    backgroundColor: theme.palette.background.paper,
-    //border: '1px solid #ced4da',
-    fontSize: 16,
-    padding: '10px 26px 10px 12px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    // Use the system font instead of the default Roboto font.
-    fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
+import NumberInput from './NumberInput';
 
 const useStyles = makeStyles(() => ({
-  item: ({ draggablePropsStyle }) => ({
-    ...draggablePropsStyle,
-  }),
-  paper: {
-    padding: '6px 16px',
+  paper: { padding: '6px 16px' },
+
+  itemRow: {
     display: 'flex',
+  },
+  timeInputs: ({ isEven }) => ({
+    display: 'flex',
+    flexDirection: isEven ? 'row-reverse' : 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '6rem',
+  }),
+  inputBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'stretch',
+  },
+  inputs: {
+    width: '3rem',
+    border: 'none',
+    borderBottom: '1px solid black',
+    marginRight: '1rem',
+    marginLeft: '1rem',
   },
 }));
 
@@ -66,19 +45,14 @@ SelectedItem.propTypes = {
   provided: PropTypes.object.isRequired,
   snapshot: PropTypes.object.isRequired,
   currentTotalTime: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
-export default function SelectedItem({ item, provided, snapshot, currentTotalTime }) {
+export default function SelectedItem({ item, provided, snapshot, currentTotalTime, index }) {
   const [isHovering, setIsHovering] = useState(false);
+  const isEven = index === 0 || index % 2 === 0;
   const { startTime } = useSelector(({ items }) => ({ startTime: items.startTime }));
-  const dispatch = useDispatch();
-  const classes = useStyles({ draggablePropsStyle: provided.draggableProps.style });
-
+  const classes = useStyles({ isEven });
   const calculatedTime = moment(startTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
-
-  const handleItemUpdate = (e) => {
-    dispatch(itemsActions.updateSelectedItemTotalTimeAction({ id: item.id, totalMinutes: parseInt(e.target.value) }));
-  };
-
   return (
     <TimelineItem
       ref={provided.innerRef}
@@ -86,7 +60,6 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
       {...provided.dragHandleProps}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      className={classes.item}
     >
       <TimelineOppositeContent>
         <Typography variant="body2" color="textSecondary">
@@ -99,23 +72,14 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
       </TimelineSeparator>
 
       <TimelineContent>
-        <Paper elevation={5} className={classes.paper}>
-          <div>
-            <BootstrapInput
-              className={classes.margin}
-              defaultValue="Naked input"
-              inputProps={{ 'aria-label': 'naked' }}
-              type="number"
-              value={item.totalMinutes}
-              onChange={handleItemUpdate}
-              placeholder="min"
-            />
+        <Paper elevation={4} className={classes.timeInputs} classes={{ root: classes.timeInputs }}>
+          <div className={classes.inputBox}>
+            <NumberInput item={item} type={'hours'} />
+            <NumberInput item={item} type={'minutes'} />
           </div>
-          <div>
-            <Typography variant="h6" component="h1">
-              {item.name}
-            </Typography>
-          </div>
+          <Typography variant="h6" component="h1" style={{ paddingRight: '1rem', paddingLeft: '1rem' }}>
+            {item.name}
+          </Typography>
         </Paper>
       </TimelineContent>
     </TimelineItem>
