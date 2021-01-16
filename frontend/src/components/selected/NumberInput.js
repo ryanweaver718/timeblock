@@ -39,7 +39,15 @@ const NumberInput = ({ item, type }) => {
   const hoursTotal = Math.floor(minutes / 60);
   const minutesTotal = minutes % 60;
   const value = type === 'hours' ? hoursTotal : minutesTotal;
-
+  let isSubtractDisabled = false;
+  let isAddDisabled = false;
+  if (type === 'hours') {
+    isSubtractDisabled = hoursTotal === 0;
+    isAddDisabled = hoursTotal === 23;
+  } else {
+    isSubtractDisabled = hoursTotal === 0 && minutesTotal === 0;
+    isAddDisabled = hoursTotal === 23 && minutesTotal === 59;
+  }
   useEffect(() => {
     setDispalyNumber(value);
   }, [value]);
@@ -60,7 +68,7 @@ const NumberInput = ({ item, type }) => {
 
   return (
     <div className={classes.root}>
-      <IconButton onClick={() => void handleTimeUpdate(-1, 'add')}>
+      <IconButton onClick={() => void handleTimeUpdate(-1, 'add')} disabled={isSubtractDisabled}>
         <RemoveIcon className={classes.icon} />
       </IconButton>
       <input
@@ -70,7 +78,7 @@ const NumberInput = ({ item, type }) => {
       />
       {showError && <div>Error</div>}
       <div className={classes.displayWord}>{displayWord}</div>
-      <IconButton onClick={() => void handleTimeUpdate(1, 'add')}>
+      <IconButton onClick={() => void handleTimeUpdate(1, 'add')} disabled={isAddDisabled}>
         <AddIcon className={classes.icon} />
       </IconButton>
     </div>

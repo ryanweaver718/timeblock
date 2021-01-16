@@ -40,6 +40,9 @@ const itemsSlice = createSlice({
     addTemporaryItemAction(state, { payload: { name, totalMinutes, priority } }) {
       state.available.push({ id: uuid(), name, totalMinutes: parseInt(totalMinutes), priority });
     },
+    deleteItemAction(state, { payload: { dayItemId } }) {
+      state.selected = state.selected.filter((item) => item.dayItemId !== dayItemId);
+    },
     updateSelectedItemTotalTimeAction(state, { payload: { dayItemId, type, number, setType } }) {
       number = parseInt(number);
       for (const item of state.selected) {

@@ -1,5 +1,7 @@
+import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
 import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineItem from '@material-ui/lab/TimelineItem';
@@ -9,7 +11,8 @@ import { makeStyles } from '@material-ui/styles';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { itemsActions as ia } from 'store/items/itemsReducer';
 import ItemIcon from './ItemIcon';
 import NumberInput from './NumberInput';
 
@@ -53,6 +56,9 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
   const { startTime } = useSelector(({ items }) => ({ startTime: items.startTime }));
   const classes = useStyles({ isEven });
   const calculatedTime = moment(startTime).add(parseInt(currentTotalTime), 'minutes').format('hh:mm a');
+  const dispatch = useDispatch();
+  const removeItem = () => void dispatch(ia.deleteItemAction({ dayItemId: item.dayItemId }));
+
   return (
     <TimelineItem
       ref={provided.innerRef}
@@ -74,6 +80,9 @@ export default function SelectedItem({ item, provided, snapshot, currentTotalTim
       <TimelineContent>
         <Paper elevation={4} className={classes.timeInputs} classes={{ root: classes.timeInputs }}>
           <div className={classes.inputBox}>
+            <IconButton onClick={removeItem} style={{ display: 'none' }}>
+              <CloseIcon />
+            </IconButton>
             <NumberInput item={item} type={'hours'} />
             <NumberInput item={item} type={'minutes'} />
           </div>

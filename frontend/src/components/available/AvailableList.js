@@ -36,8 +36,8 @@ export default function AvailableList({ list, search, filter }) {
           }
           return showItem;
         })
-        .map((item) => (
-          <Item item={item} key={`available-${item.id}`} />
+        .map((item,index) => (
+          <Item item={item} key={`available-${item.id}`} index={index} />
         ))}
     </List>
   );
