@@ -1,43 +1,63 @@
 import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+import ArrowUpIcon from '@material-ui/icons/ExpandLess';
+import ArrowDownIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: '.25rem',
+  },
+  arrows: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   input: {
     width: '2rem',
     border: 'none',
-    borderBottom: '1px solid black',
+    borderBottom: `.5px solid ${theme.palette.grey.main}`,
+    color: theme.palette.grey.dark,
     textAlign: 'center',
   },
-  icon: {
-    fontSize: '.75rem',
+  inputRoot: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
+  upArrow: () => ({
+    fontSize: '1.25rem',
+    color: theme.palette.primary.main,
+    '&:disabled': {
+      color: theme.palette.grey.main,
+    },
+    fontWeight: 'bolder',
+  }),
+  downArrow: () => ({
+    fontSize: '1.25rem',
+    color: theme.palette.primary.main,
+    '&:disabled': {
+      color: theme.palette.grey.main,
+    },
+    fontWeight: 'bolder',
+  }),
   displayWord: {
     fontSize: '90%',
     textAlign: 'left',
     display: 'flex',
     alignItems: 'flex-end',
+    color: theme.palette.grey.dark,
   },
 }));
 
-const NumberInput = ({ item, type }) => {
-  const classes = useStyles();
+const NumberInput = ({ type, dayItemId, hoursTotal, minutesTotal }) => {
   const [displayNumber, setDispalyNumber] = useState('');
   const [showError, setShowError] = useState(false);
   const dispatch = useDispatch();
-  const max = type === 'hours' ? 24 : 60;
-  const displayWord = type === 'hours' ? 'hr' : 'min';
-  const minutes = parseInt(item.totalMinutes);
-  const hoursTotal = Math.floor(minutes / 60);
-  const minutesTotal = minutes % 60;
   const value = type === 'hours' ? hoursTotal : minutesTotal;
   let isSubtractDisabled = false;
   let isAddDisabled = false;
@@ -48,47 +68,62 @@ const NumberInput = ({ item, type }) => {
     isSubtractDisabled = hoursTotal === 0 && minutesTotal === 0;
     isAddDisabled = hoursTotal === 23 && minutesTotal === 59;
   }
+  const classes = useStyles();
   useEffect(() => {
     setDispalyNumber(value);
   }, [value]);
 
   const handleTimeUpdate = (number, setType) => {
     if (!isNaN(number)) {
-      if (setType === 'add' || (number >= 0 && number < max)) {
+      if (setType === 'add' || (number >= 0 && number < (type === 'hours' ? 24 : 60))) {
         setShowError(false);
-        dispatch(ia.updateSelectedItemTotalTimeAction({ dayItemId: item.dayItemId, type, number, setType }));
+        dispatch(ia.updateSelectedItemTotalTimeAction({ dayItemId, type, number, setType }));
       } else {
         setShowError(true);
       }
     } else {
-      setDispalyNumber('');
-      dispatch(ia.updateSelectedItemTotalTimeAction({ dayItemId: item.dayItemId, type, number: 0, setType }));
+      setDispalyNumber('0');
+      dispatch(ia.updateSelectedItemTotalTimeAction({ dayItemId, type, number: 0, setType }));
     }
   };
 
   return (
     <div className={classes.root}>
-      <IconButton onClick={() => void handleTimeUpdate(-1, 'add')} disabled={isSubtractDisabled}>
-        <RemoveIcon className={classes.icon} />
-      </IconButton>
-      <input
-        className={classes.input}
-        value={displayNumber}
-        onChange={(e) => void handleTimeUpdate(parseInt(e.target.value), 'set')}
-      />
-      {showError && <div>Error</div>}
-      <div className={classes.displayWord}>{displayWord}</div>
-      <IconButton onClick={() => void handleTimeUpdate(1, 'add')} disabled={isAddDisabled}>
-        <AddIcon className={classes.icon} />
-      </IconButton>
+      <div className={classes.inputRoot}>
+        <div className={classes.arrows}>
+          <IconButton
+            onClick={() => void handleTimeUpdate(1, 'add')}
+            className={classes.upArrow}
+            disabled={isAddDisabled}
+          >
+            <ArrowUpIcon />
+          </IconButton>
+          <input
+            className={classes.input}
+            value={displayNumber}
+            onChange={(e) => void handleTimeUpdate(parseInt(e.target.value), 'set')}
+          />
+          <IconButton
+            onClick={() => void handleTimeUpdate(-1, 'add')}
+            className={classes.downArrow}
+            disabled={isSubtractDisabled}
+          >
+            <ArrowDownIcon />
+          </IconButton>
+        </div>
+
+        {showError && <div>Error</div>}
+        <div className={classes.displayWord}>{type === 'hours' ? 'hr' : 'min'}</div>
+      </div>
     </div>
   );
 };
 
 NumberInput.propTypes = {
   type: PropTypes.string.isRequired,
-
-  item: PropTypes.object.isRequired,
+  dayItemId: PropTypes.string.isRequired,
+  hoursTotal: PropTypes.number.isRequired,
+  minutesTotal: PropTypes.number.isRequired,
 };
 
 export default NumberInput;

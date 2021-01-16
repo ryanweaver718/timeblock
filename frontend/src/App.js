@@ -13,21 +13,19 @@ export default function App() {
   }, []); //eslint-disable-line
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
-    const payload = {
-      start: source.index,
-      end: destination.index,
-      sourceName: source.droppableId,
-      destName: destination.droppableId,
-    };
-    // dispatch(
-    //   source.droppableId === destination.droppableId ? ia.reorderListAction(payload) : ia.moveListItemAction(payload)
-    // );
-    dispatch(ia.reorderListAction(payload));
+    dispatch(
+      ia.reorderListAction({
+        start: source.index,
+        end: destination.index,
+        sourceName: source.droppableId,
+        destName: destination.droppableId,
+      })
+    );
   };
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ flexBasis: '20%' }}>
+      <div style={{ flexBasis: '30%' }}>
         <DragDropContext onDragEnd={onDragEnd}>
           <AvailableList droppableId="available" />
         </DragDropContext>

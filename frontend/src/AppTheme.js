@@ -24,6 +24,10 @@ const palette = {
   tertiary: {
     main: '#ff1717',
   },
+  grey: {
+    main: '#ddd',
+    dark: '#919191',
+  },
   priorities: {
     1: {
       main: '#ab3131',
