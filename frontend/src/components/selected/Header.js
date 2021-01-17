@@ -1,18 +1,11 @@
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import ClearIcon from '@material-ui/icons/Clear';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SaveIcon from '@material-ui/icons/Save';
-import { useDispatch } from 'react-redux';
-import { itemsActions as ia } from 'store/items/itemsReducer';
-import { createDay, deleteDay, test } from 'store/items/itemsThunks';
 import SelectTime from './SelectTime';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexBasis: '100%',
     alignItems: 'center',
     flexWrap: 'wrap',
   },
@@ -56,15 +49,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const actions = [
-    { Icon: <SaveIcon />, name: 'Save', handler: () => void dispatch(createDay()) },
-    { Icon: <ClearIcon />, name: 'Reset Day', handler: () => void dispatch(ia.clearDailyScheduleAction()) },
-    { Icon: <DeleteIcon />, name: 'Delete Day', handler: () => void dispatch(deleteDay()) },
-    { Icon: <></>, name: 'TEST', handler: () => void dispatch(test()) },
-  ];
-
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -72,21 +56,6 @@ export default function Header() {
           Daily Schedule
         </Typography>
         <SelectTime />
-      </div>
-      <div className={classes.actionsRow}>
-        <ButtonGroup
-          className={classes.buttonGroup}
-          variant="text"
-          color="primary"
-          aria-label="text primary button group"
-        >
-          {actions.map(({ name, Icon, handler }) => (
-            <Button key={name} startIcon={Icon} onClick={() => handler()}>
-              {name}
-            </Button>
-          ))}
-        </ButtonGroup>
-       
       </div>
     </div>
   );

@@ -43,6 +43,11 @@ const itemsSlice = createSlice({
     deleteItemAction(state, { payload: { dayItemId } }) {
       state.selected = state.selected.filter((item) => item.dayItemId !== dayItemId);
     },
+    resetAllDayTimes(state) {
+      for (const item of state.selected) {
+        item.totalMinutes = '0';
+      }
+    },
     updateSelectedItemTotalTimeAction(state, { payload: { dayItemId, type, number, setType } }) {
       number = parseInt(number);
       for (const item of state.selected) {

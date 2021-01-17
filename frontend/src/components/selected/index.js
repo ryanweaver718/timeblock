@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import Header from './Header';
 import SelectedList from './SelectedList';
+import Menu from './Menu';
 
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
@@ -11,9 +12,8 @@ Index.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'stretch',
     flexWrap: 'wrap',
-    alignItems: 'center',
     background: theme.palette.background.light,
     padding: `0.25rem `,
     boxShadow: '0px 0.5rem 0.5rem #0004',
@@ -23,6 +23,18 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     flexBasis: '100%',
+  },
+  body: {
+    display: 'flex',
+    flexGrow: 1,
+    // flexWrap: 'wrap',
+  },
+  bottomStretch: {
+    flexBasis: '100%',
+    display: 'flex',
+    justifyContent: 'stretch',
+    flexDirection: 'column',
+    backgroundColor: 'blue',
   },
 }));
 
@@ -34,7 +46,13 @@ export default function Index({ droppableId }) {
   return (
     <div className={classes.root}>
       <Header />
-      <SelectedList className={classes.list} droppableId={droppableId} list={list} />
+      <div className={classes.body}>
+        <Menu />
+        <SelectedList className={classes.list} droppableId={droppableId} list={list} />
+      </div>
+      <div className={classes.bottomStretch}>
+        <div style={{ flexGrow: 1 }}>hello</div>
+      </div>
     </div>
   );
 }

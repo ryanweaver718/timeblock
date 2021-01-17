@@ -7,6 +7,7 @@ import App from './App';
 import reducer from './store/rootReducer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ThemeProvider from './AppTheme';
+import './App.css';
 
 const store = configureStore({
   reducer,

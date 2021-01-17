@@ -17,9 +17,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   editDuration: {
-    borderRadius: '1rem',
-    paddingLeft: '.5rem',
     display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexBasis: '100%',
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: '.5rem',
+    },
   },
   showDuration: {
     paddingLeft: '.5rem',
@@ -38,25 +42,30 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     flexBasis: '100%',
     paddingLeft: '1rem',
+    paddingTop: '.5rem',
   },
   titleRow: {
     display: 'flex',
-    flexBasis: '100%',
     alignItems: 'flex-start',
     paddingLeft: '1rem',
   },
   durationRow: {
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flexWrap: 'wrap',
     paddingTop: '.1rem',
-    paddingLeft: '3.5rem',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '1rem',
+    },
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: '3.5rem',
+    },
   },
   startTime: {
     paddingLeft: '0rem',
   },
   root: {
-    flexGrow: 1,
+    // flexGrow: 1,
     display: 'flex',
     flexWrap: 'wrap',
   },
@@ -69,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
   },
   close: {
     marginRight: '.5rem',
+  },
+  bodyGrid: {
+    display: 'flex',
   },
 }));
 
@@ -99,39 +111,45 @@ export default function SelectedItem({ item, snapshot, provided, currentTotalTim
             <CloseIcon />
           </IconButton>
         </div>
-
-        <div className={classes.titleRow}>
-          <IconButton className={classes.priority} onClick={() => void setEdit((edit) => !edit)}>
-            {edit ? <TurnedInNotIcon /> : <TurnedInIcon />}
-          </IconButton>
-          <Typography variant="h6" component="h1" className={classes.name}>
-            {item.name}
-          </Typography>
-        </div>
-        <div className={classes.durationRow}>
-          <Typography variant="body2" color="textSecondary">
-            Duration:
-          </Typography>
-          {edit ? (
-            <div className={classes.editDuration}>
-              <NumberInput
-                hoursTotal={hoursTotal}
-                dayItemId={item.dayItemId}
-                minutesTotal={minutesTotal}
-                type={'hours'}
-              />
-              <NumberInput
-                hoursTotal={hoursTotal}
-                dayItemId={item.dayItemId}
-                minutesTotal={minutesTotal}
-                type={'minutes'}
-              />
+        <div className={classes.bodyGrid}>
+          <div className={classes.bodyGridStart}>
+            <div className={classes.titleRow}>
+              <IconButton className={classes.priority} onClick={() => void setEdit((edit) => !edit)}>
+                {edit ? <TurnedInNotIcon /> : <TurnedInIcon />}
+              </IconButton>
+              <Typography variant="h6" component="h1" className={classes.name}>
+                {item.name}
+              </Typography>
             </div>
-          ) : (
-            <Typography variant="body2" color="textSecondary" className={classes.showDuration}>
-              {`${hoursTotal} hr ${minutesTotal} min`}
-            </Typography>
-          )}
+            <div className={classes.durationRow}>
+              <Typography variant="body2" color="textSecondary">
+                Duration:
+              </Typography>
+              {edit ? (
+                <div className={classes.editDuration}>
+                  <NumberInput
+                    hoursTotal={hoursTotal}
+                    dayItemId={item.dayItemId}
+                    minutesTotal={minutesTotal}
+                    type={'hours'}
+                  />
+                  <NumberInput
+                    hoursTotal={hoursTotal}
+                    dayItemId={item.dayItemId}
+                    minutesTotal={minutesTotal}
+                    type={'minutes'}
+                  />
+                </div>
+              ) : (
+                <Typography variant="body2" color="textSecondary" className={classes.showDuration}>
+                  {`${hoursTotal} hr ${minutesTotal} min`}
+                </Typography>
+              )}
+            </div>
+          </div>
+          <div className={classes.detailsGrid}>
+            <Typography>{item.details}</Typography>
+          </div>
         </div>
       </Paper>
     </div>

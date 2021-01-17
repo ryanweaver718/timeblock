@@ -5,8 +5,17 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { initialize } from 'store/items/itemsThunks';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
+const useStyles = makeStyles(() => ({
+  root: {
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'stretch',
+  },
+}));
 export default function App() {
+  const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(initialize());
@@ -24,19 +33,11 @@ export default function App() {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flexBasis: '30%' }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <AvailableList droppableId="available" />
-        </DragDropContext>
-      </div>
-      <div style={{ flexGrow: 1 }} />
-
-      <div style={{ flexBasis: '70%' }}>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <SelectedList droppableId="selected" />
-        </DragDropContext>
-      </div>
+    <div className={classes.root}>
+      <AvailableList droppableId="available" />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <SelectedList droppableId="selected" />
+      </DragDropContext>
     </div>
   );
 }

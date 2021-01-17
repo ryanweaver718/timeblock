@@ -1,12 +1,11 @@
 import IconButton from '@material-ui/core/IconButton';
-import ItemModal from './ItemModal';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AvailableList from './AvailableList';
+import ItemModal from './ItemModal';
 import Menu from './Menu';
 
 Index.propTypes = {
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'stretch',
     background: theme.palette.background.light,
     padding: `0.25rem `,
-    boxShadow: '0px 0.5rem 0.5rem #0004',
+    // boxShadow: '0px 0.5rem 0.5rem #0004',
     zIndex: '1',
     marginTop: '-1px',
     borderBottom: `1px solid lightblue`,
@@ -58,7 +57,6 @@ export default function Index({ droppableId }) {
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        <Typography variant="h4">Available Items</Typography>
         <IconButton onClick={handleOpenModal}>
           <AddCircleOutlineIcon className={classes.addButton} />
         </IconButton>

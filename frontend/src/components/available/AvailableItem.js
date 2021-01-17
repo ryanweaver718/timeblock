@@ -1,7 +1,6 @@
 import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import Typograhpy from '@material-ui/core/Typography';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -43,6 +42,7 @@ export default function Item({ item }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
+      onDoubleClick={() => void dispatch(itemsActions.addToSelected({ item }))}
     >
       <IconButton onClick={() => setOpen(true)}>
         <EditIcon />
@@ -50,9 +50,6 @@ export default function Item({ item }) {
       {open && <ItemModal isOpen={open} handleClose={() => setOpen(false)} isEditingItem={true} item={item} />}
       <Typograhpy>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
-      <IconButton onClick={() => void dispatch(itemsActions.addToSelected({ item }))}>
-        <AddCircleIcon />
-      </IconButton>
     </ListItem>
   );
 }
