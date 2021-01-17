@@ -6,8 +6,7 @@ import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { itemsActions } from 'store/items/itemsReducer';
-import ItemModal from './ItemModal';
+import { itemsActions as ia } from 'store/items/itemsReducer';
 const useStyles = makeStyles((theme) => ({
   item: ({ showInverseColor, priority, draggablePropsStyle }) => ({
     display: 'flex',
@@ -30,24 +29,25 @@ Item.propTypes = {
 export default function Item({ item }) {
   const dispatch = useDispatch();
   const [isHovering, setIsHovering] = useState(false);
-  const [open, setOpen] = useState(false);
   const showInverseColor = isHovering;
   const classes = useStyles({
     showInverseColor,
     priority: item.priority,
   });
+  const handleOpenItemModal = () => void dispatch(ia.setItemModal({ item, isOpen: true, isEditingItem: true }));
+  const handleAddItem = () => void dispatch(ia.addToSelected({ item }));
+
   return (
     <ListItem
       button
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
-      onDoubleClick={() => void dispatch(itemsActions.addToSelected({ item }))}
+      onDoubleClick={handleAddItem}
     >
-      <IconButton onClick={() => setOpen(true)}>
+      <IconButton onClick={handleOpenItemModal}>
         <EditIcon />
       </IconButton>
-      {open && <ItemModal isOpen={open} handleClose={() => setOpen(false)} isEditingItem={true} item={item} />}
       <Typograhpy>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
     </ListItem>

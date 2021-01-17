@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import AvailableList from './AvailableList';
-import ItemModal from './ItemModal';
+import { itemsActions as ia } from 'store/items/itemsReducer';
 import Menu from './Menu';
 
 Index.propTypes = {
@@ -48,12 +48,11 @@ export default function Index({ droppableId }) {
   const { list } = useSelector(({ items }) => ({
     list: items[droppableId] || [],
   }));
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('Show All Priorities');
-  const [isOpen, setIsOpen] = useState(false);
-  const handleOpenModal = () => void setIsOpen(true);
-  const handleClose = () => void setIsOpen(false);
+  const handleOpenModal = () => dispatch(ia.setItemModal({ isOpen: true }));
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -61,7 +60,6 @@ export default function Index({ droppableId }) {
           <AddCircleOutlineIcon className={classes.addButton} />
         </IconButton>
       </div>
-      <ItemModal isOpen={isOpen} handleClose={handleClose} />
       <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
       <AvailableList className={classes.list} droppableId={droppableId} list={list} filter={filter} search={search} />
     </div>

@@ -6,7 +6,14 @@ import extraReducers from './itemsThunkReducer';
 const initialState = {
   selected: [],
   available: [],
+  itemModal: {
+    show: false,
+    item: { priority: '', totalMinutes: '', name: '', id: '' },
+    isEditingItem: false,
+    isOpen: false,
+  },
   showDrawer: false,
+  showAddItem: false,
   startTime: moment().toDate(),
   userId: 'test123',
 };
@@ -69,6 +76,14 @@ const itemsSlice = createSlice({
     },
     setShowDrawer(state, { payload: { showDrawer } }) {
       state.showDrawer = showDrawer;
+    },
+    setItemModal(state, { payload }) {
+      const {
+        item = { priority: '', totalMinutes: '', name: '', id: '' },
+        isOpen = false,
+        isEditingItem = false,
+      } = payload;
+      state.itemModal = { item, isOpen, isEditingItem };
     },
   },
   extraReducers,

@@ -3,10 +3,10 @@ import AvailableList from 'components/available';
 import SelectedList from 'components/selected';
 import { useEffect } from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { initialize } from 'store/items/itemsThunks';
-
+import AddItemModal from './components/AddItemModal';
 const useStyles = makeStyles(() => ({
   root: {
     height: '100vh',
@@ -28,6 +28,7 @@ export default function App() {
   useEffect(() => {
     dispatch(initialize());
   }, []); //eslint-disable-line
+  const { isOpen } = useSelector(({ items }) => ({ isOpen: items.itemModal.isOpen }));
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
     dispatch(
@@ -50,6 +51,7 @@ export default function App() {
           </DragDropContext>
         </div>
       </div>
+      {isOpen && <AddItemModal />}
     </div>
   );
 }

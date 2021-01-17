@@ -13,8 +13,8 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { itemsActions } from 'store/items/itemsReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { itemsActions as ia } from 'store/items/itemsReducer';
 import { createUserItem, deleteUserItem, updateUserItem } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
@@ -32,9 +32,15 @@ ItemModal.defaultProps = {
   isEditingItem: false,
 };
 
-export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) {
+export default function ItemModal() {
   const dispatch = useDispatch();
   const classes = useStyles();
+  const { isEditingItem, item } = useSelector(({ items }) => ({
+    item: items.itemModal.item,
+    isEditingItem: items.itemModal.isEditingItem,
+  }));
+
+  const handleClose = () => void dispatch(ia.setItemModal({ isOpen: false }));
   const [name, setName] = useState(item.name);
   const [priority, setPriority] = useState(item.priority);
   const [totalMinutes, setTotalMinutes] = useState(item.totalMinutes);
@@ -71,7 +77,7 @@ export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) 
   const handleSaveTemp = () => {
     const isValid = validateInput();
     if (isValid) {
-      dispatch(itemsActions.addTemporaryItemAction({ name, totalMinutes, priority }));
+      dispatch(ia.addTemporaryItemAction({ name, totalMinutes, priority }));
       clearAndClose();
     }
   };
@@ -97,7 +103,7 @@ export default function ItemModal({ isOpen, handleClose, item, isEditingItem }) 
   return (
     <>
       <Dialog
-        open={isOpen}
+        open
         onClose={clearAndClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"

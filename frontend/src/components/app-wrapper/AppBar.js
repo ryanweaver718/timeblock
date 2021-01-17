@@ -7,7 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
-
+import SelectTime from './SelectTime';
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -59,9 +59,10 @@ export default function AppNavBar() {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
+        <Typography variant="h4" noWrap>
           TimeBlocker
         </Typography>
+        <SelectTime />
       </Toolbar>
     </AppBar>
   );
