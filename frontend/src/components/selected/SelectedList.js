@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '10px',
     padding: 8,
     flexGrow: 1,
+    overflowY: 'hidden',
   },
   list: {},
   noItems: {

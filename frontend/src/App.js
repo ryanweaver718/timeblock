@@ -13,6 +13,14 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifyContent: 'stretch',
   },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  list: {
+    minHeight: '100%',
+    overflowY: 'scroll',
+  },
 }));
 export default function App() {
   const classes = useStyles();
@@ -34,10 +42,14 @@ export default function App() {
 
   return (
     <div className={classes.root}>
-      <AvailableList droppableId="available" />
-      <DragDropContext onDragEnd={onDragEnd}>
-        <SelectedList droppableId="selected" />
-      </DragDropContext>
+      <AvailableList droppableId="available" className={classes.menu} />
+      <div className={classes.main}>
+        <div className={classes.list}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <SelectedList droppableId="selected" />
+          </DragDropContext>
+        </div>
+      </div>
     </div>
   );
 }

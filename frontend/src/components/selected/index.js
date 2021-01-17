@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     background: theme.palette.background.light,
     padding: `0.25rem `,
-    boxShadow: '0px 0.5rem 0.5rem #0004',
+    // boxShadow: '0px 0.5rem 0.5rem #0004',
     zIndex: '1',
     marginTop: '-1px',
-    borderBottom: `1px solid lightblue`,
+    // borderBottom: `1px solid lightblue`,
   },
   list: {
     flexBasis: '100%',
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
   body: {
     display: 'flex',
     flexGrow: 1,
+
     // flexWrap: 'wrap',
   },
   bottomStretch: {
@@ -49,9 +50,6 @@ export default function Index({ droppableId }) {
       <div className={classes.body}>
         <Menu />
         <SelectedList className={classes.list} droppableId={droppableId} list={list} />
-      </div>
-      <div className={classes.bottomStretch}>
-        <div style={{ flexGrow: 1 }}>hello</div>
       </div>
     </div>
   );
