@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './App';
+import AppWrapper from './components/app-wrapper';
 import reducer from './store/rootReducer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ThemeProvider from './AppTheme';
@@ -19,7 +20,9 @@ ReactDOM.render(
     <Provider store={store}>
       <ThemeProvider>
         <CssBaseline />
-        <App />
+        <AppWrapper>
+          <App />
+        </AppWrapper>
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

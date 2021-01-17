@@ -6,6 +6,7 @@ import extraReducers from './itemsThunkReducer';
 const initialState = {
   selected: [],
   available: [],
+  showDrawer: false,
   startTime: moment().toDate(),
   userId: 'test123',
 };
@@ -65,6 +66,9 @@ const itemsSlice = createSlice({
           }
         }
       }
+    },
+    setShowDrawer(state, { payload: { showDrawer } }) {
+      state.showDrawer = showDrawer;
     },
   },
   extraReducers,
