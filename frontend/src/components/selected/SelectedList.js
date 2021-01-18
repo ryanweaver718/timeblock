@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import SelectedItem from './SelectedItem';
+import { useState } from 'react';
 SelectedList.propTypes = {
   droppableId: PropTypes.string.isRequired,
   list: PropTypes.array.isRequired,
@@ -36,6 +37,7 @@ const useStyles = makeStyles(() => ({
 
 export default function SelectedList({ droppableId, list }) {
   const classes = useStyles();
+  const [expandedId, setExpandedId] = useState('');
   return (
     <Droppable droppableId={droppableId} className={classes.root}>
       {(provided, snapshot) =>
@@ -62,6 +64,8 @@ export default function SelectedList({ droppableId, list }) {
                 <Draggable key={item.dayItemId} draggableId={`drag-${item.dayItemId}`} index={index}>
                   {(provided, snapshot) => (
                     <SelectedItem
+                      expandedId={expandedId}
+                      setExpandedId={setExpandedId}
                       currentTotalTime={currentTotalTime}
                       item={item}
                       snapshot={snapshot}

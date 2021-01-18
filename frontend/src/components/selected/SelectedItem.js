@@ -11,6 +11,7 @@ import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import NumberInput from './NumberInput';
+import { Accordion, AccordionDetails, AccordionSummary } from './SelectedItem.styles';
 
 const useStyles = makeStyles((theme) => ({
   itemRow: {
@@ -41,8 +42,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexBasis: '100%',
-    paddingLeft: '1rem',
-    paddingTop: '.5rem',
   },
   titleRow: {
     display: 'flex',
@@ -68,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     // flexGrow: 1,
     display: 'flex',
     flexWrap: 'wrap',
-
+    flexGrow: 1,
     paddingBottom: '1rem',
   },
   inputs: {
@@ -91,8 +90,10 @@ SelectedItem.propTypes = {
   provided: PropTypes.object.isRequired,
   snapshot: PropTypes.object.isRequired,
   currentTotalTime: PropTypes.number.isRequired,
+  expandedId: PropTypes.string.isRequired,
+  setExpandedId: PropTypes.func.isRequired,
 };
-export default function SelectedItem({ item, snapshot, provided, currentTotalTime }) {
+export default function SelectedItem({ item, snapshot, provided, currentTotalTime, expandedId, setExpandedId }) {
   const { startTime } = useSelector(({ items }) => ({ startTime: items.startTime }));
   const classes = useStyles({ priority: item.priority });
   const [edit, setEdit] = useState(false);
@@ -104,55 +105,64 @@ export default function SelectedItem({ item, snapshot, provided, currentTotalTim
 
   return (
     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-      <Paper elevation={4} className={classes.root}>
-        <div className={classes.topRow}>
-          <Typography variant="body2" color="textSecondary" className={classes.startTime}>
-            {!snapshot.isDragging && calculatedTime}
-          </Typography>
-          <IconButton onClick={removeItem} className={classes.close}>
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <div className={classes.bodyGrid}>
-          <div className={classes.bodyGridStart}>
-            <div className={classes.titleRow}>
-              <IconButton className={classes.priority} onClick={() => void setEdit((edit) => !edit)}>
-                {edit ? <TurnedInNotIcon /> : <TurnedInIcon />}
-              </IconButton>
-              <Typography variant="h6" component="h1" className={classes.name}>
-                {item.name}
-              </Typography>
-            </div>
-            <div className={classes.durationRow}>
-              <Typography variant="body2" color="textSecondary">
-                Duration:
-              </Typography>
-              {edit ? (
-                <div className={classes.editDuration}>
-                  <NumberInput
-                    hoursTotal={hoursTotal}
-                    dayItemId={item.dayItemId}
-                    minutesTotal={minutesTotal}
-                    type={'hours'}
-                  />
-                  <NumberInput
-                    hoursTotal={hoursTotal}
-                    dayItemId={item.dayItemId}
-                    minutesTotal={minutesTotal}
-                    type={'minutes'}
-                  />
-                </div>
-              ) : (
-                <Typography variant="body2" color="textSecondary" className={classes.showDuration}>
-                  {`${hoursTotal} hr ${minutesTotal} min`}
+      <Paper elevation={4}>
+        <Accordion
+          square
+          expanded={expandedId === item.dayItemId}
+          onChange={() => setExpandedId((currentId) => (currentId !== item.dayItemId ? item.dayItemId : ''))}
+        >
+          <AccordionSummary>
+            <div className={classes.root}>
+              <div className={classes.topRow}>
+                <Typography variant="body2" color="textSecondary" className={classes.startTime}>
+                  {!snapshot.isDragging && calculatedTime}
                 </Typography>
-              )}
+                <IconButton onClick={removeItem} className={classes.close}>
+                  <CloseIcon />
+                </IconButton>
+              </div>
+              <div className={classes.bodyGrid}>
+                <div className={classes.bodyGridStart}>
+                  <div className={classes.titleRow}>
+                    <IconButton className={classes.priority} onClick={() => void setEdit((edit) => !edit)}>
+                      {edit ? <TurnedInNotIcon /> : <TurnedInIcon />}
+                    </IconButton>
+                    <Typography variant="h6" className={classes.name}>
+                      {item.name}
+                    </Typography>
+                  </div>
+                  <div className={classes.durationRow}>
+                    <Typography variant="body2" color="textSecondary">
+                      Duration:
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" className={classes.showDuration}>
+                      {`${hoursTotal} hr ${minutesTotal} min`}
+                    </Typography>
+                  </div>
+                </div>
+                <div className={classes.detailsGrid}>
+                  <Typography>{item.details}</Typography>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={classes.detailsGrid}>
-            <Typography>{item.details}</Typography>
-          </div>
-        </div>
+          </AccordionSummary>
+          <AccordionDetails>
+            <div className={classes.editDuration}>
+              <NumberInput
+                hoursTotal={hoursTotal}
+                dayItemId={item.dayItemId}
+                minutesTotal={minutesTotal}
+                type={'hours'}
+              />
+              <NumberInput
+                hoursTotal={hoursTotal}
+                dayItemId={item.dayItemId}
+                minutesTotal={minutesTotal}
+                type={'minutes'}
+              />
+            </div>
+          </AccordionDetails>
+        </Accordion>
       </Paper>
     </div>
   );
