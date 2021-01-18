@@ -14,7 +14,7 @@ const initialState = {
   },
   showDrawer: false,
   showAddItem: false,
-  showSearchItems: false,
+  showSearchItems: true,
   startTime: moment().toDate(),
   userId: 'test123',
 };
