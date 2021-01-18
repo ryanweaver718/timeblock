@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 // import useMediaQuery from '@material-ui/core/useMediaQuery';
 import PropTypes from 'prop-types';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import SelectedItem from './SelectedItem';
+import SelectedItem from './item/index';
 import { useState } from 'react';
 SelectedList.propTypes = {
   droppableId: PropTypes.string.isRequired,
