@@ -8,14 +8,12 @@ import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 
 const useStyles = makeStyles((theme) => ({
-  showDuration: {
-    paddingLeft: '.5rem',
-  },
   priority: ({ priority }) => ({
     color: theme.palette.priorities[priority].main,
   }),
   name: {
     paddingLeft: '.5rem',
+    fontSize: theme.typography.pxToRem(15),
   },
   topRow: {
     display: 'flex',
@@ -32,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     flexWrap: 'wrap',
     paddingTop: '.1rem',
+
     [theme.breakpoints.down('sm')]: {
       paddingLeft: '1rem',
     },
@@ -39,15 +38,17 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: '3.5rem',
     },
   },
+  duration: {
+    fontSize: theme.typography.pxToRem(12),
+  },
   startTime: {
     paddingLeft: '0rem',
+    fontSize: theme.typography.pxToRem(12),
   },
   root: {
-    // flexGrow: 1,
     display: 'flex',
     flexWrap: 'wrap',
     flexGrow: 1,
-    paddingBottom: '1rem',
   },
   close: {
     marginRight: '.5rem',
@@ -90,10 +91,7 @@ export default function Summary({ item, isDragging, calculatedTime, hoursTotal, 
             </Typography>
           </div>
           <div className={classes.durationRow}>
-            <Typography variant="body2" color="textSecondary">
-              Duration:
-            </Typography>
-            <Typography variant="body2" color="textSecondary" className={classes.showDuration}>
+            <Typography className={classes.duration} color="textSecondary">
               {`${hoursTotal} hr ${minutesTotal} min`}
             </Typography>
           </div>
