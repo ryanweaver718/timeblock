@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import App from './App';
-import AppWrapper from './components/app-wrapper';
+import AppWrapper from './components/sidebar';
 import reducer from './store/rootReducer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ThemeProvider from './AppTheme';

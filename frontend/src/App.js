@@ -7,28 +7,51 @@ import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { initialize } from 'store/items/itemsThunks';
 import AddItemModal from './components/AddItemModal';
-const useStyles = makeStyles(() => ({
+import clsx from 'clsx';
+
+const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
     display: 'flex',
-    // justifyContent: 'stretch',
   },
   main: {
     display: 'flex',
     flexDirection: 'column',
   },
-  list: {
+  mainItems: ({ showSearchItems }) => ({
     minHeight: '100%',
+    flexBasis: showSearchItems ? '50%' : '100%',
     overflowY: 'scroll',
+  }),
+  searchItems: ({ showSearchItems }) => ({
+    minHeight: '100%',
+    flexBasis: showSearchItems ? '50%' : '0%',
+    overflowY: 'scroll',
+  }),
+  openSearch: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  closeSearch: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
 }));
 export default function App() {
-  const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(initialize());
   }, []); //eslint-disable-line
-  const { isOpen } = useSelector(({ items }) => ({ isOpen: items.itemModal.isOpen }));
+  const { isOpen, showSearchItems } = useSelector(({ items }) => ({
+    isOpen: items.itemModal.isOpen,
+    showSearchItems: items.showSearchItems,
+  }));
+
+  const classes = useStyles({ showSearchItems });
   const onDragEnd = ({ source, destination }) => {
     if (!destination) return;
     dispatch(
@@ -43,13 +66,18 @@ export default function App() {
 
   return (
     <div className={classes.root}>
-      <AvailableList droppableId="available" className={classes.menu} />
-      <div className={classes.main}>
-        <div className={classes.list}>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <SelectedList droppableId="selected" />
-          </DragDropContext>
-        </div>
+      <div
+        className={clsx(classes.searchItems, {
+          [classes.openSearch]: showSearchItems,
+          [classes.closeSearch]: !showSearchItems,
+        })}
+      >
+        <AvailableList droppableId="available" />
+      </div>
+      <div className={classes.mainItems}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <SelectedList droppableId="selected" />
+        </DragDropContext>
       </div>
       {isOpen && <AddItemModal />}
     </div>

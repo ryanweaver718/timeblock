@@ -68,6 +68,8 @@ const useStyles = makeStyles((theme) => ({
     // flexGrow: 1,
     display: 'flex',
     flexWrap: 'wrap',
+
+    paddingBottom: '1rem',
   },
   inputs: {
     width: '3rem',

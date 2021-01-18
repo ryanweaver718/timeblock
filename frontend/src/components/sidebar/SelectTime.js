@@ -42,7 +42,6 @@ export default function SelectTime() {
       <KeyboardDateTimePicker
         autoOk
         className={classes.date}
-        // hideTabs
         inputVariant="outlined"
         variant="inline"
         ampm={true}

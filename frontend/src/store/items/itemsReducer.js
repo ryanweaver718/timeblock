@@ -14,6 +14,7 @@ const initialState = {
   },
   showDrawer: false,
   showAddItem: false,
+  showSearchItems: false,
   startTime: moment().toDate(),
   userId: 'test123',
 };
@@ -84,6 +85,9 @@ const itemsSlice = createSlice({
         isEditingItem = false,
       } = payload;
       state.itemModal = { item, isOpen, isEditingItem };
+    },
+    toggleSearchItems(state) {
+      state.showSearchItems = !state.showSearchItems;
     },
   },
   extraReducers,

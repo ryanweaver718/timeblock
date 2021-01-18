@@ -207,18 +207,18 @@ const theme = createMuiTheme({
           alignItems: 'center',
           flexDirection: 'column',
         },
-        '*::-webkit-scrollbar': {
-          width: '5px',
-        },
-        '*::-webkit-scrollbar-track': {
-          background: palette.primary.dark,
-        },
-        '*::-webkit-scrollbar-thumb': {
-          background: palette.primary.main,
-        },
-        '*::-webkit-scrollbar-thumb:hover': {
-          background: palette.primary.light,
-        },
+        // '*::-webkit-scrollbar': {
+        //   width: '5px',
+        // },
+        // '*::-webkit-scrollbar-track': {
+        //   background: palette.primary.dark,
+        // },
+        // '*::-webkit-scrollbar-thumb': {
+        //   background: palette.primary.main,
+        // },
+        // '*::-webkit-scrollbar-thumb:hover': {
+        //   background: palette.primary.light,
+        // },
       },
     },
     MuiTablePagination: {

@@ -43,7 +43,7 @@ export default function Item({ item }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       className={classes.item}
-      onDoubleClick={handleAddItem}
+      onClick={handleAddItem}
     >
       <IconButton onClick={handleOpenItemModal}>
         <EditIcon />
