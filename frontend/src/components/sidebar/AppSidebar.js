@@ -17,6 +17,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import SidebarActions from './SidebarActions';
+import ListSubheader from '@material-ui/core/ListSubheader';
 // const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +70,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '1rem',
     color: showSearchItems ? theme.palette.primary.main : theme.palette.grey.dark,
   }),
+  subheader: {
+    paddingBottom: '0rem',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
 }));
 
 AppSidebar.propTypes = {
@@ -115,6 +122,7 @@ export default function AppSidebar() {
         )}
       </div>
       <Divider />
+      <ListSubheader className={classes.subheader}>Visible</ListSubheader>
       <ListItem button onClick={handleToggleSearchItems} className={classes.showSearch}>
         <ListItemIcon>
           <ListAltIcon className={classes.showSearch} />
@@ -135,6 +143,7 @@ export default function AppSidebar() {
         />
       </ListItem>
       <Divider />
+      <ListSubheader className={classes.subheader}>Actions</ListSubheader>
       <SidebarActions />
       <Divider />
     </div>

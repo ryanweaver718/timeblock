@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     padding: `0.25rem `,
     zIndex: '1',
     marginTop: '-1px',
-    borderBottom: `1px solid lightblue`,
   },
   list: {
     flexBasis: '100%',
