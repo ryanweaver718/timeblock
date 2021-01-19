@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
   },
 
   subheader: {
+    marginTop: '1rem',
     paddingBottom: '0rem',
+    lineHeight: '0',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },

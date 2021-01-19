@@ -11,8 +11,10 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import clsx from 'clsx';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { priorityKeysHigh } from '../../constants';
+import SearchIcon from '@material-ui/icons/Search';
 import { appActions as aa } from 'store/app/appReducer';
 // const drawerWidth = 400;
 
@@ -29,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
     color: showSearchItems ? theme.palette.primary.main : theme.palette.grey.dark,
   }),
   search: {
-    marginBottom: 20,
-    marginRight: '1rem',
-    marginLeft: '1rem',
+    // marginRight: '.25rem',
+    // marginLeft: '.25rem',
   },
   button: {},
   root: {
@@ -62,8 +63,11 @@ export default function SidebarSelect() {
   const theme = useTheme();
   const handleToggleSearchItems = () => void dispatch(ia.toggleSearchItems());
   const handleSearchChange = (e) => void dispatch(aa.setSearchText({ text: e.target.value }));
+  const clearSearch = () => void dispatch(aa.setSearchText({ text: '' }));
   const updatePriorityList = (priority) => dispatch(aa.setSearchPriorities({ priority }));
   const classes = useStyles({ showSearchItems });
+  const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
+
   return (
     <div className={classes.root}>
       <ListItem button onClick={handleToggleSearchItems} className={classes.showSearch}>
@@ -78,21 +82,6 @@ export default function SidebarSelect() {
           }
           primaryTypographyProps={{ variant: 'p' }}
           className={classes.text}
-        />
-      </ListItem>
-      <ListItem>
-        <TextField
-          id="standard-full-width"
-          label="Search"
-          className={classes.search}
-          placeholder="Search Items"
-          onChange={handleSearchChange}
-          value={searchText}
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
         />
       </ListItem>
       <ListItem>
@@ -111,6 +100,27 @@ export default function SidebarSelect() {
             );
           })}
         </div>
+      </ListItem>
+      <ListItem>
+        {smUp ? (
+          <TextField
+            id="standard-full-width"
+            label="Search"
+            className={classes.search}
+            placeholder="Search Items"
+            onChange={handleSearchChange}
+            value={searchText}
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        ) : (
+          <IconButton disabled={!searchText} onClick={clearSearch} color={searchText ? 'primary' : 'default'}>
+            <SearchIcon />
+          </IconButton>
+        )}
       </ListItem>
     </div>
   );

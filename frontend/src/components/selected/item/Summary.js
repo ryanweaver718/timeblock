@@ -7,6 +7,15 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 
+const getTime = (hr, min) => {
+  let time = 'Time: ';
+  if (hr) {
+    time += `${hr} hr `;
+  }
+  time += `${min} min`;
+  return time;
+};
+
 const useStyles = makeStyles((theme) => ({
   priority: ({ priority }) => ({
     color: theme.palette.priorities[priority].main,
@@ -24,10 +33,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
-    paddingLeft: '1rem',
   },
 
   duration: {
+    marginLeft: '1rem',
     fontSize: theme.typography.pxToRem(12),
   },
   startTime: {
@@ -37,13 +46,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   close: {
     marginRight: '.5rem',
-  },
-  bodyGrid: {
-    display: 'flex',
   },
 }));
 
@@ -69,23 +75,20 @@ export default function Summary({ item, isDragging, calculatedTime, hoursTotal, 
           <CloseIcon />
         </IconButton>
       </div>
-      <div className={classes.bodyGrid}>
-        <div className={classes.bodyGridStart}>
-          <div className={classes.titleRow}>
-            <IconButton className={classes.priority}>
-              <TurnedInIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.name}>
-              {item.name}
-            </Typography>
-            <Typography className={classes.duration} color="textSecondary">
-              {`${hoursTotal} hr ${minutesTotal} min`}
-            </Typography>
-          </div>
-        </div>
-        <div className={classes.detailsGrid}>
-          <Typography>{item.details}</Typography>
-        </div>
+
+      <div className={classes.titleRow}>
+        <IconButton className={classes.priority}>
+          <TurnedInIcon />
+        </IconButton>
+        <Typography variant="h6" className={classes.name}>
+          {item.name}
+        </Typography>
+        <Typography className={classes.duration} color="textSecondary">
+          {getTime(hoursTotal, minutesTotal)}
+        </Typography>
+      </div>
+      <div className={classes.detailsGrid}>
+        <Typography>{item.details}</Typography>
       </div>
     </div>
   );

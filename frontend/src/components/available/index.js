@@ -1,11 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
-import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { useSelector } from 'react-redux';
-import AvailableList from './AvailableList';
+import Item from './AvailableItem';
 
-Index.propTypes = {
-  droppableId: PropTypes.string.isRequired,
-};
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -17,23 +14,45 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '-1px',
   },
   list: {
+    borderRadius: '10px',
+    padding: 8,
     flexBasis: '100%',
     justifySelf: 'flex-start',
   },
-  menu: {
-    flexBasis: '100%',
-    justifySelf: 'flex-end',
-  },
 }));
-export default function Index({ droppableId }) {
-  const { list } = useSelector(({ items }) => ({
-    list: items[droppableId] || [],
-  }));
-  const classes = useStyles();
 
+export default function Index() {
+  const classes = useStyles();
+  const { searchText, list, searchPriorities } = useSelector(({ app, items }) => ({
+    searchText: app.search.text,
+    list: items.available || [],
+    searchPriorities: app.search.priorities,
+  }));
   return (
     <div className={classes.root}>
-      <AvailableList className={classes.list} droppableId={droppableId} list={list} />
+      <List className={classes.list}>
+        {list
+          .filter((item) => {
+            let showItem = true;
+
+            if (!searchPriorities.includes(item.priority)) {
+              showItem = false;
+            } else if (searchText) {
+              const s = searchText.toLowerCase();
+              if ((item.tags || []).some((tag) => tag.toLowerCase().includes(s))) {
+                showItem = true;
+              } else if (item.name.toLowerCase().includes(s)) {
+                showItem = true;
+              } else {
+                showItem = false;
+              }
+            }
+            return showItem;
+          })
+          .map((item, index) => (
+            <Item item={item} key={`available-${item.id}`} index={index} />
+          ))}
+      </List>
     </div>
   );
 }
