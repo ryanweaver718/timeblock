@@ -5,9 +5,8 @@ import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
-import { priorities } from '../../../constants';
+import { priorityKeysHigh } from '../../../constants';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-const priorityNumbers = Object.keys(priorities).sort((a, b) => a - b);
 
 PriorityFlag.propTypes = {
   item: PropTypes.object.isRequired,
@@ -31,7 +30,7 @@ export default function PriorityFlag({ item }) {
   const updatePriority = (priority) => dispatch(ia.updateSelectedItemPriority({ dayItemId: item.dayItemId, priority }));
   return (
     <div className={classes.root}>
-      {priorityNumbers.map((priority) => {
+      {priorityKeysHigh.map((priority) => {
         const color = theme.palette.priorities[priority.toString()].main;
         return (
           <IconButton

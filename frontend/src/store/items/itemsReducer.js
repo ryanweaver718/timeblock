@@ -12,6 +12,10 @@ const initialState = {
     isEditingItem: false,
     isOpen: false,
   },
+  search: {
+    filterPriorities: ['1', '2', '3', '4'],
+    text: '',
+  },
   showDrawer: false,
   showAddItem: false,
   showSearchItems: true,

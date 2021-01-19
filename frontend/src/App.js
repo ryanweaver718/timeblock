@@ -13,20 +13,27 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
     display: 'flex',
+    flexGrow: 1,
   },
   main: {
     display: 'flex',
     flexDirection: 'column',
   },
-  mainItems: ({ showSearchItems }) => ({
+  mainItems: () => ({
     minHeight: '100%',
-    flexBasis: showSearchItems ? '50%' : '100%',
+    // flexBasis: showSearchItems ? '70%' : '100%',
     overflowY: 'scroll',
+    flexGrow: 1,
+    // maxWidth: '25%',
+    // overflowX: 'visible',
   }),
-  searchItems: ({ showSearchItems }) => ({
+  searchItems: () => ({
     minHeight: '100%',
-    flexBasis: showSearchItems ? '50%' : '0%',
+    // flexBasis: showSearchItems ? '30%' : '0%',
     overflowY: 'scroll',
+    // overflowX: 'visible',
+    flexShrink: 1,
+    // maxWidth: '25%',
   }),
   openSearch: {
     transition: theme.transitions.create('width', {

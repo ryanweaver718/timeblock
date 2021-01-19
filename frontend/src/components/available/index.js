@@ -1,9 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import AvailableList from './AvailableList';
-import Menu from './Menu';
 
 Index.propTypes = {
   droppableId: PropTypes.string.isRequired,
@@ -11,7 +9,6 @@ Index.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    justifyContent: 'flex-end',
     flexWrap: 'wrap',
     alignItems: 'stretch',
     background: theme.palette.background.light,
@@ -21,9 +18,11 @@ const useStyles = makeStyles((theme) => ({
   },
   list: {
     flexBasis: '100%',
+    justifySelf: 'flex-start',
   },
   menu: {
     flexBasis: '100%',
+    justifySelf: 'flex-end',
   },
 }));
 export default function Index({ droppableId }) {
@@ -31,12 +30,10 @@ export default function Index({ droppableId }) {
     list: items[droppableId] || [],
   }));
   const classes = useStyles();
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('Show All Priorities');
+
   return (
     <div className={classes.root}>
-      <Menu className={classes.menu} search={search} setSearch={setSearch} filter={filter} setFilter={setFilter} />
-      <AvailableList className={classes.list} droppableId={droppableId} list={list} filter={filter} search={search} />
+      <AvailableList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   );
 }

@@ -22,22 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
   titleRow: {
     display: 'flex',
-    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    alignItems: 'center',
     paddingLeft: '1rem',
   },
-  durationRow: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    paddingTop: '.1rem',
 
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: '1rem',
-    },
-    [theme.breakpoints.up('sm')]: {
-      paddingLeft: '3.5rem',
-    },
-  },
   duration: {
     fontSize: theme.typography.pxToRem(12),
   },
@@ -89,8 +78,6 @@ export default function Summary({ item, isDragging, calculatedTime, hoursTotal, 
             <Typography variant="h6" className={classes.name}>
               {item.name}
             </Typography>
-          </div>
-          <div className={classes.durationRow}>
             <Typography className={classes.duration} color="textSecondary">
               {`${hoursTotal} hr ${minutesTotal} min`}
             </Typography>
