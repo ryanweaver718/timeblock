@@ -22,6 +22,7 @@ const DaySchema = new Schema({
           totalMinutes: String,
           priority: { type: String, enum: ['1', '2', '3', '4'] },
           completed: Boolean,
+          tags: Array
         },
       },
     ],

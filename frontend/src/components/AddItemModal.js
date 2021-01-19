@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
+import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +48,8 @@ export default function ItemModal() {
   const [nameError, setNameError] = useState(false);
   const [minuteError, setMinuteError] = useState(false);
   const [priorityError, setPriorityError] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [newTag, setNewTag] = useState('');
 
   const clearAndClose = () => {
     setName('');
@@ -86,7 +89,7 @@ export default function ItemModal() {
     const isValid = validateInput();
 
     if (isValid) {
-      dispatch(createUserItem({ name, totalMinutes, priority }));
+      dispatch(createUserItem({ name, totalMinutes, priority, tags }));
       clearAndClose();
     }
   };
@@ -95,9 +98,14 @@ export default function ItemModal() {
     const isValid = validateInput();
 
     if (isValid) {
-      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority } }));
+      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority,tags } }));
       clearAndClose();
     }
+  };
+
+  const addTags = () => {
+    setTags([...tags, newTag]);
+    setNewTag('');
   };
 
   return (
@@ -156,6 +164,19 @@ export default function ItemModal() {
               </Select>
               <FormHelperText>{priorityError ? 'Selected Priority Is Required' : ''}</FormHelperText>
             </FormControl>
+            <Button onClick={addTags}>Add Tags</Button>
+            <input
+              onChange={(e) => {
+                setNewTag(e.target.value);
+              }}
+              value={newTag}
+            />
+            {tags.map(tag => {
+              return <Chip key={tag} label={tag} />
+              
+            })}
+         
+
           </FormControl>
 
           <DialogContentText id="alert-dialog-description">
