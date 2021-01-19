@@ -14,8 +14,8 @@ export const initialize = ct('initialize', async (payload, thunkAPI) => {
 });
 export const createUserItem = ct('createUserItem', async (payload, thunkAPI) => {
   const { userId } = thunkAPI.getState().items;
-  const { name, totalMinutes, priority } = payload;
-  const { item } = await post(`/user-item?userId=${userId}`, { name, totalMinutes, priority });
+  const { name, totalMinutes, priority, tags } = payload;
+  const { item } = await post(`/user-item?userId=${userId}`, { name, totalMinutes, priority, tags });
 
   return { item };
 });

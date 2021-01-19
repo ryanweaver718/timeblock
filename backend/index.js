@@ -16,11 +16,12 @@ export const getUser = async ({ queryStringParameters }) => {
 }
 export const createUserItem = async ({ body, queryStringParameters }) => {
   const { userId } = queryStringParameters
-  const { totalMinutes, name, priority } = JSON.parse(body)
+  const { totalMinutes, name, priority, tags } = JSON.parse(body)
   const item = await UserModel.addItem(userId, {
     name,
     totalMinutes,
     priority,
+    tags
   })
   return response({ item })
 }

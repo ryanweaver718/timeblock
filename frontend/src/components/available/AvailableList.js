@@ -29,11 +29,21 @@ export default function AvailableList({ list, search, filter }) {
         .filter((item) => {
           let showItem = true;
           if (search) {
-            showItem = item.name.toLowerCase().includes(search.toLowerCase());
+            if((item.tags||[]).map(tag=>tag.toLowerCase()).includes(search.toLowerCase())){
+              showItem=true
+            }else if(item.name.toLowerCase().includes(search.toLowerCase())){
+              showItem=true
+            }else{
+              showItem=false
+            }
+
           }
           if (has(invertedPriorities, filter)) {
             showItem = invertedPriorities[filter] === item.priority;
           }
+
+        
+
           return showItem;
         })
         .map((item,index) => (
