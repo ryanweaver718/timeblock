@@ -4,20 +4,19 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListAltIcon from '@material-ui/icons/ListAlt';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import SidebarActions from './SidebarActions';
-import ListSubheader from '@material-ui/core/ListSubheader';
 // const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
@@ -130,12 +129,7 @@ export default function AppSidebar() {
         <ListItemText
           primary={
             <div className={classes.pickText}>
-              {`Pick Items`}
-              {showSearchItems ? (
-                <VisibilityIcon fontSize="small" className={classes.visible} />
-              ) : (
-                <VisibilityOffIcon fontSize="small" className={classes.visible} />
-              )}
+              {`Pick Items`} <Switch color="primary" checked={showSearchItems} className={classes.visible} />
             </div>
           }
           primaryTypographyProps={{ variant: 'p' }}

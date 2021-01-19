@@ -72,6 +72,15 @@ const itemsSlice = createSlice({
               : currentHours * 60 + number
             ).toString();
           }
+          break;
+        }
+      }
+    },
+    updateSelectedItemPriority(state, { payload: { dayItemId, priority } }) {
+      for (const item of state.selected) {
+        if (item.dayItemId === dayItemId) {
+          item.priority = priority;
+          break;
         }
       }
     },
