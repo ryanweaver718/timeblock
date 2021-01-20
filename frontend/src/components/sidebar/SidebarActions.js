@@ -12,8 +12,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { createDay, deleteDay } from 'store/items/itemsThunks';
 
-const useStyles = makeStyles(() => ({
-  item: {},
+const useStyles = makeStyles((theme) => ({
+  item: {
+    paddingTop: '0rem',
+    paddingBottom: '0rem',
+  },
+  text: {
+    fontSize: theme.typography.pxToRem(12),
+  },
+  icon: { fontSize: theme.typography.pxToRem(18) },
 }));
 
 export default function SidebarContent() {
@@ -36,7 +43,7 @@ export default function SidebarContent() {
       {items.map((item) => (
         <ListItem button onClick={item.handler} className={classes.item} key={item.name}>
           <ListItemIcon>
-            <item.Icon />
+            <item.Icon className={classes.icon} />
           </ListItemIcon>
           <ListItemText primary={item.name} primaryTypographyProps={{ variant: 'p' }} className={classes.text} />
         </ListItem>

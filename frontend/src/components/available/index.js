@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '-1px',
   },
   list: {
-    borderRadius: '10px',
-    padding: 8,
-    flexBasis: '100%',
+    padding: '.5rem',
     justifySelf: 'flex-start',
   },
 }));
@@ -34,7 +32,6 @@ export default function Index() {
         {list
           .filter((item) => {
             let showItem = true;
-
             if (!searchPriorities.includes(item.priority)) {
               showItem = false;
             } else if (searchText) {

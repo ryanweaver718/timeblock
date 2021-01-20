@@ -6,7 +6,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { itemsActions as ia } from 'store/items/itemsReducer';
+import { appActions as aa } from 'store/app/appReducer';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -29,11 +29,11 @@ AppSidebar.propTypes = {
 export default function AppSidebar() {
   const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const dispatch = useDispatch();
-  const { showDrawer } = useSelector(({ items }) => ({
-    showDrawer: items.showDrawer,
+  const { showDrawer } = useSelector(({ app }) => ({
+    showDrawer: app.showDrawer,
   }));
-  const handleDrawerClose = () => void dispatch(ia.setShowDrawer({ showDrawer: false }));
-  const handleDrawerOpen = () => void dispatch(ia.setShowDrawer({ showDrawer: true }));
+  const handleDrawerClose = () => void dispatch(aa.setShowDrawer({ showDrawer: false }));
+  const handleDrawerOpen = () => void dispatch(aa.setShowDrawer({ showDrawer: true }));
   const classes = useStyles();
   return (
     <div className={classes.toolbar}>

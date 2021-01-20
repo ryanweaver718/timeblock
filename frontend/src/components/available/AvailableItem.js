@@ -1,21 +1,20 @@
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typograhpy from '@material-ui/core/Typography';
-import EditIcon from '@material-ui/icons/Edit';
+import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import TurnedInIcon from '@material-ui/icons/TurnedIn';
+import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 const useStyles = makeStyles((theme) => ({
-  item: ({ priority }) => ({
+  item: ({ priority, editAvailable }) => ({
     display: 'flex',
     alignItems: 'center',
     padding: '.5rem',
     margin: `.1rem`,
     cursor: 'pointer',
     '&:hover': {
-      backgroundColor: theme.palette.priorities[priority].main,
+      backgroundColor: editAvailable ? theme.palette.grey.main : theme.palette.priorities[priority].main,
+      border: `2px solid ${theme.palette.priorities[priority].main}`,
     },
   }),
   title: {
@@ -37,19 +36,25 @@ Item.propTypes = {
 };
 export default function Item({ item }) {
   const dispatch = useDispatch();
+  const { editAvailable } = useSelector(({ app }) => ({
+    editAvailable: app.editAvailable,
+  }));
 
   const classes = useStyles({
     priority: item.priority,
+    editAvailable,
   });
-  const handleOpenItemModal = () => void dispatch(ia.setItemModal({ item, isOpen: true, isEditingItem: true }));
-  const handleAddItem = () => void dispatch(ia.addToSelected({ item }));
+  const handleClick = () => {
+    if (editAvailable) {
+      dispatch(ia.setItemModal({ item, isOpen: true, isEditingItem: true }));
+    } else {
+      dispatch(ia.addToSelected({ item }));
+    }
+  };
 
   return (
-    <Paper elevation={4} className={classes.item} onClick={handleAddItem}>
+    <Paper elevation={4} className={classes.item} onClick={handleClick}>
       <TurnedInIcon className={classes.priority} />
-      <IconButton onClick={handleOpenItemModal}>
-        <EditIcon className={classes.icon} />
-      </IconButton>
       <Typograhpy className={classes.title}>{item.name}</Typograhpy>
       <div style={{ flexGrow: 1 }} />
     </Paper>

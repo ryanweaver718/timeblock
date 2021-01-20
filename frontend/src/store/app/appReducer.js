@@ -5,6 +5,9 @@ const initialState = {
     priorities: ['1', '2', '3', '4'],
     text: '',
   },
+  showDrawer: false,
+  showSearchItems: true,
+  editAvailable: false,
 };
 
 const appSlice = createSlice({
@@ -21,6 +24,15 @@ const appSlice = createSlice({
       } else {
         state.search.priorities.splice(idx, 1);
       }
+    },
+    setShowDrawer(state, { payload: { showDrawer } }) {
+      state.showDrawer = showDrawer;
+    },
+    toggleSearchItems(state) {
+      state.showSearchItems = !state.showSearchItems;
+    },
+    toggleEditAvailable(state) {
+      state.editAvailable = !state.editAvailable;
     },
   },
 });

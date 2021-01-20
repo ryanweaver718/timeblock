@@ -21,19 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
   mainItems: () => ({
     minHeight: '100%',
-    // flexBasis: showSearchItems ? '70%' : '100%',
     overflowY: 'scroll',
     flexGrow: 1,
-    // maxWidth: '25%',
-    // overflowX: 'visible',
   }),
   searchItems: () => ({
     minHeight: '100%',
-    // flexBasis: showSearchItems ? '30%' : '0%',
     overflowY: 'scroll',
-    // overflowX: 'visible',
-    flexGrow: 1,
-    // maxWidth: '25%',
+    flexShrink: 1,
   }),
   openSearch: {
     transition: theme.transitions.create('width', {
@@ -53,9 +47,9 @@ export default function App() {
   useEffect(() => {
     dispatch(initialize());
   }, []); //eslint-disable-line
-  const { isOpen, showSearchItems } = useSelector(({ items }) => ({
+  const { isOpen, showSearchItems } = useSelector(({ items, app }) => ({
     isOpen: items.itemModal.isOpen,
-    showSearchItems: items.showSearchItems,
+    showSearchItems: app.showSearchItems,
   }));
 
   const classes = useStyles({ showSearchItems });
@@ -73,14 +67,16 @@ export default function App() {
 
   return (
     <div className={classes.root}>
-      <div
-        className={clsx(classes.searchItems, {
-          [classes.openSearch]: showSearchItems,
-          [classes.closeSearch]: !showSearchItems,
-        })}
-      >
-        <AvailableList droppableId="available" />
-      </div>
+      {showSearchItems && (
+        <div
+          className={clsx(classes.searchItems, {
+            [classes.openSearch]: showSearchItems,
+            [classes.closeSearch]: !showSearchItems,
+          })}
+        >
+          <AvailableList droppableId="available" />
+        </div>
+      )}
       <div className={classes.mainItems}>
         <DragDropContext onDragEnd={onDragEnd}>
           <SelectedList droppableId="selected" />

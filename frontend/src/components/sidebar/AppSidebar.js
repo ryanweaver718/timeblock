@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { itemsActions as ia } from 'store/items/itemsReducer';
+import { appActions as aa } from 'store/app/appReducer';
 import SidebarActions from './SidebarActions';
 import SidebarSelect from './SidebarSelect';
 import SidebarTitle from './SidebarTitle';
@@ -53,11 +53,11 @@ AppSidebar.propTypes = {
 export default function AppSidebar() {
   const smUp = useMediaQuery((theme) => theme.breakpoints.up('sm'));
   const dispatch = useDispatch();
-  const { showDrawer } = useSelector(({ items }) => ({
-    showDrawer: items.showDrawer,
+  const { showDrawer } = useSelector(({ app }) => ({
+    showDrawer: app.showDrawer,
   }));
   useEffect(() => {
-    dispatch(ia.setShowDrawer({ showDrawer: smUp }));
+    dispatch(aa.setShowDrawer({ showDrawer: smUp }));
   }, [smUp]);
   const classes = useStyles();
   return (

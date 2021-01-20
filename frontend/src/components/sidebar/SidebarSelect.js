@@ -1,21 +1,19 @@
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
+import ListItem from '@material-ui/core/ListItem';
+import { makeStyles } from '@material-ui/core/styles';
 import useTheme from '@material-ui/core/styles/useTheme';
+import TextField from '@material-ui/core/TextField';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import SearchIcon from '@material-ui/icons/Search';
 import TurnedInIcon from '@material-ui/icons/TurnedIn';
 import TurnedInNotIcon from '@material-ui/icons/TurnedInNot';
-import ListAltIcon from '@material-ui/icons/ListAlt';
 import clsx from 'clsx';
-import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { itemsActions as ia } from 'store/items/itemsReducer';
-import { priorityKeysHigh } from '../../constants';
-import SearchIcon from '@material-ui/icons/Search';
 import { appActions as aa } from 'store/app/appReducer';
+import { priorityKeysHigh } from '../../constants';
+import ToggleItem from './ToggleItem';
+import EditIcon from '@material-ui/icons/Edit';
 // const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
@@ -31,8 +29,16 @@ const useStyles = makeStyles((theme) => ({
     color: showSearchItems ? theme.palette.primary.main : theme.palette.grey.dark,
   }),
   search: {
+    paddingTop: 0,
+    paddingBottom: 0,
     // marginRight: '.25rem',
     // marginLeft: '.25rem',
+  },
+  searchRoot: {
+    root: {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
   },
   button: {},
   root: {
@@ -55,13 +61,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SidebarSelect() {
   const dispatch = useDispatch();
-  const { showSearchItems, searchText, searchPriorities } = useSelector(({ items, app }) => ({
-    showSearchItems: items.showSearchItems,
+  const { showSearchItems, searchText, searchPriorities, editAvailable } = useSelector(({ app }) => ({
+    showSearchItems: app.showSearchItems,
     searchText: app.search.text,
     searchPriorities: app.search.priorities,
+    editAvailable: app.editAvailable,
   }));
   const theme = useTheme();
-  const handleToggleSearchItems = () => void dispatch(ia.toggleSearchItems());
   const handleSearchChange = (e) => void dispatch(aa.setSearchText({ text: e.target.value }));
   const clearSearch = () => void dispatch(aa.setSearchText({ text: '' }));
   const updatePriorityList = (priority) => dispatch(aa.setSearchPriorities({ priority }));
@@ -70,20 +76,8 @@ export default function SidebarSelect() {
 
   return (
     <div className={classes.root}>
-      <ListItem button onClick={handleToggleSearchItems} className={classes.showSearch}>
-        <ListItemIcon>
-          <ListAltIcon className={classes.showSearch} />
-        </ListItemIcon>
-        <ListItemText
-          primary={
-            <div className={classes.pickText}>
-              {`Pick Items`} <Switch color="primary" checked={showSearchItems} className={classes.visible} />
-            </div>
-          }
-          primaryTypographyProps={{ variant: 'p' }}
-          className={classes.text}
-        />
-      </ListItem>
+      <ToggleItem state={showSearchItems} text="Pick Items" action={aa.toggleSearchItems} Icon={ListAltIcon} />
+      <ToggleItem state={editAvailable} text="Edit Items" action={aa.toggleEditAvailable} Icon={EditIcon} />
       <ListItem>
         <div className={classes.priorities}>
           {priorityKeysHigh.map((priority) => {
@@ -101,16 +95,16 @@ export default function SidebarSelect() {
           })}
         </div>
       </ListItem>
-      <ListItem>
+      <ListItem className={classes.search}>
         {smUp ? (
           <TextField
+            classes={classes.searchRoot}
             id="standard-full-width"
             label="Search"
-            className={classes.search}
             placeholder="Search Items"
             onChange={handleSearchChange}
             value={searchText}
-            margin="normal"
+            margin="dense"
             variant="outlined"
             InputLabelProps={{
               shrink: true,

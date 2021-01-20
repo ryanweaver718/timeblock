@@ -12,13 +12,6 @@ const initialState = {
     isEditingItem: false,
     isOpen: false,
   },
-  search: {
-    filterPriorities: ['1', '2', '3', '4'],
-    text: '',
-  },
-  showDrawer: false,
-  showAddItem: false,
-  showSearchItems: true,
   startTime: moment().toDate(),
   userId: 'test123',
 };
@@ -88,9 +81,7 @@ const itemsSlice = createSlice({
         }
       }
     },
-    setShowDrawer(state, { payload: { showDrawer } }) {
-      state.showDrawer = showDrawer;
-    },
+
     setItemModal(state, { payload }) {
       const {
         item = { priority: '', totalMinutes: '', name: '', id: '' },
@@ -98,9 +89,6 @@ const itemsSlice = createSlice({
         isEditingItem = false,
       } = payload;
       state.itemModal = { item, isOpen, isEditingItem };
-    },
-    toggleSearchItems(state) {
-      state.showSearchItems = !state.showSearchItems;
     },
   },
   extraReducers,

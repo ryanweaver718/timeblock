@@ -16,12 +16,6 @@ const useStyles = makeStyles((theme) => ({
     padding: `0.25rem `,
     zIndex: '1',
     marginTop: '-1px',
-  },
-  list: {
-    flexBasis: '100%',
-  },
-  body: {
-    display: 'flex',
     flexGrow: 1,
   },
 }));
@@ -33,9 +27,7 @@ export default function Index({ droppableId }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <div className={classes.body}>
-        <SelectedList className={classes.list} droppableId={droppableId} list={list} />
-      </div>
+      <SelectedList className={classes.list} droppableId={droppableId} list={list} />
     </div>
   );
 }
