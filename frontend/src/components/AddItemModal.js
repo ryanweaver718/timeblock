@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -11,15 +12,40 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/styles';
-import Chip from '@material-ui/core/Chip';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
+import uniq from 'lodash/uniq'
 import { createUserItem, deleteUserItem, updateUserItem } from 'store/items/itemsThunks';
 
 const useStyles = makeStyles(() => ({
-  formControl: { margin: '1rem' },
+  formControl: {
+    display: 'flex',
+    margin: '1rem',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
+  groupOne: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+
+    width: '30%',
+  },
+  groupTwo: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '50%',
+  },
+  input: {
+    marginBottom: '1rem',
+  },
+  chipBox: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
 }));
 
 ItemModal.propTypes = {
@@ -98,14 +124,20 @@ export default function ItemModal() {
     const isValid = validateInput();
 
     if (isValid) {
-      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority,tags } }));
+      dispatch(updateUserItem({ item: { id: item.id, name, totalMinutes, priority, tags } }));
       clearAndClose();
     }
   };
 
   const addTags = () => {
-    setTags([...tags, newTag]);
+    setTags(uniq([...tags, newTag.toLowerCase()]));
     setNewTag('');
+  };
+
+  const handleDeleteTag = (index) => {
+    const newTags = [...tags];
+    newTags.splice(index, 1);
+    setTags(newTags);
   };
 
   return (
@@ -119,64 +151,86 @@ export default function ItemModal() {
         <DialogTitle id="alert-dialog-title">{'Add Available Item'}</DialogTitle>
         <DialogContent>
           <FormControl className={classes.formControl} variant="outlined">
-            <TextField
-              variant="outlined"
-              error={nameError}
-              helperText={nameError ? 'Name Is Required' : ''}
-              placeholder="Name"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setNameError(false);
-              }}
-            />
-            <br />
-            <TextField
-              error={minuteError}
-              variant="outlined"
-              helperText={minuteError ? 'Selected Minutes Is Required' : ''}
-              placeholder="Default Minutes"
-              type="number"
-              value={totalMinutes}
-              onChange={(e) => {
-                setTotalMinutes(e.target.value);
-                setMinuteError(false);
-              }}
-            />
-            <br />
-            <FormControl variant="outlined" error={priorityError}>
-              <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-              <Select
-                label="Priority"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={priority}
-                error={priorityError}
+            <div className={classes.groupOne}>
+              <TextField
+                variant="outlined"
+                error={nameError}
+                helperText={nameError ? 'Name Is Required' : ''}
+                placeholder="Name"
+                value={name}
+                className={classes.input}
                 onChange={(e) => {
-                  void setPriority(e.target.value);
-                  setPriorityError(false);
+                  setName(e.target.value);
+                  setNameError(false);
                 }}
-              >
-                <MenuItem value={'1'}>Critical</MenuItem>
-                <MenuItem value={'2'}>High</MenuItem>
-                <MenuItem value={'3'}>Medium</MenuItem>
-                <MenuItem value={'4'}>Low</MenuItem>
-              </Select>
-              <FormHelperText>{priorityError ? 'Selected Priority Is Required' : ''}</FormHelperText>
-            </FormControl>
-            <Button onClick={addTags}>Add Tags</Button>
-            <input
-              onChange={(e) => {
-                setNewTag(e.target.value);
-              }}
-              value={newTag}
-            />
-            {tags.map(tag => {
-              return <Chip key={tag} label={tag} />
-              
-            })}
-         
+              />
 
+              <TextField
+                error={minuteError}
+                variant="outlined"
+                helperText={minuteError ? 'Selected Minutes Is Required' : ''}
+                placeholder="Default Minutes"
+                type="number"
+                value={totalMinutes}
+                className={classes.input}
+                onChange={(e) => {
+                  setTotalMinutes(e.target.value);
+                  setMinuteError(false);
+                }}
+              />
+
+              <FormControl variant="outlined" error={priorityError} className={classes.input}>
+                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                <Select
+                  label="Priority"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={priority}
+                  error={priorityError}
+                  onChange={(e) => {
+                    void setPriority(e.target.value);
+                    setPriorityError(false);
+                  }}
+                >
+                  <MenuItem value={'1'}>Critical</MenuItem>
+                  <MenuItem value={'2'}>High</MenuItem>
+                  <MenuItem value={'3'}>Medium</MenuItem>
+                  <MenuItem value={'4'}>Low</MenuItem>
+                </Select>
+                <FormHelperText>{priorityError ? 'Selected Priority Is Required' : ''}</FormHelperText>
+              </FormControl>
+            </div>
+            <div className={classes.groupTwo}>
+              <TextField
+                variant="outlined"
+                onKeyDown={(e) => {
+            
+                  if (e.keyCode === 13) {
+                    addTags();
+                  }
+                }}
+                placeholder="Tags"
+                onChange={(e) => {
+                  setNewTag(e.target.value);
+                }}
+                value={newTag}
+              />
+              <div className={classes.chipBox}>
+                {tags.map((tag, index) => {
+                  return (
+                    <Chip
+                      key={tag}
+                      label={tag}
+                      color="primary"
+                      size="small"
+                      onDelete={() => {
+                        handleDeleteTag(index);
+                      }}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </FormControl>
 
           <DialogContentText id="alert-dialog-description">
