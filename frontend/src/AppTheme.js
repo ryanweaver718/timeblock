@@ -162,6 +162,11 @@ const theme = createMuiTheme({
         zIndex: 2,
       },
     },
+    MuiListItem: {
+      root: {
+        padding: 0,
+      },
+    },
     MuiButton: {
       text: {
         color: palette.secondary.main,

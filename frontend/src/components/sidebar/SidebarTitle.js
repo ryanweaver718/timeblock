@@ -11,6 +11,7 @@ import { appActions as aa } from 'store/app/appReducer';
 const useStyles = makeStyles((theme) => ({
   title: {
     justifySelf: 'flex-start',
+    fontSize: theme.typography.pxToRem(25),
   },
   openButton: {
     justifySelf: 'flex-end',
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: theme.spacing(2, 1),
+    padding: theme.spacing(1, 4),
   },
 }));
 
