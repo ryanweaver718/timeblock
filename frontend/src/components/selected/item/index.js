@@ -9,6 +9,10 @@ import Summary from './Summary';
 
 const useStyles = makeStyles(() => ({
   root: {},
+  accordian: {
+    minHeight: 0,
+    // margin: 0,
+  },
 }));
 
 SelectedItem.propTypes = {
@@ -34,7 +38,7 @@ export default function SelectedItem({ item, snapshot, provided, currentTotalTim
           expanded={expandedId === item.dayItemId}
           onChange={() => setExpandedId((currentId) => (currentId !== item.dayItemId ? item.dayItemId : ''))}
         >
-          <AccordionSummary>
+          <AccordionSummary classes={{ root: classes.accordian }}>
             <Summary
               item={item}
               isDragging={snapshot.isDragging}

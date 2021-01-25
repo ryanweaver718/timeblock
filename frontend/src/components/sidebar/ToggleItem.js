@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: 0,
     paddingBottom: 0,
+    display: 'flex',
+    justifyContent: 'flex-start',
   },
   color: ({ showSearchItems }) => ({
     color: clsx({ [theme.palette.primary.main]: showSearchItems }),
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     fontSize: theme.typography.pxToRem(16),
   },
+  iconRoot: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: '.5rem',
+  },
 }));
 
 ToggleItem.propTypes = {
@@ -45,7 +52,7 @@ export default function ToggleItem({ action, state, text, Icon }) {
   const handleClick = () => void dispatch(action());
   return (
     <ListItem button onClick={handleClick} className={clsx(classes.color, classes.root)}>
-      <ListItemIcon>
+      <ListItemIcon className={classes.iconRoot}>
         <Icon className={clsx(classes.icon, classes.color)} />
       </ListItemIcon>
       <ListItemText

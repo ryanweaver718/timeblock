@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import useTheme from '@material-ui/core/styles/useTheme';
 import TextField from '@material-ui/core/TextField';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import EditIcon from '@material-ui/icons/Edit';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import SearchIcon from '@material-ui/icons/Search';
 import TurnedInIcon from '@material-ui/icons/TurnedIn';
@@ -13,7 +14,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appActions as aa } from 'store/app/appReducer';
 import { priorityKeysHigh } from '../../constants';
 import ToggleItem from './ToggleItem';
-import EditIcon from '@material-ui/icons/Edit';
 // const drawerWidth = 400;
 
 const useStyles = makeStyles((theme) => ({
@@ -31,15 +31,11 @@ const useStyles = makeStyles((theme) => ({
   search: {
     paddingTop: 0,
     paddingBottom: 0,
-    // marginRight: '.25rem',
-    // marginLeft: '.25rem',
+    justifySelf: 'center',
+    display: 'flex',
+    justifyContent: 'center',
   },
-  searchRoot: {
-    root: {
-      paddingTop: 0,
-      paddingBottom: 0,
-    },
-  },
+  searchRoot: {},
   button: {},
   root: {
     display: 'flex',
@@ -98,7 +94,6 @@ export default function SidebarSelect() {
       <ListItem className={classes.search}>
         {smUp ? (
           <TextField
-            classes={classes.searchRoot}
             id="standard-full-width"
             label="Search"
             placeholder="Search Items"
@@ -106,6 +101,7 @@ export default function SidebarSelect() {
             value={searchText}
             margin="dense"
             variant="outlined"
+            inputProps={{ className: classes.searchRoot }}
             InputLabelProps={{
               shrink: true,
             }}

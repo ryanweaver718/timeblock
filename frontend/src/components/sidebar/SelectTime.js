@@ -10,9 +10,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { itemsActions as ia } from 'store/items/itemsReducer';
 import { getDay } from 'store/items/itemsThunks';
+import ListItem from '@material-ui/core/ListItem';
 
-const useStyles = makeStyles(() => ({
-  date: {},
+const useStyles = makeStyles((theme) => ({
+  date: {
+    fontSize: theme.typography.pxToRem(8),
+  },
+  icon: {
+    fontSize: theme.typography.pxToRem(12),
+  },
+  input: {
+    fontSize: theme.typography.pxToRem(13),
+  },
 }));
 
 export default function SelectTime() {
@@ -38,32 +47,41 @@ export default function SelectTime() {
     setCurrentDate(date);
   };
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDateTimePicker
-        autoOk
-        className={classes.date}
-        inputVariant="outlined"
-        variant="inline"
-        ampm={true}
-        value={currentDate}
-        onChange={handleDateChange}
-        allowKeyboardControl={true}
-        minDate={new Date('2019-01-01')}
-        helperText="Day & Wake Up Time"
-        showTodayButton
-        leftArrowButtonProps={{ 'aria-label': 'Prev month' }}
-        rightArrowButtonProps={{ 'aria-label': 'Next month' }}
-        format="MM/dd/yyyy hh:mm a"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton>
-                <AlarmIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-      />
-    </MuiPickersUtilsProvider>
+    <ListItem>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDateTimePicker
+          autoOk
+          className={classes.date}
+          classes={{
+            root: {
+              fontSize: 12,
+            },
+          }}
+          size="small"
+          inputVariant="outlined"
+          margin="dense"
+          variant="inline"
+          ampm={true}
+          value={currentDate}
+          onChange={handleDateChange}
+          allowKeyboardControl={true}
+          minDate={new Date('2019-01-01')}
+          showTodayButton
+          leftArrowButtonProps={{ 'aria-label': 'Prev month' }}
+          rightArrowButtonProps={{ 'aria-label': 'Next month' }}
+          format="MM/dd/yyyy hh:mm a"
+          InputProps={{
+            className: classes.input,
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <AlarmIcon className={classes.icon} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </MuiPickersUtilsProvider>
+    </ListItem>
   );
 }

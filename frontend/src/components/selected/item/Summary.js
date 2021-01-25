@@ -19,14 +19,17 @@ const getTime = (hr, min) => {
 const useStyles = makeStyles((theme) => ({
   priority: ({ priority }) => ({
     color: theme.palette.priorities[priority].main,
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '.1rem',
+    },
   }),
   name: {
     paddingLeft: '.5rem',
-    fontSize: theme.typography.pxToRem(15),
+    fontSize: theme.typography.pxToRem(13),
   },
   topRow: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     flexBasis: '100%',
   },
   titleRow: {
@@ -36,12 +39,17 @@ const useStyles = makeStyles((theme) => ({
   },
 
   duration: {
-    marginLeft: '1rem',
+    [theme.breakpoints.up('md')]: {
+      marginLeft: '1rem',
+    },
     fontSize: theme.typography.pxToRem(12),
   },
   startTime: {
     paddingLeft: '0rem',
     fontSize: theme.typography.pxToRem(12),
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '1.25rem',
+    },
   },
   root: {
     display: 'flex',
@@ -50,6 +58,17 @@ const useStyles = makeStyles((theme) => ({
   },
   close: {
     marginRight: '.5rem',
+  },
+  displayContent: {
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  nameWrapper: {
+    display: 'flex',
+    [theme.breakpoints.down('sm')]: {
+      flexBasis: '100%',
+    },
   },
 }));
 
@@ -67,25 +86,28 @@ export default function Summary({ item, isDragging, calculatedTime, hoursTotal, 
 
   return (
     <div className={classes.root}>
-      <div className={classes.topRow}>
-        <Typography variant="body2" color="textSecondary" className={classes.startTime}>
-          {!isDragging && calculatedTime}
-        </Typography>
-        <IconButton onClick={removeItem} className={classes.close}>
-          <CloseIcon />
-        </IconButton>
-      </div>
-
-      <div className={classes.titleRow}>
-        <IconButton className={classes.priority}>
-          <TurnedInIcon />
-        </IconButton>
-        <Typography variant="h6" className={classes.name}>
-          {item.name}
-        </Typography>
-        <Typography className={classes.duration} color="textSecondary">
-          {getTime(hoursTotal, minutesTotal)}
-        </Typography>
+      <div className={classes.displayContent}>
+        <div className={classes.titleRow}>
+          <Typography variant="body2" color="textSecondary" className={classes.startTime}>
+            {!isDragging && calculatedTime}
+          </Typography>
+          <div className={classes.nameWrapper}>
+            <IconButton className={classes.priority}>
+              <TurnedInIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.name}>
+              {item.name}
+            </Typography>
+          </div>
+          <Typography className={classes.duration} color="textSecondary">
+            {getTime(hoursTotal, minutesTotal)}
+          </Typography>
+        </div>
+        <div>
+          <IconButton onClick={removeItem} className={classes.close}>
+            <CloseIcon />
+          </IconButton>
+        </div>
       </div>
       <div className={classes.detailsGrid}>
         <Typography>{item.details}</Typography>

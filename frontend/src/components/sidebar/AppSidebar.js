@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { appActions as aa } from 'store/app/appReducer';
 import SidebarActions from './SidebarActions';
 import SidebarSelect from './SidebarSelect';
+import SelectTime from './SelectTime';
 import SidebarTitle from './SidebarTitle';
 // const drawerWidth = 400;
 
@@ -18,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
     borderRight: `1px solid ${theme.palette.grey.main}`,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   drawerOpen: {
     transition: theme.transitions.create('width', {
@@ -39,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
   subheader: {
     marginTop: '1rem',
+    alignSelf: 'flex-start',
     paddingBottom: '0rem',
     lineHeight: '0',
     [theme.breakpoints.down('sm')]: {
@@ -76,7 +81,10 @@ export default function AppSidebar() {
     >
       <SidebarTitle />
       <Divider />
-      <ListSubheader className={classes.subheader}>Visible</ListSubheader>
+      <ListSubheader className={classes.subheader}>Date & Start Time</ListSubheader>
+      <SelectTime />
+      <Divider />
+      <ListSubheader className={classes.subheader}>Configure</ListSubheader>
       <SidebarSelect />
       <Divider />
       <ListSubheader className={classes.subheader}>Actions</ListSubheader>
